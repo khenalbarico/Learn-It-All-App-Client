@@ -10,4 +10,5 @@ public class UserInfo
                public string?          LastName     { get; set; }
                public string?          PhoneNumber  { get; set; }
                public UserSubscription Subscription { get; set; } = UserSubscription.Free;
+               public UserLibrary      Library      { get; set; } = new UserLibrary();
 }
