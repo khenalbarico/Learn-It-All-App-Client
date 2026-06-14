@@ -3,4 +3,5 @@
   <Project Path="MauiApp1/MauiApp1.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
+  <Project Path="TestProject1/TestProject1.csproj" Id="59e62c8a-b4e8-4d84-b2b5-50bb349ea1a0" />
 </Solution>

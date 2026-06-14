@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using LogicLib1;
+using LogicLib1.Services.ApiService;
+using Microsoft.Extensions.Logging;
 
 namespace MauiApp1
 {
@@ -15,8 +17,13 @@ namespace MauiApp1
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.RegisterServices();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Services.AddCustomHttpClient("localhost");
+            builder.Logging.AddDebug();
+#else
+            builder.Services.AddCustomHttpClient("production");
 #endif
 
             return builder.Build();
