@@ -2,7 +2,7 @@
 
 public class UserLibrary
 {
-    public string?  BookUid          { get; set; }
+    public string?  Uid              { get; set; }
     public string?  OrderId          { get; set; }
     public decimal  PriceAtPurchased { get; set; }
     public DateTime PurchasedAt      { get; set; }
