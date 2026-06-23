@@ -11,19 +11,48 @@
 
     <Grid RowDefinitions="Auto,*">
 
-        <!-- Custom header -->
-        <Grid
-            Grid.Row="0"
-            BackgroundColor="{StaticResource AppNavy}"
-            Padding="20,52,20,24">
-            <Label
-                Text="My Library"
-                TextColor="White"
-                FontFamily="OpenSansSemibold"
-                FontSize="26"/>
+        <!-- ── Gradient header ────────────────────────────────────── -->
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                    <GradientStop Color="#0D1830" Offset="0.0"/>
+                    <GradientStop Color="#1A3660" Offset="0.5"/>
+                    <GradientStop Color="#2A5298" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <!-- Decorative orb — top right -->
+            <Border
+                HeightRequest="160" WidthRequest="160"
+                StrokeShape="Ellipse"
+                Stroke="Transparent" StrokeThickness="0"
+                HorizontalOptions="End" VerticalOptions="Start"
+                Margin="0,-50,-60,0"
+                InputTransparent="True">
+                <Border.Background>
+                    <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                        <GradientStop Color="#40F5A623" Offset="0.0"/>
+                        <GradientStop Color="#00F5A623" Offset="1.0"/>
+                    </RadialGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <VerticalStackLayout Padding="20,52,20,28" Spacing="4">
+                <Label
+                    Text="My Library"
+                    TextColor="White"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="26"/>
+                <Label
+                    Text="Books you've purchased"
+                    TextColor="White"
+                    Opacity="0.65"
+                    FontFamily="OpenSansRegular"
+                    FontSize="13"/>
+            </VerticalStackLayout>
         </Grid>
 
-        <!-- Content area -->
+        <!-- ── Content area ───────────────────────────────────────── -->
         <Grid Grid.Row="1">
 
             <!-- Guest state -->
@@ -34,18 +63,38 @@
                 Spacing="16"
                 Padding="36">
 
+                <!-- Geometric book icon -->
                 <Border
-                    BackgroundColor="{StaticResource AppSurfaceVariant}"
-                    StrokeShape="Ellipse"
-                    Stroke="Transparent"
-                    HeightRequest="96"
-                    WidthRequest="96"
+                    StrokeShape="RoundRectangle 20"
+                    Stroke="#DDE4F0"
+                    StrokeThickness="1.5"
+                    HeightRequest="80"
+                    WidthRequest="80"
                     HorizontalOptions="Center">
-                    <Label
-                        Text="📖"
-                        FontSize="44"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"/>
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#EEF2F8" Offset="0"/>
+                            <GradientStop Color="#D8E4F4" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                        <Border StrokeShape="RoundRectangle 3" Stroke="Transparent" WidthRequest="16" HeightRequest="24">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#2E7BC4" Offset="0"/>
+                                    <GradientStop Color="#1B3A6B" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <Border StrokeShape="RoundRectangle 3" Stroke="Transparent" WidthRequest="16" HeightRequest="24">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#1A3660" Offset="0"/>
+                                    <GradientStop Color="#0D1830" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                    </StackLayout>
                 </Border>
 
                 <Label
@@ -76,6 +125,7 @@
                 <ActivityIndicator
                     IsRunning="{Binding IsBusy}"
                     IsVisible="{Binding IsBusy}"
+                    Color="{StaticResource AppOrange}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"/>
 
@@ -87,16 +137,26 @@
                     Spacing="14"
                     Padding="40">
 
+                    <!-- Empty box icon -->
                     <Border
-                        BackgroundColor="{StaticResource AppSurfaceVariant}"
-                        StrokeShape="Ellipse"
-                        Stroke="Transparent"
-                        HeightRequest="96"
-                        WidthRequest="96"
+                        StrokeShape="RoundRectangle 20"
+                        Stroke="#DDE4F0"
+                        StrokeThickness="1.5"
+                        HeightRequest="80"
+                        WidthRequest="80"
                         HorizontalOptions="Center">
-                        <Label
-                            Text="📦"
-                            FontSize="44"
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#EEF2F8" Offset="0"/>
+                                <GradientStop Color="#D8E4F4" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <BoxView
+                            WidthRequest="28"
+                            HeightRequest="28"
+                            CornerRadius="6"
+                            BackgroundColor="{StaticResource AppTextMuted}"
+                            Opacity="0.4"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
                     </Border>
@@ -136,24 +196,21 @@
                             <Border Style="{StaticResource CardStyle}" Margin="0">
                                 <Grid RowDefinitions="160,Auto">
 
-                                    <Border
-                                        Grid.Row="0"
-                                        BackgroundColor="{StaticResource AppSurfaceVariant}"
-                                        StrokeShape="RoundRectangle 12,12,0,0"
-                                        Stroke="Transparent"
-                                        StrokeThickness="0">
-                                        <Grid>
-                                            <Image Source="{Binding ImageCoverUrl}" Aspect="AspectFill"
-                                                   IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
-                                            <Label
-                                                Text="📚"
-                                                FontSize="36"
-                                                HorizontalOptions="Center"
-                                                VerticalOptions="Center"
-                                                Opacity="0.4"
-                                                IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NullConverter}}"/>
-                                        </Grid>
-                                    </Border>
+                                    <!-- Cover / gradient placeholder -->
+                                    <Grid Grid.Row="0">
+                                        <Border StrokeShape="RoundRectangle 12,12,0,0" Stroke="Transparent" StrokeThickness="0">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#1A3660" Offset="0.0"/>
+                                                    <GradientStop Color="#2E7BC4" Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
+                                        <Image
+                                            Source="{Binding ImageCoverUrl}"
+                                            Aspect="AspectFill"
+                                            IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
+                                    </Grid>
 
                                     <VerticalStackLayout Grid.Row="1" Padding="12,10,12,12" Spacing="4">
                                         <Label
@@ -170,9 +227,22 @@
                                             Margin="0,0,0,4"/>
                                         <Button
                                             Text="Read"
-                                            Style="{StaticResource SmallPrimaryButtonStyle}"
+                                            TextColor="White"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="12"
+                                            CornerRadius="8"
+                                            Padding="8,6"
+                                            MinimumHeightRequest="36"
+                                            HorizontalOptions="Fill"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ReadCommand}"
-                                            CommandParameter="{Binding .}"/>
+                                            CommandParameter="{Binding .}">
+                                            <Button.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#F5A623" Offset="0.0"/>
+                                                    <GradientStop Color="#D4890F" Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
                                     </VerticalStackLayout>
 
                                 </Grid>

@@ -18,10 +18,10 @@ public partial class LibraryPage : ContentPage
         _vm.InitiatePurchase = ShowPurchasePlaceholder;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await _vm.LoadBooksAsync();
+        _vm.Refresh();
     }
 
     private Task NavigateToAuth()

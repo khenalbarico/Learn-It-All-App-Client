@@ -8,11 +8,17 @@ namespace MauiApp1.ViewModels;
 
 public class LibraryViewModel(IAppService _appService, IAppAuthentication _auth) : BaseViewModel
 {
-    private ObservableCollection<BookMetadata> _books = [];
-    private string _searchText = string.Empty;
-    private bool   _isRefreshing;
+    private static readonly Dictionary<string, List<BookMetadata>> _sessionCache = new();
 
-    public bool IsGuest => !_auth.IsAuthenticated;
+    private ObservableCollection<BookMetadata> _books = [];
+    private string  _searchText       = string.Empty;
+    private string? _selectedCategory;
+    private bool    _isRefreshing;
+
+    public bool IsGuest             => !_auth.IsAuthenticated;
+    public bool HasSelectedCategory => _selectedCategory is not null;
+    public bool IsCollegeCourseSelected => _selectedCategory == "CollegeCourse";
+    public bool IsReviewerSelected  => _selectedCategory == "Reviewer";
 
     public ObservableCollection<BookMetadata> Books
     {
@@ -47,13 +53,24 @@ public class LibraryViewModel(IAppService _appService, IAppAuthentication _auth)
                 b.Title?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true ||
                 b.Category?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) == true);
 
-    public Func<Task>?              NavigateToAuth  { get; set; }
+    public Func<Task>?               NavigateToAuth   { get; set; }
     public Func<BookMetadata, Task>? InitiatePurchase { get; set; }
+
+    public Command<string> SelectCategoryCommand => new(async (category) =>
+    {
+        if (_selectedCategory == category) return;
+        _selectedCategory = category;
+        SearchText        = string.Empty;
+        NotifyCategoryChanged();
+        await LoadBooksByCategoryAsync(category);
+    });
 
     public Command RefreshCommand => new(async () =>
     {
+        if (_selectedCategory is null) return;
         IsRefreshing = true;
-        await LoadBooksAsync();
+        _sessionCache.Remove(_selectedCategory);
+        await LoadBooksByCategoryAsync(_selectedCategory);
         IsRefreshing = false;
     });
 
@@ -67,12 +84,26 @@ public class LibraryViewModel(IAppService _appService, IAppAuthentication _auth)
         await (InitiatePurchase?.Invoke(book) ?? Task.CompletedTask);
     });
 
-    public async Task LoadBooksAsync()
+    public void Refresh()
     {
         OnPropertyChanged(nameof(IsGuest));
+    }
+
+    private async Task LoadBooksByCategoryAsync(string category)
+    {
+        OnPropertyChanged(nameof(IsGuest));
+
         if (!_auth.IsAuthenticated)
         {
-            Books = new ObservableCollection<BookMetadata>(await LoadDummyBooksAsync());
+            var dummy = await LoadDummyBooksAsync();
+            Books = new ObservableCollection<BookMetadata>(dummy.Where(b =>
+                b.Category?.Equals(category, StringComparison.OrdinalIgnoreCase) == true));
+            return;
+        }
+
+        if (_sessionCache.TryGetValue(category, out var cached))
+        {
+            Books = new ObservableCollection<BookMetadata>(cached);
             return;
         }
 
@@ -80,18 +111,28 @@ public class LibraryViewModel(IAppService _appService, IAppAuthentication _auth)
         ErrorMessage = string.Empty;
         try
         {
-            var result = await _appService.GetAllBooks();
+            var result = await _appService.GetBooksByCategory(category);
+            _sessionCache[category] = result;
             Books = new ObservableCollection<BookMetadata>(result);
         }
         catch
         {
-            Books = new ObservableCollection<BookMetadata>(await LoadDummyBooksAsync());
+            var dummy = await LoadDummyBooksAsync();
+            Books = new ObservableCollection<BookMetadata>(dummy.Where(b =>
+                b.Category?.Equals(category, StringComparison.OrdinalIgnoreCase) == true));
             ErrorMessage = "Could not connect to server. Showing sample books.";
         }
         finally
         {
             IsBusy = false;
         }
+    }
+
+    private void NotifyCategoryChanged()
+    {
+        OnPropertyChanged(nameof(HasSelectedCategory));
+        OnPropertyChanged(nameof(IsCollegeCourseSelected));
+        OnPropertyChanged(nameof(IsReviewerSelected));
     }
 
     private static async Task<List<BookMetadata>> LoadDummyBooksAsync()

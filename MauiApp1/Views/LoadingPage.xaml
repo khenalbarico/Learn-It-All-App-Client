@@ -5,10 +5,51 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MauiApp1.ViewModels"
     x:DataType="vm:LoadingViewModel"
-    BackgroundColor="{StaticResource AppNavy}"
     Shell.NavBarIsVisible="False">
 
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+            <GradientStop Color="#0D1830" Offset="0.0"/>
+            <GradientStop Color="#1A3660" Offset="0.5"/>
+            <GradientStop Color="#2A5298" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
     <Grid>
+
+        <!-- Decorative orb — top right (blue glow) -->
+        <Border
+            HeightRequest="300" WidthRequest="300"
+            StrokeShape="Ellipse"
+            Stroke="Transparent" StrokeThickness="0"
+            HorizontalOptions="End" VerticalOptions="Start"
+            Margin="0,-120,-120,0"
+            InputTransparent="True">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                    <GradientStop Color="#503A78D0" Offset="0.0"/>
+                    <GradientStop Color="#002A5298" Offset="1.0"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Decorative orb — bottom left (amber glow) -->
+        <Border
+            HeightRequest="220" WidthRequest="220"
+            StrokeShape="Ellipse"
+            Stroke="Transparent" StrokeThickness="0"
+            HorizontalOptions="Start" VerticalOptions="End"
+            Margin="-80,0,0,-80"
+            InputTransparent="True">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                    <GradientStop Color="#48F5A623" Offset="0.0"/>
+                    <GradientStop Color="#00F5A623" Offset="1.0"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Center content -->
         <VerticalStackLayout
             VerticalOptions="Center"
             HorizontalOptions="Center"
@@ -35,7 +76,23 @@
                 FontSize="15"
                 Opacity="0.7"
                 HorizontalTextAlignment="Center"
-                Margin="0,0,0,48"/>
+                Margin="0,0,0,52"/>
+
+            <!-- Orange accent line above spinner -->
+            <Border
+                StrokeShape="RoundRectangle 2"
+                Stroke="Transparent"
+                HeightRequest="3"
+                WidthRequest="48"
+                HorizontalOptions="Center"
+                Margin="0,0,0,24">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#F5A623" Offset="0"/>
+                        <GradientStop Color="#D4890F" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
 
             <ActivityIndicator
                 IsRunning="{Binding IsBusy}"

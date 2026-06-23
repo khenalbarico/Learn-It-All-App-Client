@@ -7,7 +7,8 @@ public class ApiRouting
     public static readonly Dictionary<ApiFunctions, string> Routes = new()
     {
         [ApiFunctions.TryGetUser]  = "TryGetUser",
-        [ApiFunctions.GetAllBooks] = "GetAllBooks",
-        [ApiFunctions.CreateUser]  = "CreateUser",
+        [ApiFunctions.GetAllBooks]        = "GetAllBooks",
+        [ApiFunctions.GetBooksByCategory] = "GetBooksByCategory",
+        [ApiFunctions.CreateUser]         = "CreateUser",
     };
 }

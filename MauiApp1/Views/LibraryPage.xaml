@@ -11,122 +11,321 @@
 
     <Grid RowDefinitions="Auto,Auto,*">
 
-        <!-- Custom header with integrated search -->
-        <Grid
-            Grid.Row="0"
-            BackgroundColor="{StaticResource AppNavy}"
-            Padding="20,52,20,16">
-            <VerticalStackLayout Spacing="14">
+        <!-- ── Gradient header with category selectors ────────────── -->
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                    <GradientStop Color="#0D1830" Offset="0.0"/>
+                    <GradientStop Color="#1A3660" Offset="0.5"/>
+                    <GradientStop Color="#2A5298" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <!-- Decorative orb — top right -->
+            <Border
+                HeightRequest="240" WidthRequest="240"
+                StrokeShape="Ellipse"
+                Stroke="Transparent" StrokeThickness="0"
+                HorizontalOptions="End" VerticalOptions="Start"
+                Margin="0,-80,-100,0"
+                InputTransparent="True">
+                <Border.Background>
+                    <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                        <GradientStop Color="#503A78D0" Offset="0.0"/>
+                        <GradientStop Color="#002A5298" Offset="1.0"/>
+                    </RadialGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <!-- Header content -->
+            <VerticalStackLayout Padding="20,52,20,24" Spacing="0">
+
                 <Label
                     Text="Browse Books"
                     TextColor="White"
                     FontFamily="OpenSansSemibold"
-                    FontSize="26"/>
+                    FontSize="26"
+                    HorizontalTextAlignment="Start"/>
+
+                <Label
+                    Text="Select a category to explore"
+                    TextColor="White"
+                    Opacity="0.65"
+                    FontFamily="OpenSansRegular"
+                    FontSize="13"
+                    Margin="0,4,0,0"/>
+
+                <!-- Category selector buttons -->
+                <Grid ColumnDefinitions="*,12,*" Margin="0,20,0,0">
+
+                    <!-- College Course -->
+                    <Border
+                        Grid.Column="0"
+                        StrokeShape="RoundRectangle 14"
+                        Stroke="#40FFFFFF"
+                        StrokeThickness="1.5"
+                        BackgroundColor="Transparent"
+                        Padding="12,16">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsCollegeCourseSelected}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{StaticResource AppOrange}"/>
+                                <Setter Property="Stroke" Value="Transparent"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="3">
+                            <Label
+                                Text="College Course"
+                                TextColor="White"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"/>
+                            <Label
+                                Text="Undergraduate"
+                                TextColor="White"
+                                Opacity="0.7"
+                                FontFamily="OpenSansRegular"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" CommandParameter="CollegeCourse"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+
+                    <!-- Board Exam Reviewer -->
+                    <Border
+                        Grid.Column="2"
+                        StrokeShape="RoundRectangle 14"
+                        Stroke="#40FFFFFF"
+                        StrokeThickness="1.5"
+                        BackgroundColor="Transparent"
+                        Padding="12,16">
+                        <Border.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding IsReviewerSelected}" Value="True">
+                                <Setter Property="BackgroundColor" Value="{StaticResource AppOrange}"/>
+                                <Setter Property="Stroke" Value="Transparent"/>
+                            </DataTrigger>
+                        </Border.Triggers>
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="3">
+                            <Label
+                                Text="Board Exam"
+                                TextColor="White"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"/>
+                            <Label
+                                Text="Reviewer"
+                                TextColor="White"
+                                Opacity="0.7"
+                                FontFamily="OpenSansRegular"
+                                FontSize="11"
+                                HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" CommandParameter="Reviewer"/>
+                        </Border.GestureRecognizers>
+                    </Border>
+
+                </Grid>
+
+                <!-- Search bar — visible after category is selected -->
                 <Border
-                    BackgroundColor="#26FFFFFF"
+                    IsVisible="{Binding HasSelectedCategory}"
+                    BackgroundColor="#20FFFFFF"
                     StrokeShape="RoundRectangle 12"
-                    Stroke="Transparent"
-                    Padding="4,0">
+                    Stroke="#28FFFFFF"
+                    StrokeThickness="1"
+                    Padding="4,0"
+                    Margin="0,16,0,0">
                     <SearchBar
                         Text="{Binding SearchText}"
-                        Placeholder="Search by title or category..."
-                        PlaceholderColor="#80FFFFFF"
+                        Placeholder="Search books..."
+                        PlaceholderColor="#70FFFFFF"
                         TextColor="White"
                         BackgroundColor="Transparent"
                         CancelButtonColor="White"/>
                 </Border>
+
             </VerticalStackLayout>
         </Grid>
 
-        <!-- Guest banner -->
+        <!-- ── Guest banner ──────────────────────────────────────── -->
         <Border
             Grid.Row="1"
-            BackgroundColor="{StaticResource AppOrange}"
             StrokeShape="Rectangle"
             Stroke="Transparent"
+            StrokeThickness="0"
             Padding="20,12"
             IsVisible="{Binding IsGuest}">
-            <Label
-                Text="Sign in to purchase and read full books"
-                TextColor="White"
-                FontFamily="OpenSansSemibold"
-                FontSize="13"
-                HorizontalTextAlignment="Center"/>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#D4890F" Offset="0.0"/>
+                    <GradientStop Color="#F5A623" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label
+                    Grid.Column="0"
+                    Text="Sign in to purchase and read full books"
+                    TextColor="White"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="13"
+                    VerticalOptions="Center"/>
+                <Label
+                    Grid.Column="1"
+                    Text="›"
+                    TextColor="White"
+                    FontSize="20"
+                    VerticalOptions="Center"/>
+            </Grid>
         </Border>
 
-        <!-- Books grid -->
-        <RefreshView
-            Grid.Row="2"
-            Command="{Binding RefreshCommand}"
-            IsRefreshing="{Binding IsRefreshing}">
+        <!-- ── Content area ───────────────────────────────────────── -->
+        <Grid Grid.Row="2">
 
-            <CollectionView
-                ItemsSource="{Binding FilteredBooks}"
-                Margin="14,14,14,0">
+            <!-- No category selected — invite state -->
+            <VerticalStackLayout
+                IsVisible="{Binding HasSelectedCategory, Converter={StaticResource InverseBoolConverter}}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Spacing="18"
+                Padding="44,0">
 
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout
-                        Orientation="Vertical"
-                        Span="2"
-                        HorizontalItemSpacing="10"
-                        VerticalItemSpacing="12"/>
-                </CollectionView.ItemsLayout>
+                <!-- Book spine graphic -->
+                <StackLayout
+                    Orientation="Horizontal"
+                    HorizontalOptions="Center"
+                    Spacing="5"
+                    Margin="0,0,0,4">
+                    <Border
+                        StrokeShape="RoundRectangle 4"
+                        Stroke="Transparent"
+                        WidthRequest="10"
+                        HeightRequest="48">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#2E7BC4" Offset="0"/>
+                                <GradientStop Color="#1B3A6B" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border
+                        StrokeShape="RoundRectangle 4"
+                        Stroke="Transparent"
+                        WidthRequest="10"
+                        HeightRequest="56">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#2A5298" Offset="0"/>
+                                <GradientStop Color="#1A3660" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border
+                        StrokeShape="RoundRectangle 4"
+                        Stroke="Transparent"
+                        WidthRequest="10"
+                        HeightRequest="48">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#3A8AD4" Offset="0"/>
+                                <GradientStop Color="#2462A4" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </StackLayout>
 
-                <CollectionView.EmptyView>
-                    <VerticalStackLayout
-                        VerticalOptions="Center"
-                        HorizontalOptions="Center"
-                        Spacing="12"
-                        Padding="40"
-                        Margin="0,60,0,0">
-                        <Label
-                            Text="📚"
-                            FontSize="48"
-                            HorizontalOptions="Center"/>
-                        <Label
-                            Text="No books found"
-                            FontFamily="OpenSansSemibold"
-                            FontSize="16"
-                            TextColor="{StaticResource AppTextPrimary}"
-                            HorizontalTextAlignment="Center"/>
-                        <Label
-                            Text="Try a different search term."
-                            Style="{StaticResource MutedTextStyle}"
-                            FontSize="13"
-                            HorizontalTextAlignment="Center"/>
-                    </VerticalStackLayout>
-                </CollectionView.EmptyView>
+                <Label
+                    Text="Choose a Category"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="20"
+                    TextColor="{StaticResource AppNavy}"
+                    HorizontalTextAlignment="Center"/>
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:BookMetadata">
-                        <Border Style="{StaticResource CardStyle}" Margin="0">
-                            <Grid RowDefinitions="160,Auto">
+                <Label
+                    Text="Tap College Course or Board Exam Reviewer above to browse available books."
+                    Style="{StaticResource MutedTextStyle}"
+                    FontSize="14"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"/>
 
-                                <!-- Cover image -->
-                                <Border
-                                    Grid.Row="0"
-                                    BackgroundColor="{StaticResource AppSurfaceVariant}"
-                                    StrokeShape="RoundRectangle 12,12,0,0"
-                                    Stroke="Transparent"
-                                    StrokeThickness="0">
-                                    <Grid>
+            </VerticalStackLayout>
+
+            <!-- Books grid — visible after category is selected -->
+            <RefreshView
+                IsVisible="{Binding HasSelectedCategory}"
+                Command="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing}">
+
+                <CollectionView
+                    ItemsSource="{Binding FilteredBooks}"
+                    Margin="14,14,14,0">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="2"
+                            HorizontalItemSpacing="10"
+                            VerticalItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            Spacing="12"
+                            Padding="40"
+                            Margin="0,60,0,0">
+
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="4">
+                                <BoxView WidthRequest="8" HeightRequest="32" CornerRadius="3" BackgroundColor="{StaticResource AppTextMuted}"/>
+                                <BoxView WidthRequest="8" HeightRequest="32" CornerRadius="3" BackgroundColor="{StaticResource AppTextMuted}" Opacity="0.5"/>
+                                <BoxView WidthRequest="8" HeightRequest="32" CornerRadius="3" BackgroundColor="{StaticResource AppTextMuted}" Opacity="0.3"/>
+                            </StackLayout>
+
+                            <Label
+                                Text="No books found"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="16"
+                                TextColor="{StaticResource AppTextPrimary}"
+                                HorizontalTextAlignment="Center"/>
+                            <Label
+                                Text="Try a different search term."
+                                Style="{StaticResource MutedTextStyle}"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:BookMetadata">
+                            <Border Style="{StaticResource CardStyle}" Margin="0">
+                                <Grid RowDefinitions="160,Auto">
+
+                                    <!-- Cover image / gradient placeholder -->
+                                    <Grid Grid.Row="0">
+                                        <!-- Gradient placeholder (always shown as base) -->
+                                        <Border
+                                            StrokeShape="RoundRectangle 12,12,0,0"
+                                            Stroke="Transparent"
+                                            StrokeThickness="0">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                    <GradientStop Color="#1A3660" Offset="0.0"/>
+                                                    <GradientStop Color="#2E7BC4" Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                        </Border>
+
+                                        <!-- Cover image overlaid when available -->
                                         <Image
                                             Source="{Binding ImageCoverUrl}"
                                             Aspect="AspectFill"
                                             IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
-                                        <VerticalStackLayout
-                                            VerticalOptions="Center"
-                                            HorizontalOptions="Center"
-                                            IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NullConverter}}">
-                                            <Label
-                                                Text="📚"
-                                                FontSize="36"
-                                                HorizontalOptions="Center"
-                                                Opacity="0.4"/>
-                                        </VerticalStackLayout>
+
                                         <!-- Category badge -->
                                         <Border
-                                            BackgroundColor="#CC1B3A6B"
+                                            BackgroundColor="#CC0D1830"
                                             StrokeShape="RoundRectangle 6"
                                             Stroke="Transparent"
                                             Padding="8,4"
@@ -140,71 +339,84 @@
                                                 FontSize="10"/>
                                         </Border>
                                     </Grid>
-                                </Border>
 
-                                <!-- Book details -->
-                                <VerticalStackLayout
-                                    Grid.Row="1"
-                                    Padding="12,10,12,12"
-                                    Spacing="4">
+                                    <!-- Book details -->
+                                    <VerticalStackLayout
+                                        Grid.Row="1"
+                                        Padding="12,10,12,12"
+                                        Spacing="4">
 
-                                    <Label
-                                        Text="{Binding Title}"
-                                        FontFamily="OpenSansSemibold"
-                                        FontSize="13"
-                                        TextColor="{StaticResource AppTextPrimary}"
-                                        MaxLines="2"
-                                        LineBreakMode="TailTruncation"/>
+                                        <Label
+                                            Text="{Binding Title}"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="13"
+                                            TextColor="{StaticResource AppTextPrimary}"
+                                            MaxLines="2"
+                                            LineBreakMode="TailTruncation"/>
 
-                                    <Label
-                                        Text="{Binding Price, StringFormat='${0:F2}'}"
-                                        TextColor="{StaticResource AppNavy}"
-                                        FontFamily="OpenSansSemibold"
-                                        FontSize="15"
-                                        Margin="0,2,0,6"/>
+                                        <Label
+                                            Text="{Binding Price, StringFormat='₱{0:F2}'}"
+                                            TextColor="{StaticResource AppNavy}"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="15"
+                                            Margin="0,2,0,6"/>
 
-                                    <Button
-                                        Text="Buy Now"
-                                        Style="{StaticResource SmallPrimaryButtonStyle}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.BuyCommand}"
-                                        CommandParameter="{Binding .}"/>
+                                        <Button
+                                            Text="Buy Now"
+                                            TextColor="White"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="12"
+                                            CornerRadius="8"
+                                            Padding="8,6"
+                                            MinimumHeightRequest="36"
+                                            HorizontalOptions="Fill"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.BuyCommand}"
+                                            CommandParameter="{Binding .}">
+                                            <Button.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#F5A623" Offset="0.0"/>
+                                                    <GradientStop Color="#D4890F" Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                        </Button>
 
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-            </CollectionView>
-        </RefreshView>
+                </CollectionView>
+            </RefreshView>
 
-        <!-- Loading overlay -->
-        <Grid
-            Grid.Row="2"
-            IsVisible="{Binding IsBusy}"
-            BackgroundColor="{StaticResource AppBackground}">
-            <ActivityIndicator
-                IsRunning="{Binding IsBusy}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>
+            <!-- Loading overlay -->
+            <Grid
+                IsVisible="{Binding IsBusy}"
+                BackgroundColor="{StaticResource AppBackground}">
+                <ActivityIndicator
+                    IsRunning="{Binding IsBusy}"
+                    Color="{StaticResource AppOrange}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"/>
+            </Grid>
+
+            <!-- Error snackbar -->
+            <Border
+                IsVisible="{Binding HasError}"
+                BackgroundColor="{StaticResource AppNavy}"
+                StrokeShape="RoundRectangle 12"
+                Stroke="Transparent"
+                Padding="16,12"
+                Margin="16,0,16,24"
+                VerticalOptions="End">
+                <Label
+                    Text="{Binding ErrorMessage}"
+                    TextColor="White"
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"/>
+            </Border>
+
         </Grid>
-
-        <!-- Error snackbar -->
-        <Border
-            Grid.Row="2"
-            IsVisible="{Binding HasError}"
-            BackgroundColor="{StaticResource AppNavy}"
-            StrokeShape="RoundRectangle 12"
-            Stroke="Transparent"
-            Padding="16,12"
-            Margin="16,0,16,24"
-            VerticalOptions="End">
-            <Label
-                Text="{Binding ErrorMessage}"
-                TextColor="White"
-                FontSize="13"
-                HorizontalTextAlignment="Center"/>
-        </Border>
 
     </Grid>
 </ContentPage>

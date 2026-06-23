@@ -11,9 +11,50 @@
     <ScrollView>
         <VerticalStackLayout Spacing="0">
 
-            <!-- Hero header -->
-            <Grid BackgroundColor="{StaticResource AppNavy}" Padding="24,52,24,32">
-                <VerticalStackLayout Spacing="6">
+            <!-- ── Hero header (gradient + orb) ───────────────────── -->
+            <Grid>
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                        <GradientStop Color="#0D1830" Offset="0.0"/>
+                        <GradientStop Color="#1A3660" Offset="0.5"/>
+                        <GradientStop Color="#2A5298" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <!-- Decorative orb — top right -->
+                <Border
+                    HeightRequest="200" WidthRequest="200"
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent" StrokeThickness="0"
+                    HorizontalOptions="End" VerticalOptions="Start"
+                    Margin="0,-60,-80,0"
+                    InputTransparent="True">
+                    <Border.Background>
+                        <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                            <GradientStop Color="#403A78D0" Offset="0.0"/>
+                            <GradientStop Color="#002A5298" Offset="1.0"/>
+                        </RadialGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Decorative orb — bottom left (amber) -->
+                <Border
+                    HeightRequest="140" WidthRequest="140"
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent" StrokeThickness="0"
+                    HorizontalOptions="Start" VerticalOptions="End"
+                    Margin="-60,0,0,-40"
+                    InputTransparent="True">
+                    <Border.Background>
+                        <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                            <GradientStop Color="#38F5A623" Offset="0.0"/>
+                            <GradientStop Color="#00F5A623" Offset="1.0"/>
+                        </RadialGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Hero content -->
+                <VerticalStackLayout Spacing="6" Padding="24,56,24,36">
                     <Image
                         Source="app_logo.png"
                         HeightRequest="52"
@@ -25,8 +66,7 @@
                         Text="Learn It All"
                         TextColor="White"
                         FontFamily="OpenSansSemibold"
-                        FontSize="30"
-                        HorizontalTextAlignment="Start"/>
+                        FontSize="30"/>
                     <Label
                         Text="Your knowledge library, anytime."
                         TextColor="White"
@@ -36,13 +76,19 @@
                 </VerticalStackLayout>
             </Grid>
 
-            <!-- Guest sign-in prompt -->
+            <!-- ── Guest sign-in prompt ───────────────────────────── -->
             <Border
                 IsVisible="{Binding IsGuest}"
-                BackgroundColor="{StaticResource AppOrange}"
                 StrokeShape="Rectangle"
                 Stroke="Transparent"
-                Padding="24,14">
+                StrokeThickness="0"
+                Padding="20,14">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#D4890F" Offset="0.0"/>
+                        <GradientStop Color="#F5A623" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
                 <Grid ColumnDefinitions="*,Auto">
                     <Label
                         Grid.Column="0"
@@ -63,7 +109,7 @@
                 </Border.GestureRecognizers>
             </Border>
 
-            <!-- Quick actions -->
+            <!-- ── Quick actions ──────────────────────────────────── -->
             <VerticalStackLayout Padding="20,24,20,8" Spacing="12">
 
                 <Label
@@ -71,24 +117,35 @@
                     Style="{StaticResource MutedTextStyle}"
                     FontFamily="OpenSansSemibold"
                     FontSize="11"
+                    CharacterSpacing="1.2"
                     Margin="0,0,0,4"/>
 
                 <!-- Browse Library card -->
                 <Border Style="{StaticResource CardStyle}">
                     <Grid ColumnDefinitions="Auto,*,Auto" Padding="18,16">
+
+                        <!-- Icon: gradient box -->
                         <Border
                             Grid.Column="0"
-                            BackgroundColor="{StaticResource AppSurfaceVariant}"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent"
                             HeightRequest="48"
                             WidthRequest="48">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#1A3660" Offset="0"/>
+                                    <GradientStop Color="#2E7BC4" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
                             <Label
-                                Text="📚"
-                                FontSize="22"
+                                Text="B"
+                                TextColor="White"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="20"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"/>
                         </Border>
+
                         <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="14,0,0,0" VerticalOptions="Center">
                             <Label Text="Browse Library" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource AppTextPrimary}"/>
                             <Label Text="Discover books to learn from" Style="{StaticResource MutedTextStyle}" FontSize="12"/>
@@ -108,19 +165,29 @@
                 <!-- My Library card -->
                 <Border Style="{StaticResource CardStyle}">
                     <Grid ColumnDefinitions="Auto,*,Auto" Padding="18,16">
+
+                        <!-- Icon: orange gradient box -->
                         <Border
                             Grid.Column="0"
-                            BackgroundColor="{StaticResource AppSurfaceVariant}"
                             StrokeShape="RoundRectangle 12"
                             Stroke="Transparent"
                             HeightRequest="48"
                             WidthRequest="48">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#D4890F" Offset="0"/>
+                                    <GradientStop Color="#F5A623" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
                             <Label
-                                Text="📖"
-                                FontSize="22"
+                                Text="M"
+                                TextColor="White"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="20"
                                 HorizontalOptions="Center"
                                 VerticalOptions="Center"/>
                         </Border>
+
                         <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="14,0,0,0" VerticalOptions="Center">
                             <Label Text="My Library" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource AppTextPrimary}"/>
                             <Label Text="Your purchased books" Style="{StaticResource MutedTextStyle}" FontSize="12"/>
@@ -139,14 +206,15 @@
 
             </VerticalStackLayout>
 
-            <!-- Coming soon section -->
-            <VerticalStackLayout Padding="20,8,20,32" Spacing="12">
+            <!-- ── Coming soon section ────────────────────────────── -->
+            <VerticalStackLayout Padding="20,8,20,40" Spacing="12">
 
                 <Label
                     Text="COMING SOON"
                     Style="{StaticResource MutedTextStyle}"
                     FontFamily="OpenSansSemibold"
                     FontSize="11"
+                    CharacterSpacing="1.2"
                     Margin="0,0,0,4"/>
 
                 <Border
@@ -154,24 +222,33 @@
                     StrokeShape="RoundRectangle 16"
                     Stroke="{StaticResource AppDivider}"
                     StrokeThickness="1"
-                    Padding="18,20">
-                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                        <Label
-                            Text="✨"
-                            FontSize="32"
-                            HorizontalOptions="Center"/>
-                        <Label
-                            Text="Featured Books"
-                            FontFamily="OpenSansSemibold"
-                            FontSize="15"
-                            TextColor="{StaticResource AppTextPrimary}"
-                            HorizontalTextAlignment="Center"/>
-                        <Label
-                            Text="Curated picks and new arrivals will appear here."
-                            Style="{StaticResource MutedTextStyle}"
-                            FontSize="13"
-                            HorizontalTextAlignment="Center"/>
-                    </VerticalStackLayout>
+                    Padding="0">
+                    <Grid ColumnDefinitions="5,*" ColumnSpacing="0">
+                        <!-- Orange accent bar -->
+                        <Border
+                            Grid.Column="0"
+                            StrokeShape="RoundRectangle 16,0,0,16"
+                            Stroke="Transparent">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="{StaticResource AppOrange}" Offset="0"/>
+                                    <GradientStop Color="{StaticResource AppBlue}" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Padding="18,20" Spacing="6">
+                            <Label
+                                Text="Featured Books"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="15"
+                                TextColor="{StaticResource AppTextPrimary}"/>
+                            <Label
+                                Text="Curated picks and new arrivals will appear here."
+                                Style="{StaticResource MutedTextStyle}"
+                                FontSize="13"
+                                LineBreakMode="WordWrap"/>
+                        </VerticalStackLayout>
+                    </Grid>
                 </Border>
 
             </VerticalStackLayout>

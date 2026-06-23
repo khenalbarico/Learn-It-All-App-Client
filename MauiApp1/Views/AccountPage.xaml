@@ -10,19 +10,48 @@
 
     <Grid RowDefinitions="Auto,*">
 
-        <!-- Custom header (always visible) -->
-        <Grid
-            Grid.Row="0"
-            BackgroundColor="{StaticResource AppNavy}"
-            Padding="20,52,20,24">
-            <Label
-                Text="Account"
-                TextColor="White"
-                FontFamily="OpenSansSemibold"
-                FontSize="26"/>
+        <!-- ── Gradient header ────────────────────────────────────── -->
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+                    <GradientStop Color="#0D1830" Offset="0.0"/>
+                    <GradientStop Color="#1A3660" Offset="0.5"/>
+                    <GradientStop Color="#2A5298" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <!-- Decorative orb — top right -->
+            <Border
+                HeightRequest="160" WidthRequest="160"
+                StrokeShape="Ellipse"
+                Stroke="Transparent" StrokeThickness="0"
+                HorizontalOptions="End" VerticalOptions="Start"
+                Margin="0,-50,-60,0"
+                InputTransparent="True">
+                <Border.Background>
+                    <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                        <GradientStop Color="#403A78D0" Offset="0.0"/>
+                        <GradientStop Color="#002A5298" Offset="1.0"/>
+                    </RadialGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <VerticalStackLayout Padding="20,52,20,28" Spacing="4">
+                <Label
+                    Text="Account"
+                    TextColor="White"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="26"/>
+                <Label
+                    Text="Manage your profile and settings"
+                    TextColor="White"
+                    Opacity="0.65"
+                    FontFamily="OpenSansRegular"
+                    FontSize="13"/>
+            </VerticalStackLayout>
         </Grid>
 
-        <!-- Content -->
+        <!-- ── Content ────────────────────────────────────────────── -->
         <ScrollView Grid.Row="1">
             <Grid>
 
@@ -35,18 +64,38 @@
                     Padding="36"
                     Margin="0,32,0,0">
 
+                    <!-- Person icon -->
                     <Border
-                        BackgroundColor="{StaticResource AppSurfaceVariant}"
                         StrokeShape="Ellipse"
-                        Stroke="Transparent"
-                        HeightRequest="96"
-                        WidthRequest="96"
+                        Stroke="#DDE4F0"
+                        StrokeThickness="1.5"
+                        HeightRequest="80"
+                        WidthRequest="80"
                         HorizontalOptions="Center">
-                        <Label
-                            Text="👤"
-                            FontSize="44"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center"/>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#EEF2F8" Offset="0"/>
+                                <GradientStop Color="#D8E4F4" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="4">
+                            <Border
+                                StrokeShape="Ellipse"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource AppBlue}"
+                                Opacity="0.5"
+                                HeightRequest="20"
+                                WidthRequest="20"
+                                HorizontalOptions="Center"/>
+                            <Border
+                                StrokeShape="RoundRectangle 4,4,0,0"
+                                Stroke="Transparent"
+                                BackgroundColor="{StaticResource AppBlue}"
+                                Opacity="0.4"
+                                HeightRequest="14"
+                                WidthRequest="32"
+                                HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
                     </Border>
 
                     <Label
@@ -71,30 +120,32 @@
                 </VerticalStackLayout>
 
                 <!-- Authenticated state -->
-                <VerticalStackLayout
-                    IsVisible="{Binding IsAuthenticated}"
-                    Spacing="0">
+                <VerticalStackLayout IsVisible="{Binding IsAuthenticated}" Spacing="0">
 
                     <!-- Profile hero card -->
-                    <Border
-                        BackgroundColor="{StaticResource AppSurface}"
-                        StrokeShape="RoundRectangle 0,0,24,24"
-                        Stroke="Transparent"
-                        Margin="0,0,0,0">
-                        <VerticalStackLayout
-                            HorizontalOptions="Center"
-                            Spacing="10"
-                            Padding="24,28,24,28">
+                    <Grid>
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#EEF2F8" Offset="0"/>
+                                <GradientStop Color="#D8E4F4" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10" Padding="24,28,24,28">
 
-                            <!-- Avatar circle -->
+                            <!-- Avatar circle (orange gradient with initial) -->
                             <Border
-                                BackgroundColor="{StaticResource AppOrange}"
                                 StrokeShape="Ellipse"
                                 Stroke="White"
                                 StrokeThickness="3"
                                 HeightRequest="80"
                                 WidthRequest="80"
                                 HorizontalOptions="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#F5A623" Offset="0"/>
+                                        <GradientStop Color="#D4890F" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
                                 <Label
                                     Text="{Binding DisplayName[0], StringFormat='{0}'}"
                                     TextColor="White"
@@ -119,11 +170,16 @@
 
                             <!-- Subscription badge -->
                             <Border
-                                BackgroundColor="{StaticResource AppNavy}"
                                 StrokeShape="RoundRectangle 20"
                                 Stroke="Transparent"
                                 Padding="16,6"
                                 HorizontalOptions="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#1A3660" Offset="0"/>
+                                        <GradientStop Color="#2A5298" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
                                 <Label
                                     Text="{Binding SubscriptionLabel}"
                                     TextColor="White"
@@ -132,7 +188,7 @@
                             </Border>
 
                         </VerticalStackLayout>
-                    </Border>
+                    </Grid>
 
                     <!-- Profile info rows -->
                     <VerticalStackLayout Padding="20,20,20,0" Spacing="10">
@@ -142,6 +198,7 @@
                             Style="{StaticResource MutedTextStyle}"
                             FontFamily="OpenSansSemibold"
                             FontSize="11"
+                            CharacterSpacing="1.2"
                             Margin="0,0,0,2"/>
 
                         <Border Style="{StaticResource CardStyle}" Padding="16,14">
@@ -193,6 +250,7 @@
                 <ActivityIndicator
                     IsRunning="{Binding IsBusy}"
                     IsVisible="{Binding IsBusy}"
+                    Color="{StaticResource AppOrange}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Margin="0,80,0,0"/>

@@ -4,5 +4,6 @@ public enum ApiFunctions
 {
     TryGetUser,
     GetAllBooks,
+    GetBooksByCategory,
     CreateUser,
 }

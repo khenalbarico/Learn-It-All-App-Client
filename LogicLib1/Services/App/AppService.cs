@@ -12,6 +12,11 @@ public class AppService(IApiClient _api) : IAppService
         return await _api.GetAsync<List<BookMetadata>>(ApiFunctions.GetAllBooks);
     }
 
+    public async Task<List<BookMetadata>> GetBooksByCategory(string category)
+    {
+        return await _api.GetAsync<List<BookMetadata>>(ApiFunctions.GetBooksByCategory, new { Category = category });
+    }
+
     public async Task<UserInfo?> TryGetUserInfo()
     {
         try
