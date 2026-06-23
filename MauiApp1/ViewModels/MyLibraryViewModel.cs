@@ -1,11 +1,10 @@
 using System.Collections.ObjectModel;
 using LogicLib1.Models.App;
-using LogicLib1.Services.App;
 using LogicLib1.Services.AuthService;
 
 namespace MauiApp1.ViewModels;
 
-public class MyLibraryViewModel(IAppService _appService, IAppAuthentication _auth) : BaseViewModel
+public class MyLibraryViewModel(IAppAuthentication _auth) : BaseViewModel
 {
     private ObservableCollection<BookMetadata> _purchasedBooks = [];
 
@@ -29,27 +28,14 @@ public class MyLibraryViewModel(IAppService _appService, IAppAuthentication _aut
     public Command<BookMetadata> ReadCommand => new(async (book) =>
         await (NavigateToRead?.Invoke(book) ?? Task.CompletedTask));
 
-    public async Task LoadAsync()
+    public Task LoadAsync()
     {
         OnPropertyChanged(nameof(IsAuthenticated));
         OnPropertyChanged(nameof(IsGuest));
-        if (!_auth.IsAuthenticated) return;
+        if (!_auth.IsAuthenticated) return Task.CompletedTask;
 
-        IsBusy = true;
-        ErrorMessage = string.Empty;
-        try
-        {
-            var userInfo = await _appService.TryGetUserInfo();
-            PurchasedBooks = new ObservableCollection<BookMetadata>();
-            OnPropertyChanged(nameof(HasBooks));
-        }
-        catch
-        {
-            ErrorMessage = "Failed to load your library.";
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        PurchasedBooks = new ObservableCollection<BookMetadata>();
+        OnPropertyChanged(nameof(HasBooks));
+        return Task.CompletedTask;
     }
 }

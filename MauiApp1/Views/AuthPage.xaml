@@ -5,243 +5,337 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MauiApp1.ViewModels"
     x:DataType="vm:AuthViewModel"
-    BackgroundColor="{StaticResource AppBackground}"
+    BackgroundColor="{StaticResource AppNavy}"
     Shell.NavBarIsVisible="False">
 
-    <ScrollView>
-        <Grid RowDefinitions="Auto,*" Padding="0">
+    <Grid>
 
-            <!-- Navy top bar with close button -->
-            <Grid
-                Grid.Row="0"
-                BackgroundColor="{StaticResource AppNavy}"
-                Padding="16,48,16,24">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+        <!-- Scrollable content (logo hero + white form card) -->
+        <ScrollView>
+            <VerticalStackLayout Spacing="0">
 
-                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                <!-- ── Navy hero ───────────────────────────────── -->
+                <VerticalStackLayout
+                    HorizontalOptions="Center"
+                    Spacing="10"
+                    Padding="48,64,48,32">
+
+                    <Image
+                        Source="app_logo.png"
+                        HeightRequest="60"
+                        WidthRequest="60"
+                        Aspect="AspectFit"
+                        HorizontalOptions="Center"
+                        Margin="0,0,0,6"/>
+
                     <Label
                         Text="{Binding FormTitle}"
-                        Style="{StaticResource OnDarkTitleStyle}"
-                        FontSize="22"
-                        HorizontalTextAlignment="Start"/>
+                        TextColor="White"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="26"
+                        HorizontalTextAlignment="Center"/>
+
                     <Label
                         Text="{Binding FormSubtitle}"
-                        Style="{StaticResource OnDarkLabelStyle}"
-                        FontSize="14"
-                        Opacity="0.75"/>
-                </VerticalStackLayout>
-
-                <Button
-                    Grid.Column="1"
-                    Text="✕"
-                    BackgroundColor="Transparent"
-                    TextColor="White"
-                    FontSize="18"
-                    BorderWidth="0"
-                    Padding="8"
-                    MinimumHeightRequest="44"
-                    MinimumWidthRequest="44"
-                    VerticalOptions="Start"
-                    Clicked="OnCloseClicked"/>
-            </Grid>
-
-            <!-- Form content -->
-            <VerticalStackLayout
-                Grid.Row="1"
-                Padding="24,28,24,40"
-                Spacing="0">
-
-                <!-- Logo -->
-                <Image
-                    Source="app_logo.png"
-                    HeightRequest="70"
-                    WidthRequest="70"
-                    Aspect="AspectFit"
-                    HorizontalOptions="Center"
-                    Margin="0,0,0,28"/>
-
-                <!-- Verify email section -->
-                <VerticalStackLayout IsVisible="{Binding IsVerifyEmailMode}" Spacing="12" Margin="0,0,0,24">
-
-                    <Label
-                        Text="✉"
-                        FontSize="56"
-                        HorizontalOptions="Center"
-                        HorizontalTextAlignment="Center"
-                        TextColor="{StaticResource AppNavy}"
-                        Margin="0,0,0,8"/>
-
-                    <Label
-                        Text="We sent a verification link to:"
-                        FontSize="14"
-                        TextColor="{StaticResource AppTextSecondary}"
-                        HorizontalTextAlignment="Center"
-                        HorizontalOptions="Center"/>
-
-                    <Label
-                        Text="{Binding Email}"
-                        FontSize="15"
-                        FontAttributes="Bold"
-                        TextColor="{StaticResource AppNavy}"
-                        HorizontalTextAlignment="Center"
-                        HorizontalOptions="Center"/>
-
-                    <Label
-                        Text="Open the link in your inbox, then tap the button below to continue."
-                        FontSize="13"
-                        TextColor="{StaticResource AppTextSecondary}"
-                        HorizontalTextAlignment="Center"
-                        HorizontalOptions="Center"
-                        Opacity="0.8"
-                        Margin="0,4,0,0"/>
-
-                </VerticalStackLayout>
-
-                <!-- Profile setup fields -->
-                <VerticalStackLayout IsVisible="{Binding IsProfileSetupMode}" Spacing="14" Margin="0,0,0,14">
-
-                    <Label Text="First Name" Style="{StaticResource SectionTitleStyle}" FontSize="14" Margin="0,0,0,4"/>
-                    <Border Style="{StaticResource EntryBorderStyle}">
-                        <Entry Placeholder="Enter your first name" Text="{Binding FirstName}"/>
-                    </Border>
-
-                    <Label Text="Last Name" Style="{StaticResource SectionTitleStyle}" FontSize="14" Margin="0,0,0,4"/>
-                    <Border Style="{StaticResource EntryBorderStyle}">
-                        <Entry Placeholder="Enter your last name" Text="{Binding LastName}"/>
-                    </Border>
-
-                    <Label Text="Phone Number" Style="{StaticResource SectionTitleStyle}" FontSize="14" Margin="0,0,0,4"/>
-                    <Border Style="{StaticResource EntryBorderStyle}">
-                        <Entry
-                            Placeholder="+1 234 567 8900"
-                            Text="{Binding PhoneNumber}"
-                            Keyboard="Telephone"/>
-                    </Border>
-
-                </VerticalStackLayout>
-
-                <!-- Email / Password fields -->
-                <VerticalStackLayout IsVisible="{Binding ShowEmailPasswordFields}" Spacing="0" Margin="0,0,0,14">
-
-                    <!-- Email field -->
-                    <Label
-                        Text="Email Address"
-                        Style="{StaticResource SectionTitleStyle}"
-                        FontSize="14"
-                        Margin="0,0,0,6"/>
-                    <Border
-                        Style="{StaticResource EntryBorderStyle}"
-                        Stroke="{Binding HasEmailError, Converter={StaticResource ErrorBorderBrushConverter}}">
-                        <Entry
-                            Placeholder="you@example.com"
-                            Text="{Binding Email}"
-                            Keyboard="Email"/>
-                    </Border>
-                    <Label
-                        Text="{Binding EmailError}"
-                        Style="{StaticResource ErrorTextStyle}"
-                        HorizontalTextAlignment="Start"
-                        IsVisible="{Binding HasEmailError}"
-                        Margin="4,4,0,0"/>
-
-                    <!-- Password field -->
-                    <Label
-                        Text="Password"
-                        Style="{StaticResource SectionTitleStyle}"
-                        FontSize="14"
-                        Margin="0,14,0,6"/>
-                    <Border
-                        Style="{StaticResource EntryBorderStyle}"
-                        Stroke="{Binding HasPasswordError, Converter={StaticResource ErrorBorderBrushConverter}}">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <Entry
-                                Grid.Column="0"
-                                Placeholder="Enter password"
-                                Text="{Binding Password}"
-                                IsPassword="{Binding IsPasswordVisible, Converter={x:StaticResource InverseBoolConverter}}"/>
-                            <Button
-                                Grid.Column="1"
-                                Text="{Binding IsPasswordVisible, Converter={x:StaticResource BoolToEyeIconConverter}}"
-                                Style="{StaticResource GhostButtonStyle}"
-                                TextColor="{StaticResource AppTextSecondary}"
-                                FontSize="16"
-                                Command="{Binding TogglePasswordVisibilityCommand}"
-                                VerticalOptions="Center"/>
-                        </Grid>
-                    </Border>
-                    <Label
-                        Text="{Binding PasswordError}"
-                        Style="{StaticResource ErrorTextStyle}"
-                        HorizontalTextAlignment="Start"
-                        IsVisible="{Binding HasPasswordError}"
-                        Margin="4,4,0,0"/>
-
-                    <!-- Password strength indicator (Register mode only) -->
-                    <Label
-                        Text="{Binding PasswordStrengthText}"
-                        FontSize="12"
+                        TextColor="White"
+                        Opacity="0.7"
                         FontFamily="OpenSansRegular"
-                        TextColor="{Binding PasswordStrengthColor}"
-                        IsVisible="{Binding ShowPasswordStrength}"
-                        Margin="4,6,0,0"/>
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"/>
 
                 </VerticalStackLayout>
 
-                <!-- Error message -->
-                <Label
-                    Text="{Binding ErrorMessage}"
-                    Style="{StaticResource ErrorTextStyle}"
-                    IsVisible="{Binding HasError}"
-                    Margin="0,0,0,12"/>
+                <!-- ── White form card ─────────────────────────── -->
+                <Border
+                    BackgroundColor="{StaticResource AppSurface}"
+                    StrokeShape="RoundRectangle 28,28,0,0"
+                    Stroke="Transparent"
+                    StrokeThickness="0"
+                    Padding="28,36,28,64"
+                    MinimumHeightRequest="680">
 
-                <!-- Status message (e.g. email resent confirmation) -->
-                <Label
-                    Text="{Binding StatusMessage}"
-                    FontSize="13"
-                    TextColor="#2E7D32"
-                    HorizontalTextAlignment="Center"
-                    IsVisible="{Binding HasStatus}"
-                    Margin="0,0,0,12"/>
+                    <VerticalStackLayout Spacing="0">
 
-                <!-- Submit button -->
-                <Button
-                    Text="{Binding SubmitButtonText}"
-                    Style="{StaticResource PrimaryButtonStyle}"
-                    Command="{Binding SubmitCommand}"
-                    IsEnabled="{Binding IsBusy, Converter={x:StaticResource InverseBoolConverter}}"
-                    Margin="0,8,0,0"/>
+                        <!-- ── Verify Email section ──────────────── -->
+                        <VerticalStackLayout
+                            IsVisible="{Binding IsVerifyEmailMode}"
+                            Spacing="14"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,24">
 
-                <!-- Resend verification email button -->
-                <Button
-                    Text="Resend Email"
-                    Style="{StaticResource GhostButtonStyle}"
-                    IsVisible="{Binding IsVerifyEmailMode}"
-                    Command="{Binding ResendVerificationCommand}"
-                    IsEnabled="{Binding IsBusy, Converter={x:StaticResource InverseBoolConverter}}"
-                    HorizontalOptions="Center"
-                    Margin="0,8,0,0"/>
+                            <Border
+                                BackgroundColor="{StaticResource AppSurfaceVariant}"
+                                StrokeShape="Ellipse"
+                                Stroke="Transparent"
+                                HeightRequest="88"
+                                WidthRequest="88"
+                                HorizontalOptions="Center">
+                                <Label
+                                    Text="✉"
+                                    FontSize="40"
+                                    TextColor="{StaticResource AppNavy}"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"/>
+                            </Border>
 
-                <!-- Loading indicator -->
-                <ActivityIndicator
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}"
-                    HorizontalOptions="Center"
-                    Margin="0,16,0,0"/>
+                            <Label
+                                Text="We sent a link to:"
+                                Style="{StaticResource MutedTextStyle}"
+                                HorizontalTextAlignment="Center"/>
 
-                <!-- Toggle sign in / register -->
-                <Button
-                    Text="{Binding ToggleModeText}"
-                    Style="{StaticResource GhostButtonStyle}"
-                    IsVisible="{Binding ShowToggleLink}"
-                    Command="{Binding ToggleModeCommand}"
-                    HorizontalOptions="Center"
-                    Margin="0,20,0,0"/>
+                            <Border
+                                BackgroundColor="{StaticResource AppSurfaceVariant}"
+                                StrokeShape="RoundRectangle 10"
+                                Stroke="{StaticResource AppDivider}"
+                                Padding="20,10"
+                                HorizontalOptions="Center">
+                                <Label
+                                    Text="{Binding Email}"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="14"
+                                    TextColor="{StaticResource AppNavy}"
+                                    HorizontalTextAlignment="Center"/>
+                            </Border>
+
+                            <Label
+                                Text="Open the link in your inbox, then tap the button below to continue."
+                                Style="{StaticResource MutedTextStyle}"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"
+                                LineBreakMode="WordWrap"/>
+
+                        </VerticalStackLayout>
+
+                        <!-- ── Profile Setup section ─────────────── -->
+                        <VerticalStackLayout
+                            IsVisible="{Binding IsProfileSetupMode}"
+                            Spacing="0"
+                            Margin="0,0,0,20">
+
+                            <Label
+                                Text="First Name"
+                                TextColor="{StaticResource AppTextSecondary}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="12"
+                                Margin="0,0,0,6"/>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <Label Grid.Column="0" Text="👤" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
+                                    <Entry Grid.Column="1" Placeholder="Enter your first name" Text="{Binding FirstName}"/>
+                                </Grid>
+                            </Border>
+
+                            <Label
+                                Text="Last Name"
+                                TextColor="{StaticResource AppTextSecondary}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="12"
+                                Margin="0,18,0,6"/>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <Label Grid.Column="0" Text="👤" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
+                                    <Entry Grid.Column="1" Placeholder="Enter your last name" Text="{Binding LastName}"/>
+                                </Grid>
+                            </Border>
+
+                            <Label
+                                Text="Phone Number"
+                                TextColor="{StaticResource AppTextSecondary}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="12"
+                                Margin="0,18,0,6"/>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <Label Grid.Column="0" Text="📱" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
+                                    <Entry Grid.Column="1" Placeholder="+1 234 567 8900" Text="{Binding PhoneNumber}" Keyboard="Telephone"/>
+                                </Grid>
+                            </Border>
+
+                        </VerticalStackLayout>
+
+                        <!-- ── Email / Password section ───────────── -->
+                        <VerticalStackLayout
+                            IsVisible="{Binding ShowEmailPasswordFields}"
+                            Spacing="0"
+                            Margin="0,0,0,4">
+
+                            <!-- Email field -->
+                            <Label
+                                Text="Email Address"
+                                TextColor="{StaticResource AppTextSecondary}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="12"
+                                Margin="0,0,0,6"/>
+                            <Border
+                                Style="{StaticResource EntryBorderStyle}"
+                                Stroke="{Binding HasEmailError, Converter={StaticResource ErrorBorderBrushConverter}}">
+                                <Grid ColumnDefinitions="Auto,*">
+                                    <Label Grid.Column="0" Text="✉" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
+                                    <Entry Grid.Column="1" Placeholder="you@example.com" Text="{Binding Email}" Keyboard="Email"/>
+                                </Grid>
+                            </Border>
+                            <Label
+                                Text="{Binding EmailError}"
+                                Style="{StaticResource ErrorTextStyle}"
+                                HorizontalTextAlignment="Start"
+                                IsVisible="{Binding HasEmailError}"
+                                Margin="2,4,0,6"/>
+
+                            <!-- Password field -->
+                            <Label
+                                Text="Password"
+                                TextColor="{StaticResource AppTextSecondary}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="12"
+                                Margin="0,14,0,6"/>
+                            <Border
+                                Style="{StaticResource EntryBorderStyle}"
+                                Stroke="{Binding HasPasswordError, Converter={StaticResource ErrorBorderBrushConverter}}">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <Label Grid.Column="0" Text="🔒" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
+                                    <Entry
+                                        Grid.Column="1"
+                                        Placeholder="Enter password"
+                                        Text="{Binding Password}"
+                                        IsPassword="{Binding IsPasswordVisible, Converter={x:StaticResource InverseBoolConverter}}"/>
+                                    <Button
+                                        Grid.Column="2"
+                                        Text="{Binding IsPasswordVisible, Converter={x:StaticResource BoolToEyeIconConverter}}"
+                                        Style="{StaticResource GhostButtonStyle}"
+                                        TextColor="{StaticResource AppTextSecondary}"
+                                        FontSize="16"
+                                        Command="{Binding TogglePasswordVisibilityCommand}"
+                                        VerticalOptions="Center"
+                                        Padding="4,0"/>
+                                </Grid>
+                            </Border>
+                            <Label
+                                Text="{Binding PasswordError}"
+                                Style="{StaticResource ErrorTextStyle}"
+                                HorizontalTextAlignment="Start"
+                                IsVisible="{Binding HasPasswordError}"
+                                Margin="2,4,0,0"/>
+
+                            <!-- Password strength bar (register mode only) -->
+                            <Grid
+                                ColumnDefinitions="*,4,*,4,*"
+                                HeightRequest="4"
+                                Margin="0,10,0,0"
+                                IsVisible="{Binding ShowPasswordStrength}">
+                                <BoxView Grid.Column="0" CornerRadius="2" BackgroundColor="{Binding StrengthSeg1Color}"/>
+                                <BoxView Grid.Column="2" CornerRadius="2" BackgroundColor="{Binding StrengthSeg2Color}"/>
+                                <BoxView Grid.Column="4" CornerRadius="2" BackgroundColor="{Binding StrengthSeg3Color}"/>
+                            </Grid>
+                            <Label
+                                Text="{Binding PasswordStrengthText}"
+                                FontSize="12"
+                                FontFamily="OpenSansRegular"
+                                TextColor="{Binding PasswordStrengthColor}"
+                                IsVisible="{Binding ShowPasswordStrength}"
+                                Margin="2,5,0,0"/>
+
+                        </VerticalStackLayout>
+
+                        <!-- Error message -->
+                        <Border
+                            BackgroundColor="#FFF5F5"
+                            StrokeShape="RoundRectangle 8"
+                            Stroke="#FCA5A5"
+                            StrokeThickness="1"
+                            Padding="12,10"
+                            Margin="0,16,0,0"
+                            IsVisible="{Binding HasError}">
+                            <Label
+                                Text="{Binding ErrorMessage}"
+                                TextColor="{StaticResource AppError}"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"/>
+                        </Border>
+
+                        <!-- Status message (success / info) -->
+                        <Border
+                            BackgroundColor="#F0FDF4"
+                            StrokeShape="RoundRectangle 8"
+                            Stroke="#86EFAC"
+                            StrokeThickness="1"
+                            Padding="12,10"
+                            Margin="0,10,0,0"
+                            IsVisible="{Binding HasStatus}">
+                            <Label
+                                Text="{Binding StatusMessage}"
+                                TextColor="{StaticResource AppSuccess}"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"/>
+                        </Border>
+
+                        <!-- Submit button -->
+                        <Button
+                            Text="{Binding SubmitButtonText}"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            Command="{Binding SubmitCommand}"
+                            IsEnabled="{Binding IsBusy, Converter={x:StaticResource InverseBoolConverter}}"
+                            Margin="0,24,0,0"/>
+
+                        <!-- Resend verification link (verify email mode only) -->
+                        <Button
+                            Text="Resend Verification Email"
+                            Style="{StaticResource GhostButtonStyle}"
+                            IsVisible="{Binding IsVerifyEmailMode}"
+                            Command="{Binding ResendVerificationCommand}"
+                            IsEnabled="{Binding IsBusy, Converter={x:StaticResource InverseBoolConverter}}"
+                            HorizontalOptions="Center"
+                            Margin="0,4,0,0"/>
+
+                        <!-- Loading indicator -->
+                        <ActivityIndicator
+                            IsRunning="{Binding IsBusy}"
+                            IsVisible="{Binding IsBusy}"
+                            HorizontalOptions="Center"
+                            Margin="0,14,0,0"/>
+
+                        <!-- Toggle sign in / register -->
+                        <HorizontalStackLayout
+                            IsVisible="{Binding ShowToggleLink}"
+                            HorizontalOptions="Center"
+                            Spacing="4"
+                            Margin="0,24,0,0">
+                            <Label
+                                Text="{Binding TogglePromptText}"
+                                Style="{StaticResource MutedTextStyle}"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Text="{Binding ToggleLinkText}"
+                                TextColor="{StaticResource AppOrange}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="14"
+                                VerticalOptions="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleModeCommand}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
 
             </VerticalStackLayout>
-        </Grid>
-    </ScrollView>
+        </ScrollView>
 
+        <!-- Close button floating over hero area -->
+        <Button
+            Text="✕"
+            BackgroundColor="Transparent"
+            TextColor="White"
+            FontSize="18"
+            BorderWidth="0"
+            Padding="4"
+            MinimumHeightRequest="44"
+            MinimumWidthRequest="44"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            Margin="0,52,8,0"
+            Clicked="OnCloseClicked"/>
+
+    </Grid>
 </ContentPage>

@@ -5,36 +5,178 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MauiApp1.ViewModels"
     x:DataType="vm:HomeViewModel"
-    Title="Home"
+    Shell.NavBarIsVisible="False"
     BackgroundColor="{StaticResource AppBackground}">
 
-    <Grid>
-        <VerticalStackLayout
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            Spacing="16"
-            Padding="40">
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
 
-            <Image
-                Source="app_logo.png"
-                HeightRequest="88"
-                WidthRequest="88"
-                Aspect="AspectFit"
-                HorizontalOptions="Center"
-                Opacity="0.4"/>
+            <!-- Hero header -->
+            <Grid BackgroundColor="{StaticResource AppNavy}" Padding="24,52,24,32">
+                <VerticalStackLayout Spacing="6">
+                    <Image
+                        Source="app_logo.png"
+                        HeightRequest="52"
+                        WidthRequest="52"
+                        Aspect="AspectFit"
+                        HorizontalOptions="Start"
+                        Margin="0,0,0,10"/>
+                    <Label
+                        Text="Learn It All"
+                        TextColor="White"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="30"
+                        HorizontalTextAlignment="Start"/>
+                    <Label
+                        Text="Your knowledge library, anytime."
+                        TextColor="White"
+                        FontFamily="OpenSansRegular"
+                        FontSize="14"
+                        Opacity="0.7"/>
+                </VerticalStackLayout>
+            </Grid>
 
-            <Label
-                Text="Home"
-                Style="{StaticResource PageTitleStyle}"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"/>
+            <!-- Guest sign-in prompt -->
+            <Border
+                IsVisible="{Binding IsGuest}"
+                BackgroundColor="{StaticResource AppOrange}"
+                StrokeShape="Rectangle"
+                Stroke="Transparent"
+                Padding="24,14">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label
+                        Grid.Column="0"
+                        Text="Sign in to access your full library"
+                        TextColor="White"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="13"
+                        VerticalOptions="Center"/>
+                    <Label
+                        Grid.Column="1"
+                        Text="›"
+                        TextColor="White"
+                        FontSize="22"
+                        VerticalOptions="Center"/>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSignInBannerTapped"/>
+                </Border.GestureRecognizers>
+            </Border>
 
-            <Label
-                Text="Coming soon."
-                Style="{StaticResource MutedTextStyle}"
-                HorizontalTextAlignment="Center"/>
+            <!-- Quick actions -->
+            <VerticalStackLayout Padding="20,24,20,8" Spacing="12">
+
+                <Label
+                    Text="EXPLORE"
+                    Style="{StaticResource MutedTextStyle}"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="11"
+                    Margin="0,0,0,4"/>
+
+                <!-- Browse Library card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Padding="18,16">
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource AppSurfaceVariant}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent"
+                            HeightRequest="48"
+                            WidthRequest="48">
+                            <Label
+                                Text="📚"
+                                FontSize="22"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="14,0,0,0" VerticalOptions="Center">
+                            <Label Text="Browse Library" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource AppTextPrimary}"/>
+                            <Label Text="Discover books to learn from" Style="{StaticResource MutedTextStyle}" FontSize="12"/>
+                        </VerticalStackLayout>
+                        <Label
+                            Grid.Column="2"
+                            Text="›"
+                            FontSize="24"
+                            TextColor="{StaticResource AppTextMuted}"
+                            VerticalOptions="Center"/>
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BrowseLibraryCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <!-- My Library card -->
+                <Border Style="{StaticResource CardStyle}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Padding="18,16">
+                        <Border
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource AppSurfaceVariant}"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="Transparent"
+                            HeightRequest="48"
+                            WidthRequest="48">
+                            <Label
+                                Text="📖"
+                                FontSize="22"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Center"/>
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="14,0,0,0" VerticalOptions="Center">
+                            <Label Text="My Library" FontFamily="OpenSansSemibold" FontSize="15" TextColor="{StaticResource AppTextPrimary}"/>
+                            <Label Text="Your purchased books" Style="{StaticResource MutedTextStyle}" FontSize="12"/>
+                        </VerticalStackLayout>
+                        <Label
+                            Grid.Column="2"
+                            Text="›"
+                            FontSize="24"
+                            TextColor="{StaticResource AppTextMuted}"
+                            VerticalOptions="Center"/>
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MyLibraryCommand}"/>
+                    </Border.GestureRecognizers>
+                </Border>
+
+            </VerticalStackLayout>
+
+            <!-- Coming soon section -->
+            <VerticalStackLayout Padding="20,8,20,32" Spacing="12">
+
+                <Label
+                    Text="COMING SOON"
+                    Style="{StaticResource MutedTextStyle}"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="11"
+                    Margin="0,0,0,4"/>
+
+                <Border
+                    BackgroundColor="{StaticResource AppSurface}"
+                    StrokeShape="RoundRectangle 16"
+                    Stroke="{StaticResource AppDivider}"
+                    StrokeThickness="1"
+                    Padding="18,20">
+                    <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                        <Label
+                            Text="✨"
+                            FontSize="32"
+                            HorizontalOptions="Center"/>
+                        <Label
+                            Text="Featured Books"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="15"
+                            TextColor="{StaticResource AppTextPrimary}"
+                            HorizontalTextAlignment="Center"/>
+                        <Label
+                            Text="Curated picks and new arrivals will appear here."
+                            Style="{StaticResource MutedTextStyle}"
+                            FontSize="13"
+                            HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
-    </Grid>
+    </ScrollView>
 
 </ContentPage>

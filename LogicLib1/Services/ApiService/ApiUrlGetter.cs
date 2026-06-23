@@ -8,9 +8,10 @@ public class ApiUrlGetter : IApiUrlGetter
 
         return env switch
         {
-            "localhost"  => "http://localhost:7041",
-            "production" => "https://sample.azurewebsites.net/",
-            _            => throw new ArgumentException($"Unknown environment: {env}")
+            "localhost"        => "http://10.0.2.2:7041/api/",
+            "localhost-device" => "http://192.168.1.3:7041/api/",
+            "production"       => "https://sample.azurewebsites.net/api/",
+            _                  => throw new ArgumentException($"Unknown environment: {env}")
         };
     }
 }

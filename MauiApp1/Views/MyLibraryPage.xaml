@@ -6,149 +6,200 @@
     xmlns:vm="clr-namespace:MauiApp1.ViewModels"
     xmlns:models="clr-namespace:LogicLib1.Models.App;assembly=LogicLib1"
     x:DataType="vm:MyLibraryViewModel"
-    Title="My Library"
+    Shell.NavBarIsVisible="False"
     BackgroundColor="{StaticResource AppBackground}">
 
-    <Grid>
+    <Grid RowDefinitions="Auto,*">
 
-        <!-- Guest state -->
-        <VerticalStackLayout
-            IsVisible="{Binding IsGuest}"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"
-            Spacing="16"
-            Padding="40">
-
-            <Image
-                Source="app_logo.png"
-                HeightRequest="88"
-                WidthRequest="88"
-                Aspect="AspectFit"
-                HorizontalOptions="Center"
-                Opacity="0.5"/>
-
-            <Label
-                Text="Your Library Awaits"
-                Style="{StaticResource PageTitleStyle}"
-                FontSize="22"
-                HorizontalOptions="Center"
-                HorizontalTextAlignment="Center"/>
-
-            <Label
-                Text="Sign in to see your purchased books and start reading."
-                Style="{StaticResource BodyTextStyle}"
-                HorizontalTextAlignment="Center"/>
-
-            <Button
-                Text="Sign In"
-                Style="{StaticResource PrimaryButtonStyle}"
-                Command="{Binding NavigateToAuthCommand}"
-                Margin="0,8,0,0"/>
-
-        </VerticalStackLayout>
-
-        <!-- Authenticated state -->
+        <!-- Custom header -->
         <Grid
-            IsVisible="{Binding IsAuthenticated}"
-            RowDefinitions="*">
+            Grid.Row="0"
+            BackgroundColor="{StaticResource AppNavy}"
+            Padding="20,52,20,24">
+            <Label
+                Text="My Library"
+                TextColor="White"
+                FontFamily="OpenSansSemibold"
+                FontSize="26"/>
+        </Grid>
 
-            <!-- Loading overlay -->
-            <ActivityIndicator
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>
+        <!-- Content area -->
+        <Grid Grid.Row="1">
 
-            <!-- Empty library -->
+            <!-- Guest state -->
             <VerticalStackLayout
-                IsVisible="{Binding HasBooks, Converter={x:StaticResource InverseBoolConverter}}"
+                IsVisible="{Binding IsGuest}"
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
-                Spacing="12"
-                Padding="40">
+                Spacing="16"
+                Padding="36">
 
-                <Image
-                    Source="app_logo.png"
-                    HeightRequest="72"
-                    Opacity="0.4"
-                    HorizontalOptions="Center"/>
+                <Border
+                    BackgroundColor="{StaticResource AppSurfaceVariant}"
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent"
+                    HeightRequest="96"
+                    WidthRequest="96"
+                    HorizontalOptions="Center">
+                    <Label
+                        Text="📖"
+                        FontSize="44"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                </Border>
 
                 <Label
-                    Text="No books yet"
-                    Style="{StaticResource SectionTitleStyle}"
+                    Text="Your Library Awaits"
+                    FontFamily="OpenSansSemibold"
+                    FontSize="22"
+                    TextColor="{StaticResource AppNavy}"
                     HorizontalTextAlignment="Center"/>
 
                 <Label
-                    Text="Books you purchase will appear here."
-                    Style="{StaticResource MutedTextStyle}"
-                    HorizontalTextAlignment="Center"/>
+                    Text="Sign in to see the books you've purchased and start reading."
+                    Style="{StaticResource BodyTextStyle}"
+                    HorizontalTextAlignment="Center"
+                    LineBreakMode="WordWrap"/>
+
+                <Button
+                    Text="Sign In"
+                    Style="{StaticResource PrimaryButtonStyle}"
+                    Command="{Binding NavigateToAuthCommand}"
+                    Margin="0,8,0,0"/>
 
             </VerticalStackLayout>
 
-            <!-- Books grid -->
-            <CollectionView
-                ItemsSource="{Binding PurchasedBooks}"
-                IsVisible="{Binding HasBooks}"
-                Margin="12,12,12,0">
+            <!-- Authenticated state -->
+            <Grid IsVisible="{Binding IsAuthenticated}">
 
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout
-                        Orientation="Vertical"
-                        Span="2"
-                        HorizontalItemSpacing="10"
-                        VerticalItemSpacing="10"/>
-                </CollectionView.ItemsLayout>
+                <!-- Loading spinner -->
+                <ActivityIndicator
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"/>
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:BookMetadata">
-                        <Border Style="{StaticResource CardStyle}" Margin="0">
-                            <Grid RowDefinitions="150,Auto">
+                <!-- Empty library state -->
+                <VerticalStackLayout
+                    IsVisible="{Binding HasBooks, Converter={x:StaticResource InverseBoolConverter}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Spacing="14"
+                    Padding="40">
 
-                                <Border
-                                    Grid.Row="0"
-                                    BackgroundColor="{StaticResource AppSurfaceVariant}"
-                                    StrokeShape="RoundRectangle 12,12,0,0"
-                                    Stroke="Transparent"
-                                    StrokeThickness="0">
-                                    <Image Source="{Binding ImageCoverUrl}" Aspect="AspectFill"/>
-                                </Border>
+                    <Border
+                        BackgroundColor="{StaticResource AppSurfaceVariant}"
+                        StrokeShape="Ellipse"
+                        Stroke="Transparent"
+                        HeightRequest="96"
+                        WidthRequest="96"
+                        HorizontalOptions="Center">
+                        <Label
+                            Text="📦"
+                            FontSize="44"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+                    </Border>
 
-                                <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="4">
-                                    <Label
-                                        Text="{Binding Title}"
-                                        FontFamily="OpenSansSemibold"
-                                        FontSize="13"
-                                        TextColor="{StaticResource AppTextPrimary}"
-                                        MaxLines="2"
-                                        LineBreakMode="TailTruncation"/>
-                                    <Label
-                                        Text="{Binding Category}"
-                                        Style="{StaticResource MutedTextStyle}"
-                                        FontSize="11"
-                                        Margin="0,0,0,6"/>
-                                    <Button
-                                        Text="Read"
-                                        Style="{StaticResource SmallPrimaryButtonStyle}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ReadCommand}"
-                                        CommandParameter="{Binding .}"/>
-                                </VerticalStackLayout>
+                    <Label
+                        Text="No books yet"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="20"
+                        TextColor="{StaticResource AppNavy}"
+                        HorizontalTextAlignment="Center"/>
 
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                    <Label
+                        Text="Books you purchase will appear here. Head to the Library to find something great."
+                        Style="{StaticResource MutedTextStyle}"
+                        FontSize="13"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"/>
 
-            </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- Books grid -->
+                <CollectionView
+                    ItemsSource="{Binding PurchasedBooks}"
+                    IsVisible="{Binding HasBooks}"
+                    Margin="14,14,14,0">
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            Orientation="Vertical"
+                            Span="2"
+                            HorizontalItemSpacing="10"
+                            VerticalItemSpacing="12"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:BookMetadata">
+                            <Border Style="{StaticResource CardStyle}" Margin="0">
+                                <Grid RowDefinitions="160,Auto">
+
+                                    <Border
+                                        Grid.Row="0"
+                                        BackgroundColor="{StaticResource AppSurfaceVariant}"
+                                        StrokeShape="RoundRectangle 12,12,0,0"
+                                        Stroke="Transparent"
+                                        StrokeThickness="0">
+                                        <Grid>
+                                            <Image Source="{Binding ImageCoverUrl}" Aspect="AspectFill"
+                                                   IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
+                                            <Label
+                                                Text="📚"
+                                                FontSize="36"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                Opacity="0.4"
+                                                IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NullConverter}}"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Row="1" Padding="12,10,12,12" Spacing="4">
+                                        <Label
+                                            Text="{Binding Title}"
+                                            FontFamily="OpenSansSemibold"
+                                            FontSize="13"
+                                            TextColor="{StaticResource AppTextPrimary}"
+                                            MaxLines="2"
+                                            LineBreakMode="TailTruncation"/>
+                                        <Label
+                                            Text="{Binding Category}"
+                                            Style="{StaticResource MutedTextStyle}"
+                                            FontSize="11"
+                                            Margin="0,0,0,4"/>
+                                        <Button
+                                            Text="Read"
+                                            Style="{StaticResource SmallPrimaryButtonStyle}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ReadCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </VerticalStackLayout>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </Grid>
+
+            <!-- Error snackbar -->
+            <Border
+                IsVisible="{Binding HasError}"
+                BackgroundColor="{StaticResource AppError}"
+                StrokeShape="RoundRectangle 12"
+                Stroke="Transparent"
+                Padding="16,12"
+                Margin="16,0,16,24"
+                VerticalOptions="End">
+                <Label
+                    Text="{Binding ErrorMessage}"
+                    TextColor="White"
+                    FontSize="13"
+                    HorizontalTextAlignment="Center"/>
+            </Border>
+
         </Grid>
-
-        <!-- Error message -->
-        <Label
-            Text="{Binding ErrorMessage}"
-            Style="{StaticResource ErrorTextStyle}"
-            IsVisible="{Binding HasError}"
-            VerticalOptions="End"
-            HorizontalOptions="Center"
-            Margin="16,0,16,24"/>
-
     </Grid>
 </ContentPage>

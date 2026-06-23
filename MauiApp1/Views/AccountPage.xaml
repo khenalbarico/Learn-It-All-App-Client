@@ -5,172 +5,201 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MauiApp1.ViewModels"
     x:DataType="vm:AccountViewModel"
-    Title="Account"
+    Shell.NavBarIsVisible="False"
     BackgroundColor="{StaticResource AppBackground}">
 
-    <ScrollView>
-        <Grid Padding="0">
+    <Grid RowDefinitions="Auto,*">
 
-            <!-- Guest state -->
-            <VerticalStackLayout
-                IsVisible="{Binding IsGuest}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                Spacing="16"
-                Padding="40"
-                Margin="0,80,0,0">
+        <!-- Custom header (always visible) -->
+        <Grid
+            Grid.Row="0"
+            BackgroundColor="{StaticResource AppNavy}"
+            Padding="20,52,20,24">
+            <Label
+                Text="Account"
+                TextColor="White"
+                FontFamily="OpenSansSemibold"
+                FontSize="26"/>
+        </Grid>
 
-                <Image
-                    Source="app_logo.png"
-                    HeightRequest="88"
-                    WidthRequest="88"
-                    Aspect="AspectFit"
+        <!-- Content -->
+        <ScrollView Grid.Row="1">
+            <Grid>
+
+                <!-- Guest state -->
+                <VerticalStackLayout
+                    IsVisible="{Binding IsGuest}"
+                    VerticalOptions="Center"
                     HorizontalOptions="Center"
-                    Opacity="0.5"/>
+                    Spacing="16"
+                    Padding="36"
+                    Margin="0,32,0,0">
 
-                <Label
-                    Text="Sign In to Your Account"
-                    Style="{StaticResource PageTitleStyle}"
-                    FontSize="22"
-                    HorizontalOptions="Center"
-                    HorizontalTextAlignment="Center"/>
-
-                <Label
-                    Text="Access your profile, subscription, and account settings."
-                    Style="{StaticResource BodyTextStyle}"
-                    HorizontalTextAlignment="Center"/>
-
-                <Button
-                    Text="Sign In"
-                    Style="{StaticResource PrimaryButtonStyle}"
-                    Command="{Binding NavigateToAuthCommand}"
-                    Margin="0,8,0,0"/>
-
-            </VerticalStackLayout>
-
-            <!-- Authenticated state -->
-            <VerticalStackLayout
-                IsVisible="{Binding IsAuthenticated}"
-                Spacing="0">
-
-                <!-- Profile header card -->
-                <Grid
-                    BackgroundColor="{StaticResource AppNavy}"
-                    Padding="24,48,24,32">
-
-                    <VerticalStackLayout HorizontalOptions="Center" Spacing="10">
-
-                        <!-- Avatar circle -->
-                        <Border
-                            BackgroundColor="{StaticResource AppOrange}"
-                            StrokeShape="Ellipse"
-                            Stroke="Transparent"
-                            HeightRequest="72"
-                            WidthRequest="72"
-                            HorizontalOptions="Center">
-                            <Label
-                                Text="{Binding DisplayName[0], StringFormat='{0}'}"
-                                TextColor="White"
-                                FontFamily="OpenSansSemibold"
-                                FontSize="28"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Center"/>
-                        </Border>
-
+                    <Border
+                        BackgroundColor="{StaticResource AppSurfaceVariant}"
+                        StrokeShape="Ellipse"
+                        Stroke="Transparent"
+                        HeightRequest="96"
+                        WidthRequest="96"
+                        HorizontalOptions="Center">
                         <Label
-                            Text="{Binding DisplayName}"
-                            Style="{StaticResource OnDarkTitleStyle}"
-                            FontSize="20"/>
-
-                        <Label
-                            Text="{Binding UserInfo.Email}"
-                            Style="{StaticResource OnDarkLabelStyle}"
-                            FontSize="13"
-                            Opacity="0.75"
-                            HorizontalTextAlignment="Center"/>
-
-                        <!-- Subscription badge -->
-                        <Border
-                            BackgroundColor="{StaticResource AppOrange}"
-                            StrokeShape="RoundRectangle 20"
-                            Stroke="Transparent"
-                            Padding="14,6"
-                            HorizontalOptions="Center">
-                            <Label
-                                Text="{Binding SubscriptionLabel}"
-                                TextColor="White"
-                                FontFamily="OpenSansSemibold"
-                                FontSize="12"/>
-                        </Border>
-
-                    </VerticalStackLayout>
-                </Grid>
-
-                <!-- Info section -->
-                <VerticalStackLayout Padding="20,20,20,0" Spacing="12">
-
-                    <Label Text="PROFILE INFO" Style="{StaticResource MutedTextStyle}" FontFamily="OpenSansSemibold" FontSize="11" Margin="0,0,0,4"/>
-
-                    <!-- First name -->
-                    <Border Style="{StaticResource CardStyle}" Padding="16,14">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <VerticalStackLayout Grid.Column="0" Spacing="2">
-                                <Label Text="First Name" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
-                                <Label Text="{Binding UserInfo.FirstName}" FontFamily="OpenSansSemibold" FontSize="15"/>
-                            </VerticalStackLayout>
-                        </Grid>
+                            Text="👤"
+                            FontSize="44"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
                     </Border>
 
-                    <!-- Last name -->
-                    <Border Style="{StaticResource CardStyle}" Padding="16,14">
-                        <VerticalStackLayout Spacing="2">
-                            <Label Text="Last Name" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
-                            <Label Text="{Binding UserInfo.LastName}" FontFamily="OpenSansSemibold" FontSize="15"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Phone -->
-                    <Border Style="{StaticResource CardStyle}" Padding="16,14">
-                        <VerticalStackLayout Spacing="2">
-                            <Label Text="Phone Number" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
-                            <Label Text="{Binding UserInfo.PhoneNumber}" FontFamily="OpenSansSemibold" FontSize="15"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Email -->
-                    <Border Style="{StaticResource CardStyle}" Padding="16,14">
-                        <VerticalStackLayout Spacing="2">
-                            <Label Text="Email" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
-                            <Label Text="{Binding UserInfo.Email}" FontFamily="OpenSansSemibold" FontSize="15"/>
-                        </VerticalStackLayout>
-                    </Border>
-
-                    <!-- Error -->
                     <Label
-                        Text="{Binding ErrorMessage}"
-                        Style="{StaticResource ErrorTextStyle}"
-                        IsVisible="{Binding HasError}"
-                        Margin="0,4,0,0"/>
+                        Text="Sign In to Your Account"
+                        FontFamily="OpenSansSemibold"
+                        FontSize="22"
+                        TextColor="{StaticResource AppNavy}"
+                        HorizontalTextAlignment="Center"/>
 
-                    <!-- Sign out -->
+                    <Label
+                        Text="Access your profile, subscription details, and account settings."
+                        Style="{StaticResource BodyTextStyle}"
+                        HorizontalTextAlignment="Center"
+                        LineBreakMode="WordWrap"/>
+
                     <Button
-                        Text="Sign Out"
-                        Style="{StaticResource OutlineButtonStyle}"
-                        Command="{Binding SignOutCommand}"
-                        Margin="0,16,0,32"/>
+                        Text="Sign In"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding NavigateToAuthCommand}"
+                        Margin="0,8,0,0"/>
 
                 </VerticalStackLayout>
 
-            </VerticalStackLayout>
+                <!-- Authenticated state -->
+                <VerticalStackLayout
+                    IsVisible="{Binding IsAuthenticated}"
+                    Spacing="0">
 
-            <!-- Loading overlay -->
-            <ActivityIndicator
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>
+                    <!-- Profile hero card -->
+                    <Border
+                        BackgroundColor="{StaticResource AppSurface}"
+                        StrokeShape="RoundRectangle 0,0,24,24"
+                        Stroke="Transparent"
+                        Margin="0,0,0,0">
+                        <VerticalStackLayout
+                            HorizontalOptions="Center"
+                            Spacing="10"
+                            Padding="24,28,24,28">
 
-        </Grid>
-    </ScrollView>
+                            <!-- Avatar circle -->
+                            <Border
+                                BackgroundColor="{StaticResource AppOrange}"
+                                StrokeShape="Ellipse"
+                                Stroke="White"
+                                StrokeThickness="3"
+                                HeightRequest="80"
+                                WidthRequest="80"
+                                HorizontalOptions="Center">
+                                <Label
+                                    Text="{Binding DisplayName[0], StringFormat='{0}'}"
+                                    TextColor="White"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="32"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"/>
+                            </Border>
+
+                            <Label
+                                Text="{Binding DisplayName}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="20"
+                                TextColor="{StaticResource AppNavy}"
+                                HorizontalTextAlignment="Center"/>
+
+                            <Label
+                                Text="{Binding UserInfo.Email}"
+                                Style="{StaticResource MutedTextStyle}"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"/>
+
+                            <!-- Subscription badge -->
+                            <Border
+                                BackgroundColor="{StaticResource AppNavy}"
+                                StrokeShape="RoundRectangle 20"
+                                Stroke="Transparent"
+                                Padding="16,6"
+                                HorizontalOptions="Center">
+                                <Label
+                                    Text="{Binding SubscriptionLabel}"
+                                    TextColor="White"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="12"/>
+                            </Border>
+
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Profile info rows -->
+                    <VerticalStackLayout Padding="20,20,20,0" Spacing="10">
+
+                        <Label
+                            Text="PROFILE INFO"
+                            Style="{StaticResource MutedTextStyle}"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="11"
+                            Margin="0,0,0,2"/>
+
+                        <Border Style="{StaticResource CardStyle}" Padding="16,14">
+                            <Grid ColumnDefinitions="*,*">
+                                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                    <Label Text="First Name" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
+                                    <Label Text="{Binding UserInfo.FirstName}" FontFamily="OpenSansSemibold" FontSize="15"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Label Text="Last Name" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
+                                    <Label Text="{Binding UserInfo.LastName}" FontFamily="OpenSansSemibold" FontSize="15"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}" Padding="16,14">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Phone Number" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
+                                <Label Text="{Binding UserInfo.PhoneNumber}" FontFamily="OpenSansSemibold" FontSize="15"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border Style="{StaticResource CardStyle}" Padding="16,14">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Email Address" Style="{StaticResource MutedTextStyle}" FontSize="11"/>
+                                <Label Text="{Binding UserInfo.Email}" FontFamily="OpenSansSemibold" FontSize="15"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Error -->
+                        <Label
+                            Text="{Binding ErrorMessage}"
+                            Style="{StaticResource ErrorTextStyle}"
+                            IsVisible="{Binding HasError}"
+                            Margin="0,4,0,0"/>
+
+                        <!-- Sign out -->
+                        <Button
+                            Text="Sign Out"
+                            Style="{StaticResource OutlineButtonStyle}"
+                            Command="{Binding SignOutCommand}"
+                            Margin="0,16,0,32"/>
+
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+
+                <!-- Loading overlay -->
+                <ActivityIndicator
+                    IsRunning="{Binding IsBusy}"
+                    IsVisible="{Binding IsBusy}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Margin="0,80,0,0"/>
+
+            </Grid>
+        </ScrollView>
+
+    </Grid>
 
 </ContentPage>

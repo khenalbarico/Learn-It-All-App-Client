@@ -23,7 +23,8 @@ public static class MauiProgram
         builder.Services.RegisterServices();
 
 #if DEBUG
-        builder.Services.AddCustomHttpClient("localhost");
+        var env = DeviceInfo.DeviceType == DeviceType.Virtual ? "localhost" : "localhost-device";
+        builder.Services.AddCustomHttpClient(env);
         builder.Logging.AddDebug();
 #else
         builder.Services.AddCustomHttpClient("production");

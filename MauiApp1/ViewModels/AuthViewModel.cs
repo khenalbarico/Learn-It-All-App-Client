@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
 using LogicLib1.Services.App;
 using LogicLib1.Services.AuthService;
-using Microsoft.Maui.Graphics;
 
 namespace MauiApp1.ViewModels;
 
@@ -23,8 +22,6 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
     private string   _passwordError = string.Empty;
     private bool     _validationEnabled;
 
-    // ── Mode ────────────────────────────────────────────────────────────────
-
     public AuthMode Mode
     {
         get => _mode;
@@ -42,6 +39,8 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
             OnPropertyChanged(nameof(ShowEmailPasswordFields));
             OnPropertyChanged(nameof(ShowToggleLink));
             OnPropertyChanged(nameof(ShowPasswordStrength));
+            OnPropertyChanged(nameof(TogglePromptText));
+            OnPropertyChanged(nameof(ToggleLinkText));
         }
     }
 
@@ -83,7 +82,6 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
         ? "Don't have an account? Register"
         : "Already have an account? Sign In";
 
-    // ── Fields ──────────────────────────────────────────────────────────────
 
     public string Email
     {
@@ -104,6 +102,9 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
             OnPropertyChanged(nameof(PasswordStrengthText));
             OnPropertyChanged(nameof(PasswordStrengthColor));
             OnPropertyChanged(nameof(ShowPasswordStrength));
+            OnPropertyChanged(nameof(StrengthSeg1Color));
+            OnPropertyChanged(nameof(StrengthSeg2Color));
+            OnPropertyChanged(nameof(StrengthSeg3Color));
             if (_validationEnabled) ValidatePassword();
         }
     }
@@ -117,8 +118,6 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
         get => _isPasswordVisible;
         set => SetProperty(ref _isPasswordVisible, value);
     }
-
-    // ── Validation ──────────────────────────────────────────────────────────
 
     public string EmailError
     {
@@ -162,10 +161,25 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
 
     public bool ShowPasswordStrength => IsRegisterMode && _password.Length > 0;
 
+    private static readonly Color _strengthEmpty = Color.FromArgb("#E5EAF2");
+
+    public Color StrengthSeg1Color => _password.Length > 0
+        ? PasswordStrengthColor : _strengthEmpty;
+
+    public Color StrengthSeg2Color => _password.Length >= 6
+        ? PasswordStrengthColor : _strengthEmpty;
+
+    public Color StrengthSeg3Color => _password.Length >= 8 && HasMixedCharacters(_password)
+        ? PasswordStrengthColor : _strengthEmpty;
+
+    public string TogglePromptText => Mode == AuthMode.Login
+        ? "Don't have an account?"
+        : "Already have an account?";
+
+    public string ToggleLinkText => Mode == AuthMode.Login ? "Register" : "Sign In";
+
     private static bool HasMixedCharacters(string s)
         => s.Any(char.IsUpper) && (s.Any(char.IsDigit) || s.Any(c => !char.IsLetterOrDigit(c)));
-
-    // ── Status ───────────────────────────────────────────────────────────────
 
     public string StatusMessage
     {
@@ -179,7 +193,6 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
 
     public bool HasStatus => !string.IsNullOrEmpty(StatusMessage);
 
-    // ── Commands ─────────────────────────────────────────────────────────────
 
     public Func<Task>? AuthCompleted { get; set; }
 
@@ -199,7 +212,6 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
 
     public Command ResendVerificationCommand => new(async () => await OnResendVerificationAsync(), () => !IsBusy);
 
-    // ── Submit logic ─────────────────────────────────────────────────────────
 
     private async Task OnSubmitAsync()
     {
