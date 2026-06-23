@@ -23,6 +23,7 @@ public static class MauiProgram
 
         // Services
         builder.Services.AddSingleton<IAuthPersistence, SecureStorageAuthPersistence>();
+        builder.Services.AddSingleton<UserSession>();
         builder.Services.RegisterServices();
 
 #if DEBUG

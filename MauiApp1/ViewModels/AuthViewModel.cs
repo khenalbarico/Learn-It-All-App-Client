@@ -1,12 +1,13 @@
 using System.Text.RegularExpressions;
 using LogicLib1.Services.App;
 using LogicLib1.Services.AuthService;
+using MauiApp1.Services;
 
 namespace MauiApp1.ViewModels;
 
 public enum AuthMode { Login, Register, VerifyEmail, ProfileSetup }
 
-public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : BaseViewModel
+public class AuthViewModel(IAppAuthentication _auth, IAppService _appService, UserSession _userSession) : BaseViewModel
 {
     private static readonly Regex EmailRegex = new(@"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.Compiled);
 
@@ -232,7 +233,10 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
                 if (existing is null)
                     Mode = AuthMode.ProfileSetup;
                 else
+                {
+                    _userSession.UserInfo = existing;
                     await CompleteAuthAsync();
+                }
             }
             else if (Mode == AuthMode.Register)
             {
@@ -246,12 +250,16 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
                 if (existing is null)
                     Mode = AuthMode.ProfileSetup;
                 else
+                {
+                    _userSession.UserInfo = existing;
                     await CompleteAuthAsync();
+                }
             }
             else if (Mode == AuthMode.ProfileSetup)
             {
                 if (!ValidateProfileFields()) return;
                 await _appService.CreateUser(_firstName, _lastName, _phoneNumber);
+                _userSession.UserInfo = await _appService.TryGetUserInfo();
                 await CompleteAuthAsync();
             }
         }

@@ -1,8 +1,10 @@
+using LogicLib1.Services.App;
 using LogicLib1.Services.AuthService;
+using MauiApp1.Services;
 
 namespace MauiApp1.ViewModels;
 
-public class LoadingViewModel(IAppAuthentication _auth) : BaseViewModel
+public class LoadingViewModel(IAppAuthentication _auth, IAppService _appService, UserSession _userSession) : BaseViewModel
 {
     private string _statusMessage = "Loading...";
 
@@ -15,9 +17,18 @@ public class LoadingViewModel(IAppAuthentication _auth) : BaseViewModel
     public async Task InitializeAsync()
     {
         IsBusy = true;
+
         StatusMessage = "Restoring session...";
         try { await _auth.TryRestoreSessionAsync(); }
         catch { }
+
+        if (_auth.IsAuthenticated)
+        {
+            StatusMessage = "Loading your profile...";
+            try { _userSession.UserInfo = await _appService.TryGetUserInfo(); }
+            catch { }
+        }
+
         IsBusy = false;
     }
 }
