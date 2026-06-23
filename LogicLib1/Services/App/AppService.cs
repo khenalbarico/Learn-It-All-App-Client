@@ -36,4 +36,13 @@ public class AppService(IApiClient _api) : IAppService
             LastName    = lastName,
             PhoneNumber = phoneNumber
         });
+
+    public Task RecordPurchase(string bookUid, string orderId, string purchaseToken, decimal priceAtPurchase)
+        => _api.SubmitAsync(ApiFunctions.RecordPurchase, new
+        {
+            BookUid          = bookUid,
+            OrderId          = orderId,
+            PurchaseToken    = purchaseToken,
+            PriceAtPurchase  = priceAtPurchase
+        });
 }

@@ -10,5 +10,6 @@ public class ApiRouting
         [ApiFunctions.GetAllBooks]        = "GetAllBooks",
         [ApiFunctions.GetBooksByCategory] = "GetBooksByCategory",
         [ApiFunctions.CreateUser]         = "CreateUser",
+        [ApiFunctions.RecordPurchase]     = "RecordPurchase",
     };
 }
