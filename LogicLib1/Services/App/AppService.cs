@@ -23,4 +23,12 @@ public class AppService(IApiClient _api) : IAppService
             return null;
         }
     }
+
+    public Task CreateUser(string firstName, string lastName, string phoneNumber)
+        => _api.SubmitAsync(ApiFunctions.CreateUser, new
+        {
+            FirstName   = firstName,
+            LastName    = lastName,
+            PhoneNumber = phoneNumber
+        });
 }

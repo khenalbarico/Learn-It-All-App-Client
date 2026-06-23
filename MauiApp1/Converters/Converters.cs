@@ -34,7 +34,7 @@ public class NotNullToBoolConverter : IValueConverter
 public class BoolToEyeIconConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        => value is true ? "🙈" : "👁";
+        => value is true ? "Hide" : "Show";
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         => throw new NotImplementedException();

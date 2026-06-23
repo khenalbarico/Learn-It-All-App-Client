@@ -6,4 +6,5 @@ public interface IAppService
 {
     Task<List<BookMetadata>> GetAllBooks();
     Task<UserInfo?> TryGetUserInfo();
+    Task CreateUser(string firstName, string lastName, string phoneNumber);
 }

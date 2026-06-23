@@ -11,6 +11,7 @@ public interface IAppAuthentication
     Task<AuthResult> CheckEmailVerifiedAsync();
     Task SendEmailVerificationAsync();
     Task<AuthResult> RefreshAsync();
+    Task<bool> TryRestoreSessionAsync();
     bool IsAuthenticated { get; }
     void SignOut();
 }

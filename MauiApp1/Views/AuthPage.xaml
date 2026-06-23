@@ -5,25 +5,81 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MauiApp1.ViewModels"
     x:DataType="vm:AuthViewModel"
-    BackgroundColor="{StaticResource AppNavy}"
     Shell.NavBarIsVisible="False">
+
+    <!-- Deep gradient background -->
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
+            <GradientStop Color="#0D1830" Offset="0.0"/>
+            <GradientStop Color="#1A3660" Offset="0.5"/>
+            <GradientStop Color="#2A5298" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <Grid>
 
-        <!-- Scrollable content (logo hero + white form card) -->
+        <!-- Decorative orb — top right (blue-indigo glow) -->
+        <Border
+            HeightRequest="320" WidthRequest="320"
+            StrokeShape="Ellipse"
+            Stroke="Transparent" StrokeThickness="0"
+            HorizontalOptions="End" VerticalOptions="Start"
+            Margin="0,-100,-120,0"
+            InputTransparent="True">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                    <GradientStop Color="#603A78D0" Offset="0.0"/>
+                    <GradientStop Color="#002A5298" Offset="1.0"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Decorative orb — bottom left (amber glow) -->
+        <Border
+            HeightRequest="240" WidthRequest="240"
+            StrokeShape="Ellipse"
+            Stroke="Transparent" StrokeThickness="0"
+            HorizontalOptions="Start" VerticalOptions="End"
+            Margin="-80,0,0,-80"
+            InputTransparent="True">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                    <GradientStop Color="#50F5A623" Offset="0.0"/>
+                    <GradientStop Color="#00F5A623" Offset="1.0"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Decorative orb — top left (subtle navy accent) -->
+        <Border
+            HeightRequest="140" WidthRequest="140"
+            StrokeShape="Ellipse"
+            Stroke="Transparent" StrokeThickness="0"
+            HorizontalOptions="Start" VerticalOptions="Start"
+            Margin="-50,120,0,0"
+            InputTransparent="True">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                    <GradientStop Color="#405B8DD6" Offset="0.0"/>
+                    <GradientStop Color="#005B8DD6" Offset="1.0"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Scrollable content -->
         <ScrollView>
             <VerticalStackLayout Spacing="0">
 
-                <!-- ── Navy hero ───────────────────────────────── -->
+                <!-- ── Hero section (on gradient) ─────────────── -->
                 <VerticalStackLayout
                     HorizontalOptions="Center"
                     Spacing="10"
-                    Padding="48,64,48,32">
+                    Padding="48,76,48,40">
 
                     <Image
                         Source="app_logo.png"
-                        HeightRequest="60"
-                        WidthRequest="60"
+                        HeightRequest="68"
+                        WidthRequest="68"
                         Aspect="AspectFit"
                         HorizontalOptions="Center"
                         Margin="0,0,0,6"/>
@@ -32,13 +88,13 @@
                         Text="{Binding FormTitle}"
                         TextColor="White"
                         FontFamily="OpenSansSemibold"
-                        FontSize="26"
+                        FontSize="28"
                         HorizontalTextAlignment="Center"/>
 
                     <Label
                         Text="{Binding FormSubtitle}"
                         TextColor="White"
-                        Opacity="0.7"
+                        Opacity="0.72"
                         FontFamily="OpenSansRegular"
                         FontSize="14"
                         HorizontalTextAlignment="Center"
@@ -46,48 +102,60 @@
 
                 </VerticalStackLayout>
 
-                <!-- ── White form card ─────────────────────────── -->
+                <!-- ── Glass form card ────────────────────────── -->
                 <Border
-                    BackgroundColor="{StaticResource AppSurface}"
-                    StrokeShape="RoundRectangle 28,28,0,0"
-                    Stroke="Transparent"
-                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 32,32,0,0"
+                    Stroke="#28FFFFFF"
+                    StrokeThickness="1.5"
                     Padding="28,36,28,64"
-                    MinimumHeightRequest="680">
+                    MinimumHeightRequest="620">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#F2F6FF" Offset="0.0"/>
+                            <GradientStop Color="#F9FAFF" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.Shadow>
+                        <Shadow Brush="{StaticResource AppNavyBrush}" Offset="0,-6" Radius="32" Opacity="0.18"/>
+                    </Border.Shadow>
 
                     <VerticalStackLayout Spacing="0">
 
-                        <!-- ── Verify Email section ──────────────── -->
+                        <!-- ── Verify Email ──────────────────────── -->
                         <VerticalStackLayout
                             IsVisible="{Binding IsVerifyEmailMode}"
-                            Spacing="14"
+                            Spacing="16"
                             HorizontalOptions="Center"
-                            Margin="0,0,0,24">
+                            Margin="0,0,0,28">
 
                             <Border
-                                BackgroundColor="{StaticResource AppSurfaceVariant}"
+                                BackgroundColor="#E8F0FF"
                                 StrokeShape="Ellipse"
-                                Stroke="Transparent"
-                                HeightRequest="88"
-                                WidthRequest="88"
+                                Stroke="#B8CFFF"
+                                StrokeThickness="1.5"
+                                HeightRequest="92"
+                                WidthRequest="92"
                                 HorizontalOptions="Center">
                                 <Label
-                                    Text="✉"
-                                    FontSize="40"
-                                    TextColor="{StaticResource AppNavy}"
+                                    Text="@"
+                                    FontSize="38"
+                                    FontFamily="OpenSansSemibold"
+                                    TextColor="{StaticResource AppBlue}"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center"/>
                             </Border>
 
                             <Label
-                                Text="We sent a link to:"
-                                Style="{StaticResource MutedTextStyle}"
+                                Text="A verification link was sent to:"
+                                TextColor="{StaticResource AppTextSecondary}"
+                                FontSize="14"
                                 HorizontalTextAlignment="Center"/>
 
                             <Border
-                                BackgroundColor="{StaticResource AppSurfaceVariant}"
+                                BackgroundColor="#E8F0FF"
                                 StrokeShape="RoundRectangle 10"
-                                Stroke="{StaticResource AppDivider}"
+                                Stroke="#B8CFFF"
+                                StrokeThickness="1"
                                 Padding="20,10"
                                 HorizontalOptions="Center">
                                 <Label
@@ -99,115 +167,144 @@
                             </Border>
 
                             <Label
-                                Text="Open the link in your inbox, then tap the button below to continue."
-                                Style="{StaticResource MutedTextStyle}"
+                                Text="Click the link in your inbox, then tap the button below."
+                                TextColor="{StaticResource AppTextMuted}"
                                 FontSize="13"
                                 HorizontalTextAlignment="Center"
                                 LineBreakMode="WordWrap"/>
 
                         </VerticalStackLayout>
 
-                        <!-- ── Profile Setup section ─────────────── -->
+                        <!-- ── Profile Setup ─────────────────────── -->
                         <VerticalStackLayout
                             IsVisible="{Binding IsProfileSetupMode}"
                             Spacing="0"
                             Margin="0,0,0,20">
 
-                            <Label
-                                Text="First Name"
-                                TextColor="{StaticResource AppTextSecondary}"
-                                FontFamily="OpenSansSemibold"
-                                FontSize="12"
-                                Margin="0,0,0,6"/>
-                            <Border Style="{StaticResource EntryBorderStyle}">
-                                <Grid ColumnDefinitions="Auto,*">
-                                    <Label Grid.Column="0" Text="👤" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
-                                    <Entry Grid.Column="1" Placeholder="Enter your first name" Text="{Binding FirstName}"/>
-                                </Grid>
+                            <!-- Required notice -->
+                            <Border
+                                BackgroundColor="#E8F0FF"
+                                StrokeShape="RoundRectangle 12"
+                                Stroke="#B8CFFF"
+                                StrokeThickness="1"
+                                Padding="16,13"
+                                Margin="0,0,0,26">
+                                <Label
+                                    Text="Please complete your profile to continue — this step is required."
+                                    TextColor="{StaticResource AppNavyLight}"
+                                    FontSize="13"
+                                    LineBreakMode="WordWrap"
+                                    HorizontalTextAlignment="Center"/>
                             </Border>
 
+                            <!-- First Name -->
                             <Label
-                                Text="Last Name"
+                                Text="FIRST NAME"
                                 TextColor="{StaticResource AppTextSecondary}"
                                 FontFamily="OpenSansSemibold"
-                                FontSize="12"
-                                Margin="0,18,0,6"/>
-                            <Border Style="{StaticResource EntryBorderStyle}">
-                                <Grid ColumnDefinitions="Auto,*">
-                                    <Label Grid.Column="0" Text="👤" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
-                                    <Entry Grid.Column="1" Placeholder="Enter your last name" Text="{Binding LastName}"/>
-                                </Grid>
+                                FontSize="11"
+                                CharacterSpacing="1.2"
+                                Margin="2,0,0,8"/>
+                            <Border Style="{StaticResource GlassEntryBorderStyle}">
+                                <Entry
+                                    Placeholder="Enter your first name"
+                                    Text="{Binding FirstName}"
+                                    ReturnType="Next"/>
                             </Border>
 
+                            <!-- Last Name -->
                             <Label
-                                Text="Phone Number"
+                                Text="LAST NAME"
                                 TextColor="{StaticResource AppTextSecondary}"
                                 FontFamily="OpenSansSemibold"
-                                FontSize="12"
-                                Margin="0,18,0,6"/>
-                            <Border Style="{StaticResource EntryBorderStyle}">
-                                <Grid ColumnDefinitions="Auto,*">
-                                    <Label Grid.Column="0" Text="📱" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
-                                    <Entry Grid.Column="1" Placeholder="+1 234 567 8900" Text="{Binding PhoneNumber}" Keyboard="Telephone"/>
-                                </Grid>
+                                FontSize="11"
+                                CharacterSpacing="1.2"
+                                Margin="2,22,0,8"/>
+                            <Border Style="{StaticResource GlassEntryBorderStyle}">
+                                <Entry
+                                    Placeholder="Enter your last name"
+                                    Text="{Binding LastName}"
+                                    ReturnType="Next"/>
+                            </Border>
+
+                            <!-- Phone Number -->
+                            <Label
+                                Text="PHONE NUMBER"
+                                TextColor="{StaticResource AppTextSecondary}"
+                                FontFamily="OpenSansSemibold"
+                                FontSize="11"
+                                CharacterSpacing="1.2"
+                                Margin="2,22,0,8"/>
+                            <Border Style="{StaticResource GlassEntryBorderStyle}">
+                                <Entry
+                                    Placeholder="+1 234 567 8900"
+                                    Text="{Binding PhoneNumber}"
+                                    Keyboard="Telephone"
+                                    ReturnType="Done"/>
                             </Border>
 
                         </VerticalStackLayout>
 
-                        <!-- ── Email / Password section ───────────── -->
+                        <!-- ── Email / Password ──────────────────── -->
                         <VerticalStackLayout
                             IsVisible="{Binding ShowEmailPasswordFields}"
                             Spacing="0"
                             Margin="0,0,0,4">
 
-                            <!-- Email field -->
+                            <!-- Email -->
                             <Label
-                                Text="Email Address"
+                                Text="EMAIL ADDRESS"
                                 TextColor="{StaticResource AppTextSecondary}"
                                 FontFamily="OpenSansSemibold"
-                                FontSize="12"
-                                Margin="0,0,0,6"/>
+                                FontSize="11"
+                                CharacterSpacing="1.2"
+                                Margin="2,0,0,8"/>
                             <Border
-                                Style="{StaticResource EntryBorderStyle}"
+                                Style="{StaticResource GlassEntryBorderStyle}"
                                 Stroke="{Binding HasEmailError, Converter={StaticResource ErrorBorderBrushConverter}}">
-                                <Grid ColumnDefinitions="Auto,*">
-                                    <Label Grid.Column="0" Text="✉" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
-                                    <Entry Grid.Column="1" Placeholder="you@example.com" Text="{Binding Email}" Keyboard="Email"/>
-                                </Grid>
+                                <Entry
+                                    Placeholder="you@example.com"
+                                    Text="{Binding Email}"
+                                    Keyboard="Email"
+                                    ReturnType="Next"/>
                             </Border>
                             <Label
                                 Text="{Binding EmailError}"
                                 Style="{StaticResource ErrorTextStyle}"
                                 HorizontalTextAlignment="Start"
                                 IsVisible="{Binding HasEmailError}"
-                                Margin="2,4,0,6"/>
+                                Margin="2,7,0,0"/>
 
-                            <!-- Password field -->
+                            <!-- Password -->
                             <Label
-                                Text="Password"
+                                Text="PASSWORD"
                                 TextColor="{StaticResource AppTextSecondary}"
                                 FontFamily="OpenSansSemibold"
-                                FontSize="12"
-                                Margin="0,14,0,6"/>
+                                FontSize="11"
+                                CharacterSpacing="1.2"
+                                Margin="2,22,0,8"/>
                             <Border
-                                Style="{StaticResource EntryBorderStyle}"
+                                Style="{StaticResource GlassEntryBorderStyle}"
                                 Stroke="{Binding HasPasswordError, Converter={StaticResource ErrorBorderBrushConverter}}">
-                                <Grid ColumnDefinitions="Auto,*,Auto">
-                                    <Label Grid.Column="0" Text="🔒" FontSize="16" TextColor="{StaticResource AppTextMuted}" VerticalOptions="Center" Margin="0,0,8,0"/>
+                                <Grid ColumnDefinitions="*,Auto">
                                     <Entry
-                                        Grid.Column="1"
+                                        Grid.Column="0"
                                         Placeholder="Enter password"
                                         Text="{Binding Password}"
-                                        IsPassword="{Binding IsPasswordVisible, Converter={x:StaticResource InverseBoolConverter}}"/>
-                                    <Button
-                                        Grid.Column="2"
-                                        Text="{Binding IsPasswordVisible, Converter={x:StaticResource BoolToEyeIconConverter}}"
-                                        Style="{StaticResource GhostButtonStyle}"
-                                        TextColor="{StaticResource AppTextSecondary}"
-                                        FontSize="16"
-                                        Command="{Binding TogglePasswordVisibilityCommand}"
+                                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
+                                        ReturnType="Done"/>
+                                    <Label
+                                        Grid.Column="1"
+                                        Text="{Binding IsPasswordVisible, Converter={StaticResource BoolToEyeIconConverter}}"
+                                        TextColor="{StaticResource AppBlue}"
+                                        FontFamily="OpenSansSemibold"
+                                        FontSize="12"
                                         VerticalOptions="Center"
-                                        Padding="4,0"/>
+                                        Padding="12,0,2,0">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}"/>
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                 </Grid>
                             </Border>
                             <Label
@@ -215,13 +312,13 @@
                                 Style="{StaticResource ErrorTextStyle}"
                                 HorizontalTextAlignment="Start"
                                 IsVisible="{Binding HasPasswordError}"
-                                Margin="2,4,0,0"/>
+                                Margin="2,7,0,0"/>
 
-                            <!-- Password strength bar (register mode only) -->
+                            <!-- Password strength bar -->
                             <Grid
-                                ColumnDefinitions="*,4,*,4,*"
+                                ColumnDefinitions="*,6,*,6,*"
                                 HeightRequest="4"
-                                Margin="0,10,0,0"
+                                Margin="0,14,0,0"
                                 IsVisible="{Binding ShowPasswordStrength}">
                                 <BoxView Grid.Column="0" CornerRadius="2" BackgroundColor="{Binding StrengthSeg1Color}"/>
                                 <BoxView Grid.Column="2" CornerRadius="2" BackgroundColor="{Binding StrengthSeg2Color}"/>
@@ -230,36 +327,36 @@
                             <Label
                                 Text="{Binding PasswordStrengthText}"
                                 FontSize="12"
-                                FontFamily="OpenSansRegular"
                                 TextColor="{Binding PasswordStrengthColor}"
                                 IsVisible="{Binding ShowPasswordStrength}"
-                                Margin="2,5,0,0"/>
+                                Margin="2,6,0,0"/>
 
                         </VerticalStackLayout>
 
-                        <!-- Error message -->
+                        <!-- Error banner -->
                         <Border
-                            BackgroundColor="#FFF5F5"
-                            StrokeShape="RoundRectangle 8"
+                            BackgroundColor="#FEF2F2"
+                            StrokeShape="RoundRectangle 12"
                             Stroke="#FCA5A5"
                             StrokeThickness="1"
-                            Padding="12,10"
-                            Margin="0,16,0,0"
+                            Padding="16,13"
+                            Margin="0,20,0,0"
                             IsVisible="{Binding HasError}">
                             <Label
                                 Text="{Binding ErrorMessage}"
                                 TextColor="{StaticResource AppError}"
                                 FontSize="13"
+                                LineBreakMode="WordWrap"
                                 HorizontalTextAlignment="Center"/>
                         </Border>
 
-                        <!-- Status message (success / info) -->
+                        <!-- Status banner -->
                         <Border
                             BackgroundColor="#F0FDF4"
-                            StrokeShape="RoundRectangle 8"
+                            StrokeShape="RoundRectangle 12"
                             Stroke="#86EFAC"
                             StrokeThickness="1"
-                            Padding="12,10"
+                            Padding="16,13"
                             Margin="0,10,0,0"
                             IsVisible="{Binding HasStatus}">
                             <Label
@@ -269,40 +366,68 @@
                                 HorizontalTextAlignment="Center"/>
                         </Border>
 
-                        <!-- Submit button -->
+                        <!-- Submit button (gradient) -->
                         <Button
                             Text="{Binding SubmitButtonText}"
-                            Style="{StaticResource PrimaryButtonStyle}"
+                            TextColor="White"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="16"
+                            CornerRadius="16"
+                            Padding="16,16"
+                            MinimumHeightRequest="58"
+                            HorizontalOptions="Fill"
                             Command="{Binding SubmitCommand}"
-                            IsEnabled="{Binding IsBusy, Converter={x:StaticResource InverseBoolConverter}}"
-                            Margin="0,24,0,0"/>
+                            Margin="0,30,0,0">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#F5A623" Offset="0.0"/>
+                                    <GradientStop Color="#D4890F" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <Button.Shadow>
+                                <Shadow Brush="#80F5A623" Offset="0,6" Radius="20" Opacity="0.5"/>
+                            </Button.Shadow>
+                        </Button>
 
-                        <!-- Resend verification link (verify email mode only) -->
-                        <Button
-                            Text="Resend Verification Email"
-                            Style="{StaticResource GhostButtonStyle}"
+                        <!-- Resend verification -->
+                        <Label
                             IsVisible="{Binding IsVerifyEmailMode}"
-                            Command="{Binding ResendVerificationCommand}"
-                            IsEnabled="{Binding IsBusy, Converter={x:StaticResource InverseBoolConverter}}"
                             HorizontalOptions="Center"
-                            Margin="0,4,0,0"/>
+                            Margin="0,14,0,0">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Didn't receive it?  "
+                                          TextColor="{StaticResource AppTextMuted}"
+                                          FontSize="14"/>
+                                    <Span Text="Resend"
+                                          TextColor="{StaticResource AppOrange}"
+                                          FontFamily="OpenSansSemibold"
+                                          FontSize="14"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ResendVerificationCommand}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
 
                         <!-- Loading indicator -->
                         <ActivityIndicator
                             IsRunning="{Binding IsBusy}"
                             IsVisible="{Binding IsBusy}"
+                            Color="{StaticResource AppOrange}"
                             HorizontalOptions="Center"
-                            Margin="0,14,0,0"/>
+                            Margin="0,18,0,0"/>
 
                         <!-- Toggle sign in / register -->
                         <HorizontalStackLayout
                             IsVisible="{Binding ShowToggleLink}"
                             HorizontalOptions="Center"
-                            Spacing="4"
-                            Margin="0,24,0,0">
+                            Spacing="5"
+                            Margin="0,22,0,0">
                             <Label
                                 Text="{Binding TogglePromptText}"
-                                Style="{StaticResource MutedTextStyle}"
+                                TextColor="{StaticResource AppTextMuted}"
+                                FontSize="14"
                                 VerticalOptions="Center"/>
                             <Label
                                 Text="{Binding ToggleLinkText}"
@@ -322,19 +447,21 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Close button floating over hero area -->
+        <!-- Close button — hidden when ProfileSetup is required -->
         <Button
             Text="✕"
-            BackgroundColor="Transparent"
+            CornerRadius="20"
+            HeightRequest="40" WidthRequest="40"
+            Padding="0"
+            FontSize="14"
+            FontFamily="OpenSansSemibold"
+            BackgroundColor="#25FFFFFF"
             TextColor="White"
-            FontSize="18"
             BorderWidth="0"
-            Padding="4"
-            MinimumHeightRequest="44"
-            MinimumWidthRequest="44"
             HorizontalOptions="End"
             VerticalOptions="Start"
-            Margin="0,52,8,0"
+            Margin="0,54,20,0"
+            IsVisible="{Binding IsProfileSetupMode, Converter={StaticResource InverseBoolConverter}}"
             Clicked="OnCloseClicked"/>
 
     </Grid>

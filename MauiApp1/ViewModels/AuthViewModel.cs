@@ -228,7 +228,11 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
             if (Mode == AuthMode.Login)
             {
                 await _auth.SignInWithEmailAsync(Email, Password);
-                await CompleteAuthAsync();
+                var existing = await _appService.TryGetUserInfo();
+                if (existing is null)
+                    Mode = AuthMode.ProfileSetup;
+                else
+                    await CompleteAuthAsync();
             }
             else if (Mode == AuthMode.Register)
             {
@@ -246,6 +250,8 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
             }
             else if (Mode == AuthMode.ProfileSetup)
             {
+                if (!ValidateProfileFields()) return;
+                await _appService.CreateUser(_firstName, _lastName, _phoneNumber);
                 await CompleteAuthAsync();
             }
         }
@@ -309,6 +315,18 @@ public class AuthViewModel(IAppAuthentication _auth, IAppService _appService) : 
             return;
         }
         PasswordError = _password.Length < 6 ? "Password must be at least 6 characters." : string.Empty;
+    }
+
+    private bool ValidateProfileFields()
+    {
+        if (string.IsNullOrWhiteSpace(_firstName) ||
+            string.IsNullOrWhiteSpace(_lastName)  ||
+            string.IsNullOrWhiteSpace(_phoneNumber))
+        {
+            ErrorMessage = "Please fill in all fields.";
+            return false;
+        }
+        return true;
     }
 
     private async Task CompleteAuthAsync()

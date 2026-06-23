@@ -8,5 +8,6 @@ public class ApiRouting
     {
         [ApiFunctions.TryGetUser]  = "TryGetUser",
         [ApiFunctions.GetAllBooks] = "GetAllBooks",
+        [ApiFunctions.CreateUser]  = "CreateUser",
     };
 }

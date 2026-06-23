@@ -15,12 +15,9 @@ public class LoadingViewModel(IAppAuthentication _auth) : BaseViewModel
     public async Task InitializeAsync()
     {
         IsBusy = true;
-        if (_auth.IsAuthenticated)
-        {
-            StatusMessage = "Refreshing session...";
-            try { await _auth.RefreshAsync(); }
-            catch { }
-        }
+        StatusMessage = "Restoring session...";
+        try { await _auth.TryRestoreSessionAsync(); }
+        catch { }
         IsBusy = false;
     }
 }

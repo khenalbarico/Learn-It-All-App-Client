@@ -81,11 +81,23 @@ public class AppAuthentication(IFirebaseCfg _cfg, TokenCache _cache) : IAppAuthe
 
     public async Task<AuthResult> RefreshAsync()
     {
-        if (_credential is null)
+        var user = _credential?.User ?? _client.User;
+        if (user is null)
             throw new InvalidOperationException("No active session to refresh.");
 
-        return await BuildAndCacheAsync();
+        var auth = new AuthResult
+        {
+            Token = await user.GetIdTokenAsync(forceRefresh: true),
+            Uid   = user.Uid,
+            Email = user.Info.Email ?? ""
+        };
+
+        await _cache.SetAsync(auth);
+        return auth;
     }
+
+    public Task<bool> TryRestoreSessionAsync()
+        => _cache.TryRestoreAsync();
 
     public void SignOut()
     {
@@ -126,7 +138,7 @@ public class AppAuthentication(IFirebaseCfg _cfg, TokenCache _cache) : IAppAuthe
             Email = _credential.User.Info.Email ?? ""
         };
 
-        _cache.Set(auth);
+        await _cache.SetAsync(auth);
         return auth;
     }
 }

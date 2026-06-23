@@ -1,12 +1,15 @@
 ﻿using LogicLib1.Models.App;
+using LogicLib1.Services.AuthService;
 
 namespace LogicLib1.Services.ApiService;
 
-public class TokenCache
+public class TokenCache(IAuthPersistence _persistence)
 {
     private AuthResult? _cached;
-    private DateTime _expiresAt                   = DateTime.MinValue;
-    private static readonly TimeSpan SafetyBuffer = TimeSpan.FromMinutes(5);
+    private DateTime    _expiresAt = DateTime.MinValue;
+
+    private static readonly TimeSpan TokenLifetime = TimeSpan.FromHours(1);
+    private static readonly TimeSpan SafetyBuffer  = TimeSpan.FromMinutes(5);
 
     public bool TryGet(out AuthResult? result)
     {
@@ -20,15 +23,32 @@ public class TokenCache
         return false;
     }
 
-    public void Set(AuthResult auth)
+    public async Task SetAsync(AuthResult auth)
     {
+        _expiresAt = DateTime.UtcNow.Add(TokenLifetime - SafetyBuffer);
         _cached    = auth;
-        _expiresAt = DateTime.UtcNow.Add(TimeSpan.FromHours(1) - SafetyBuffer);
+        await _persistence.SaveAsync(auth, _expiresAt);
+    }
+
+    public async Task<bool> TryRestoreAsync()
+    {
+        var (auth, expiresAt) = await _persistence.TryLoadAsync();
+
+        if (auth is null || DateTime.UtcNow >= expiresAt)
+        {
+            _persistence.Clear();
+            return false;
+        }
+
+        _cached    = auth;
+        _expiresAt = expiresAt;
+        return true;
     }
 
     public void Clear()
     {
         _cached    = null;
         _expiresAt = DateTime.MinValue;
+        _persistence.Clear();
     }
 }

@@ -14,6 +14,14 @@ public partial class AuthPage : ContentPage
         _vm.AuthCompleted = OnAuthCompleted;
     }
 
+    protected override bool OnBackButtonPressed()
+    {
+        if (_vm.IsProfileSetupMode)
+            return true;
+
+        return base.OnBackButtonPressed();
+    }
+
     private async Task OnAuthCompleted()
         => await Navigation.PopModalAsync();
 

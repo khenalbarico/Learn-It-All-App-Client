@@ -1,5 +1,7 @@
 using LogicLib1;
 using LogicLib1.Services.ApiService;
+using LogicLib1.Services.AuthService;
+using MauiApp1.Services;
 using MauiApp1.ViewModels;
 using MauiApp1.Views;
 using Microsoft.Extensions.Logging;
@@ -20,6 +22,7 @@ public static class MauiProgram
             });
 
         // Services
+        builder.Services.AddSingleton<IAuthPersistence, SecureStorageAuthPersistence>();
         builder.Services.RegisterServices();
 
 #if DEBUG
