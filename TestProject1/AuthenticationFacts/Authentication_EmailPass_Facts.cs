@@ -9,15 +9,13 @@ public class Authentication_EmailPass_Facts (ITestOutputHelper _ctx)
 {
     [Fact] public async Task Register_Email_Pass_Provider()
     {
-        var _sut     = _ctx.Get<IAppAuthentication>();
+        var _sut = _ctx.Get<IAppAuthentication>();
 
-        var response = await _sut.RegisterWithEmailAsync(
+        await _sut.RegisterWithEmailAsync(
             Authentication_Variables.Email,
             Authentication_Variables.Password);
 
-        _ctx.WriteLine(
-            $"Token: {response.Token}",
-            $"Uid: {response.Uid}");
+        _ctx.WriteLine("Registration succeeded. Verification email sent.");
     }
 
     [Fact] public async Task Login_Email_Pass_Provider()

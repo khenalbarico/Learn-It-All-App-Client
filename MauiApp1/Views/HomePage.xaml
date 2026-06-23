@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiApp1.Views.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MauiApp1.ViewModels"
+    x:DataType="vm:HomeViewModel"
+    Title="Home"
+    BackgroundColor="{StaticResource AppBackground}">
+
+    <Grid>
+        <VerticalStackLayout
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Spacing="16"
+            Padding="40">
+
+            <Image
+                Source="app_logo.png"
+                HeightRequest="88"
+                WidthRequest="88"
+                Aspect="AspectFit"
+                HorizontalOptions="Center"
+                Opacity="0.4"/>
+
+            <Label
+                Text="Home"
+                Style="{StaticResource PageTitleStyle}"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"/>
+
+            <Label
+                Text="Coming soon."
+                Style="{StaticResource MutedTextStyle}"
+                HorizontalTextAlignment="Center"/>
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

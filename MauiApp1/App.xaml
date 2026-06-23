@@ -2,6 +2,7 @@
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MauiApp1"
+             xmlns:conv="clr-namespace:MauiApp1.Converters"
              x:Class="MauiApp1.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -9,6 +10,12 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <conv:InverseBoolConverter            x:Key="InverseBoolConverter"/>
+            <conv:NullToBoolConverter             x:Key="NullConverter"/>
+            <conv:NotNullToBoolConverter          x:Key="NotNullConverter"/>
+            <conv:BoolToEyeIconConverter          x:Key="BoolToEyeIconConverter"/>
+            <conv:BoolToErrorBorderBrushConverter x:Key="ErrorBorderBrushConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

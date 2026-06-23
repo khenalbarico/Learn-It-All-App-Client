@@ -7,7 +7,9 @@ public interface IAppAuthentication
     Task<AuthResult> SignInWithGoogleAsync(string idToken);
     Task<AuthResult> SignInWithFacebookAsync(string accessToken);
     Task<AuthResult> SignInWithEmailAsync(string email, string password);
-    Task<AuthResult> RegisterWithEmailAsync(string email, string password);
+    Task RegisterWithEmailAsync(string email, string password);
+    Task<AuthResult> CheckEmailVerifiedAsync();
+    Task SendEmailVerificationAsync();
     Task<AuthResult> RefreshAsync();
     bool IsAuthenticated { get; }
     void SignOut();

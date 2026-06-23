@@ -1,32 +1,51 @@
-﻿using LogicLib1;
+using LogicLib1;
 using LogicLib1.Services.ApiService;
+using MauiApp1.ViewModels;
+using MauiApp1.Views;
 using Microsoft.Extensions.Logging;
 
-namespace MauiApp1
-{
-    public static class MauiProgram
-    {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+namespace MauiApp1;
 
-            builder.Services.RegisterServices();
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf",   "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf",  "OpenSansSemibold");
+            });
+
+        // Services
+        builder.Services.RegisterServices();
 
 #if DEBUG
-            builder.Services.AddCustomHttpClient("localhost");
-            builder.Logging.AddDebug();
+        builder.Services.AddCustomHttpClient("localhost");
+        builder.Logging.AddDebug();
 #else
-            builder.Services.AddCustomHttpClient("production");
+        builder.Services.AddCustomHttpClient("production");
 #endif
 
-            return builder.Build();
-        }
+        // ViewModels
+        builder.Services.AddTransient<LoadingViewModel>();
+        builder.Services.AddTransient<LibraryViewModel>();
+        builder.Services.AddTransient<AuthViewModel>();
+        builder.Services.AddTransient<MyLibraryViewModel>();
+        builder.Services.AddTransient<AccountViewModel>();
+        builder.Services.AddSingleton<HomeViewModel>();
+
+        // Views (Transient except AppShell which is Singleton)
+        builder.Services.AddTransient<LoadingPage>();
+        builder.Services.AddTransient<LibraryPage>();
+        builder.Services.AddTransient<AuthPage>();
+        builder.Services.AddTransient<MyLibraryPage>();
+        builder.Services.AddTransient<AccountPage>();
+        builder.Services.AddTransient<HomePage>();
+        builder.Services.AddSingleton<AppShell>();
+
+        return builder.Build();
     }
 }

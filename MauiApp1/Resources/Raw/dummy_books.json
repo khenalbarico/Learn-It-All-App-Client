@@ -1,0 +1,50 @@
+[
+  {
+    "uid": "dummy_1",
+    "title": "Information Technology",
+    "category": "Technology",
+    "price": 69.00,
+    "description": "A comprehensive introduction to the world of information technology, covering hardware, software, networks, and digital systems used in modern computing.",
+    "imageCoverUrl": "information_technology.png"
+  },
+  {
+    "uid": "dummy_2",
+    "title": "Introduction to Programming",
+    "category": "Technology",
+    "price": 59.00,
+    "description": "Learn the fundamentals of programming from scratch. Covers core concepts such as variables, loops, functions, and problem-solving using clean, readable code.",
+    "imageCoverUrl": "introduction_to_programming.png"
+  },
+  {
+    "uid": "dummy_3",
+    "title": "Mathematics Fundamentals",
+    "category": "Mathematics",
+    "price": 55.00,
+    "description": "A solid foundation in mathematics covering arithmetic, algebra, geometry, and introductory calculus — essential for students and professionals alike.",
+    "imageCoverUrl": "mathematics_fundamentals.png"
+  },
+  {
+    "uid": "dummy_4",
+    "title": "History of Science",
+    "category": "Science",
+    "price": 49.00,
+    "description": "Explore the remarkable journey of scientific discovery from ancient civilizations to modern breakthroughs, and meet the brilliant minds who changed the world.",
+    "imageCoverUrl": "history_of_science.png"
+  },
+  {
+    "uid": "dummy_5",
+    "title": "Business and Finance 101",
+    "category": "Business",
+    "price": 65.00,
+    "description": "An accessible guide to core business and finance concepts including accounting, investing, market analysis, and entrepreneurship for beginners.",
+    "imageCoverUrl": "business_and_finance_101.png"
+  },
+  {
+    "uid": "dummy_6",
+    "title": "English Literature Guide",
+    "category": "Language",
+    "price": 45.00,
+    "description": "A curated guide through the most influential works of English literature, exploring themes, literary devices, and the cultural context of each era.",
+    "imageCoverUrl": "english_literature_guide.png"
+  }
+]

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MauiApp1.Views.LoadingPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MauiApp1.ViewModels"
+    x:DataType="vm:LoadingViewModel"
+    BackgroundColor="{StaticResource AppNavy}"
+    Shell.NavBarIsVisible="False">
+
+    <Grid>
+        <VerticalStackLayout
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Spacing="0"
+            Padding="32">
+
+            <Image
+                Source="app_logo.png"
+                HeightRequest="110"
+                WidthRequest="110"
+                Aspect="AspectFit"
+                Margin="0,0,0,24"/>
+
+            <Label
+                Text="LEARN IT ALL"
+                Style="{StaticResource OnDarkTitleStyle}"
+                FontFamily="OpenSansSemibold"
+                FontSize="28"
+                Margin="0,0,0,6"/>
+
+            <Label
+                Text="Your knowledge library"
+                Style="{StaticResource OnDarkLabelStyle}"
+                FontSize="15"
+                Opacity="0.7"
+                HorizontalTextAlignment="Center"
+                Margin="0,0,0,48"/>
+
+            <ActivityIndicator
+                IsRunning="{Binding IsBusy}"
+                Color="{StaticResource AppOrange}"
+                HorizontalOptions="Center"
+                HeightRequest="32"
+                WidthRequest="32"
+                Margin="0,0,0,16"/>
+
+            <Label
+                Text="{Binding StatusMessage}"
+                Style="{StaticResource OnDarkLabelStyle}"
+                FontSize="13"
+                Opacity="0.6"
+                HorizontalTextAlignment="Center"/>
+
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

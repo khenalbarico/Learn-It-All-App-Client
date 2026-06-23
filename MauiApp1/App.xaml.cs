@@ -1,17 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using MauiApp1.Views;
 
-namespace MauiApp1
+namespace MauiApp1;
+
+public partial class App : Application
 {
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-        }
+    private readonly IServiceProvider _sp;
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+    public App(IServiceProvider sp)
+    {
+        _sp = sp;
+        InitializeComponent();
     }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+        => new Window(_sp.GetRequiredService<LoadingPage>());
 }

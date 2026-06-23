@@ -1,4 +1,5 @@
 ﻿using LogicLib1.Services.ApiService;
+using LogicLib1.Services.App;
 using LogicLib1.Services.AuthService;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,5 +23,6 @@ public static class ServiceRegistry
 
             return new ApiClient(http, cache, auth);
         });
+        svc.AddSingleton<IAppService, AppService>();
     }
 }
