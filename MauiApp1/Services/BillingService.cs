@@ -14,12 +14,15 @@ public class BillingService : IBillingService
         {
             var connected = await billing.ConnectAsync();
             if (!connected)
-                return null;
+                throw new Exception("Could not connect to Google Play billing service.");
 
             var purchase = await billing.PurchaseAsync(productId, ItemType.InAppPurchase);
 
-            if (purchase?.State != PurchaseState.Purchased)
-                return null;
+            if (purchase is null)
+                throw new Exception($"Purchase returned null for product '{productId}'. Check that this product ID exists in Play Console.");
+
+            if (purchase.State != PurchaseState.Purchased)
+                throw new Exception($"Purchase state was '{purchase.State}' for product '{productId}'.");
 
             await billing.FinalizePurchaseAsync(purchase.PurchaseToken);
 
