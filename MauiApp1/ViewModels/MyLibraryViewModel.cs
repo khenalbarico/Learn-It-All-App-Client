@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 using LogicLib1.Models.App;
 using LogicLib1.Services.App;
 using LogicLib1.Services.AuthService;
@@ -6,35 +8,84 @@ using MauiApp1.Services;
 
 namespace MauiApp1.ViewModels;
 
+public class DocItem
+{
+    public BookDocs Doc          { get; }
+    public string   DisplayTitle { get; }
+    public ICommand OpenCommand  { get; }
+
+    public DocItem(BookDocs doc, Func<Task> open)
+    {
+        Doc          = doc;
+        DisplayTitle = doc.Title?.Trim() is { Length: > 0 } t ? t : doc.Uid;
+        OpenCommand  = new Command(async () => await open());
+    }
+}
+
+public class LibraryBookGroup : INotifyPropertyChanged
+{
+    private bool _isExpanded;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public BookMetadata  Book     { get; }
+    public List<DocItem> DocItems { get; }
+    public string        Label    { get; }
+    public int           DocCount => DocItems.Count;
+
+    public bool IsExpanded
+    {
+        get => _isExpanded;
+        set
+        {
+            if (_isExpanded == value) return;
+            _isExpanded = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
+        }
+    }
+
+    public ICommand ToggleCommand { get; }
+
+    public LibraryBookGroup(BookMetadata book, Func<BookMetadata, BookDocs, Task> open)
+    {
+        Book  = book;
+        Label = book.Title?.Trim() is { Length: > 0 } t ? t : book.Category ?? book.Uid;
+        DocItems = book.Documents
+            .Select(d => new DocItem(d, () => open(book, d)))
+            .ToList();
+        ToggleCommand = new Command(() => IsExpanded = !IsExpanded);
+    }
+}
+
 public class MyLibraryViewModel(IAppAuthentication _auth, UserSession _userSession, IAppService _appService) : BaseViewModel
 {
-    private ObservableCollection<BookMetadata> _purchasedBooks = [];
+    private ObservableCollection<LibraryBookGroup> _libraryGroups = [];
 
     public bool IsAuthenticated => _auth.IsAuthenticated;
     public bool IsGuest         => !_auth.IsAuthenticated;
 
-    public ObservableCollection<BookMetadata> PurchasedBooks
+    public ObservableCollection<LibraryBookGroup> LibraryGroups
     {
-        get => _purchasedBooks;
+        get => _libraryGroups;
         set
         {
-            SetProperty(ref _purchasedBooks, value);
+            SetProperty(ref _libraryGroups, value);
             OnPropertyChanged(nameof(HasBooks));
             OnPropertyChanged(nameof(ShowEmptyState));
         }
     }
 
-    public bool HasBooks      => PurchasedBooks.Count > 0;
+    public bool HasBooks       => LibraryGroups.Count > 0;
     public bool ShowEmptyState => !IsBusy && IsAuthenticated && !HasBooks;
 
-    public Func<Task>?                       NavigateToAuth      { get; set; }
-    public Func<BookMetadata, string, Task>? NavigateToPdfViewer { get; set; }
-    public Func<string[], Task<string?>>?    SelectDocument      { get; set; }
+    public IReadOnlyList<BookMetadata> AllBooks
+        => LibraryGroups.Select(g => g.Book).ToList();
+
+    public Func<Task>?                              NavigateToAuth      { get; set; }
+    public Func<BookMetadata, string, string, Task>? NavigateToPdfViewer { get; set; }
 
     public Command NavigateToAuthCommand => new(async () =>
         await (NavigateToAuth?.Invoke() ?? Task.CompletedTask));
-
-    public Command<BookMetadata> ReadCommand => new(async (book) => await ReadBookAsync(book));
 
     public async Task LoadAsync()
     {
@@ -42,9 +93,9 @@ public class MyLibraryViewModel(IAppAuthentication _auth, UserSession _userSessi
         OnPropertyChanged(nameof(IsGuest));
         if (!_auth.IsAuthenticated) return;
 
-        IsBusy       = true;
-        ErrorMessage = string.Empty;
-        PurchasedBooks = [];
+        IsBusy        = true;
+        ErrorMessage  = string.Empty;
+        LibraryGroups = [];
         OnPropertyChanged(nameof(ShowEmptyState));
 
         try
@@ -53,8 +104,9 @@ public class MyLibraryViewModel(IAppAuthentication _auth, UserSession _userSessi
 
             if (hasLibrary)
             {
-                var books      = await _appService.GetMyLibraryBooks();
-                PurchasedBooks = new ObservableCollection<BookMetadata>(books);
+                var books = await _appService.GetMyLibraryBooks();
+                LibraryGroups = new ObservableCollection<LibraryBookGroup>(
+                    books.Select(b => new LibraryBookGroup(b, ReadDocAsync)));
             }
         }
         catch
@@ -68,42 +120,16 @@ public class MyLibraryViewModel(IAppAuthentication _auth, UserSession _userSessi
         }
     }
 
-    private async Task ReadBookAsync(BookMetadata book)
+    private async Task ReadDocAsync(BookMetadata book, BookDocs doc)
     {
-        if (book.Documents.Count == 0)
-        {
-            ErrorMessage = "This book has no readable documents.";
-            return;
-        }
-
-        string? docUid;
-
-        if (book.Documents.Count == 1)
-        {
-            docUid = book.Documents[0].Uid;
-        }
-        else
-        {
-            var titles  = book.Documents.Select(d => d.Title ?? d.Uid).ToArray();
-            var choice  = SelectDocument is not null ? await SelectDocument(titles) : titles[0];
-            if (choice is null) return;
-            docUid = book.Documents.FirstOrDefault(d => (d.Title ?? d.Uid) == choice)?.Uid;
-        }
-
-        if (string.IsNullOrWhiteSpace(docUid))
-        {
-            ErrorMessage = "Could not determine which document to open.";
-            return;
-        }
-
         IsBusy       = true;
         ErrorMessage = string.Empty;
         OnPropertyChanged(nameof(ShowEmptyState));
 
         try
         {
-            var pdfUrl = await _appService.GetBookUrl(book.Uid, docUid);
-            await (NavigateToPdfViewer?.Invoke(book, pdfUrl) ?? Task.CompletedTask);
+            var pdfUrl = await _appService.GetBookUrl(book.Uid, doc.Uid);
+            await (NavigateToPdfViewer?.Invoke(book, doc.Uid, pdfUrl) ?? Task.CompletedTask);
         }
         catch
         {

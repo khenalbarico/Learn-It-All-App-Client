@@ -4,7 +4,6 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:MauiApp1.ViewModels"
-    xmlns:models="clr-namespace:LogicLib1.Models.App;assembly=LogicLib1"
     x:DataType="vm:PdfViewerViewModel"
     Shell.NavBarIsVisible="False"
     BackgroundColor="{StaticResource AppBackground}">
@@ -62,14 +61,16 @@
                         MaxLines="1"
                         LineBreakMode="TailTruncation"/>
                     <Label
-                        Text="Reading now"
+                        Text="{Binding DocTitle}"
                         TextColor="White"
-                        Opacity="0.55"
+                        Opacity="0.6"
                         FontFamily="OpenSansRegular"
-                        FontSize="11"/>
+                        FontSize="11"
+                        MaxLines="1"
+                        LineBreakMode="TailTruncation"/>
                 </VerticalStackLayout>
 
-                <!-- My Books toggle button -->
+                <!-- Switch button -->
                 <Border
                     Grid.Column="2"
                     StrokeShape="RoundRectangle 10"
@@ -78,31 +79,22 @@
                     BackgroundColor="#20FFFFFF"
                     Padding="10,7"
                     VerticalOptions="Center"
-                    Margin="6,0,8,0"
-                    IsVisible="{Binding HasMultipleBooks}">
+                    Margin="6,0,8,0">
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ToggleLibraryPanelCommand}"/>
+                        <TapGestureRecognizer Command="{Binding TogglePanelCommand}"/>
                     </Border.GestureRecognizers>
-                    <HorizontalStackLayout Spacing="5" VerticalOptions="Center">
-                        <BoxView
-                            WidthRequest="3" HeightRequest="12"
-                            CornerRadius="2"
-                            BackgroundColor="White"/>
-                        <BoxView
-                            WidthRequest="3" HeightRequest="16"
-                            CornerRadius="2"
-                            BackgroundColor="White" Opacity="0.75"/>
-                        <BoxView
-                            WidthRequest="3" HeightRequest="10"
-                            CornerRadius="2"
-                            BackgroundColor="White" Opacity="0.5"/>
+                    <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                        <VerticalStackLayout Spacing="3" VerticalOptions="Center">
+                            <BoxView WidthRequest="14" HeightRequest="2" CornerRadius="1" BackgroundColor="White"/>
+                            <BoxView WidthRequest="10" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.7"/>
+                            <BoxView WidthRequest="12" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.5"/>
+                        </VerticalStackLayout>
                         <Label
-                            Text="Books"
+                            Text="Switch"
                             TextColor="White"
                             FontFamily="OpenSansSemibold"
                             FontSize="12"
-                            VerticalOptions="Center"
-                            Margin="2,0,0,0"/>
+                            VerticalOptions="Center"/>
                     </HorizontalStackLayout>
                 </Border>
 
@@ -136,7 +128,7 @@
 
                 <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
                     <Label
-                        Text="Opening book..."
+                        Text="Opening document..."
                         FontFamily="OpenSansSemibold"
                         FontSize="16"
                         TextColor="{StaticResource AppNavy}"
@@ -183,7 +175,7 @@
 
                 <VerticalStackLayout Spacing="8">
                     <Label
-                        Text="Unable to Load Book"
+                        Text="Unable to Load"
                         FontFamily="OpenSansSemibold"
                         FontSize="20"
                         TextColor="{StaticResource AppNavy}"
@@ -205,10 +197,10 @@
 
             </VerticalStackLayout>
 
-            <!-- ── Book switcher overlay ────────────────────────── -->
+            <!-- ── Switcher overlay ──────────────────────────────── -->
             <Grid x:Name="PanelOverlay" IsVisible="False">
 
-                <!-- Dim backdrop — tap to close -->
+                <!-- Dim backdrop -->
                 <BoxView BackgroundColor="#70000000">
                     <BoxView.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnOverlayTapped"/>
@@ -221,151 +213,184 @@
                     StrokeShape="RoundRectangle 24,24,0,0"
                     Stroke="Transparent"
                     BackgroundColor="{StaticResource AppSurface}"
-                    VerticalOptions="End"
-                    Padding="0,0,0,0">
+                    VerticalOptions="End">
 
-                    <Grid RowDefinitions="Auto,Auto,*">
+                    <Grid RowDefinitions="Auto,Auto,Auto">
 
-                        <!-- Drag handle + header -->
-                        <VerticalStackLayout Grid.Row="0" Spacing="0" Padding="20,14,20,12">
+                        <!-- Handle + title -->
+                        <VerticalStackLayout Grid.Row="0" Padding="20,14,20,10" Spacing="0">
                             <BoxView
-                                WidthRequest="40"
-                                HeightRequest="4"
+                                WidthRequest="40" HeightRequest="4"
                                 CornerRadius="2"
                                 BackgroundColor="{StaticResource AppDivider}"
                                 HorizontalOptions="Center"
                                 Margin="0,0,0,14"/>
                             <Label
-                                Text="My Books"
+                                Text="Switch Document or Book"
                                 FontFamily="OpenSansSemibold"
                                 FontSize="17"
                                 TextColor="{StaticResource AppNavy}"/>
                             <Label
-                                Text="Tap a book to switch"
+                                Text="Tap any document below to open it"
                                 FontFamily="OpenSansRegular"
                                 FontSize="12"
                                 TextColor="{StaticResource AppTextMuted}"
                                 Margin="0,2,0,0"/>
                         </VerticalStackLayout>
 
-                        <!-- Divider -->
-                        <BoxView
-                            Grid.Row="1"
-                            HeightRequest="1"
-                            BackgroundColor="{StaticResource AppDivider}"
-                            Margin="0,0,0,16"/>
+                        <BoxView Grid.Row="1" HeightRequest="1" BackgroundColor="{StaticResource AppDivider}"/>
 
-                        <!-- Books horizontal list -->
-                        <CollectionView
-                            Grid.Row="2"
-                            ItemsSource="{Binding LibraryItems}"
-                            HeightRequest="220"
-                            Margin="0,0,0,24">
+                        <!-- Books + docs accordion -->
+                        <ScrollView Grid.Row="2" MaximumHeightRequest="460">
+                            <VerticalStackLayout
+                                Padding="16,12,16,28"
+                                Spacing="8"
+                                BindableLayout.ItemsSource="{Binding BookGroups}">
 
-                            <CollectionView.ItemsLayout>
-                                <LinearItemsLayout
-                                    Orientation="Horizontal"
-                                    ItemSpacing="12"/>
-                            </CollectionView.ItemsLayout>
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:PdfBookGroup">
 
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="vm:LibraryBookItem">
-                                    <Border
-                                        WidthRequest="130"
-                                        StrokeShape="RoundRectangle 14"
-                                        StrokeThickness="2.5"
-                                        Margin="0">
+                                        <Border StrokeShape="RoundRectangle 14" StrokeThickness="2">
 
-                                        <!-- Orange border for currently reading -->
-                                        <Border.Triggers>
-                                            <DataTrigger TargetType="Border" Binding="{Binding IsCurrentBook}" Value="True">
-                                                <Setter Property="Stroke" Value="{StaticResource AppOrange}"/>
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Border" Binding="{Binding IsCurrentBook}" Value="False">
-                                                <Setter Property="Stroke" Value="{StaticResource AppDivider}"/>
-                                            </DataTrigger>
-                                        </Border.Triggers>
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsCurrentBook}" Value="True">
+                                                    <Setter Property="Stroke" Value="{StaticResource AppOrange}"/>
+                                                    <Setter Property="BackgroundColor" Value="#FFF8F0"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsCurrentBook}" Value="False">
+                                                    <Setter Property="Stroke" Value="{StaticResource AppDivider}"/>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource AppSurface}"/>
+                                                </DataTrigger>
+                                            </Border.Triggers>
 
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SwitchBookCommand}"
-                                                CommandParameter="{Binding .}"/>
-                                        </Border.GestureRecognizers>
+                                            <VerticalStackLayout Spacing="0">
 
-                                        <Grid RowDefinitions="150,Auto">
+                                                <!-- Book header -->
+                                                <Grid ColumnDefinitions="*,Auto" Padding="14,12">
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding ToggleCommand}"/>
+                                                    </Grid.GestureRecognizers>
 
-                                            <!-- Cover image area -->
-                                            <Grid Grid.Row="0">
-                                                <Border
-                                                    StrokeShape="RoundRectangle 12,12,0,0"
-                                                    Stroke="Transparent">
-                                                    <Border.Background>
-                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                            <GradientStop Color="#1A3660" Offset="0.0"/>
-                                                            <GradientStop Color="#2E7BC4" Offset="1.0"/>
-                                                        </LinearGradientBrush>
-                                                    </Border.Background>
-                                                </Border>
+                                                    <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
+                                                        <Border
+                                                            IsVisible="{Binding IsCurrentBook}"
+                                                            BackgroundColor="{StaticResource AppOrange}"
+                                                            StrokeShape="RoundRectangle 4"
+                                                            Stroke="Transparent"
+                                                            Padding="6,2"
+                                                            HorizontalOptions="Start">
+                                                            <Label
+                                                                Text="NOW READING"
+                                                                TextColor="White"
+                                                                FontFamily="OpenSansSemibold"
+                                                                FontSize="8"/>
+                                                        </Border>
+                                                        <Label
+                                                            Text="{Binding Label}"
+                                                            FontFamily="OpenSansSemibold"
+                                                            FontSize="14"
+                                                            TextColor="{StaticResource AppNavy}"
+                                                            LineBreakMode="WordWrap"/>
+                                                    </VerticalStackLayout>
 
-                                                <Image
-                                                    Source="{Binding Book.ImageCoverUrl}"
-                                                    Aspect="AspectFill"
-                                                    IsVisible="{Binding Book.ImageCoverUrl, Converter={StaticResource NotNullConverter}}"/>
-
-                                                <!-- Reading badge -->
-                                                <Border
-                                                    IsVisible="{Binding IsCurrentBook}"
-                                                    BackgroundColor="{StaticResource AppOrange}"
-                                                    StrokeShape="RoundRectangle 6"
-                                                    Stroke="Transparent"
-                                                    Padding="6,3"
-                                                    HorizontalOptions="Start"
-                                                    VerticalOptions="Start"
-                                                    Margin="8,8,0,0">
                                                     <Label
-                                                        Text="READING"
-                                                        TextColor="White"
-                                                        FontFamily="OpenSansSemibold"
-                                                        FontSize="9"/>
-                                                </Border>
-                                            </Grid>
+                                                        Grid.Column="1"
+                                                        Text="▶"
+                                                        FontSize="14"
+                                                        TextColor="{StaticResource AppTextMuted}"
+                                                        VerticalOptions="Center"
+                                                        Margin="10,0,0,0">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding IsExpanded}" Value="True">
+                                                                <Setter Property="Text" Value="▼"/>
+                                                                <Setter Property="TextColor" Value="{StaticResource AppOrange}"/>
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                </Grid>
 
-                                            <!-- Title -->
-                                            <VerticalStackLayout
-                                                Grid.Row="1"
-                                                Padding="10,8,10,10"
-                                                Spacing="2">
-                                                <Label
-                                                    Text="{Binding Book.Title}"
-                                                    FontFamily="OpenSansSemibold"
-                                                    FontSize="12"
-                                                    TextColor="{StaticResource AppTextPrimary}"
-                                                    MaxLines="2"
-                                                    LineBreakMode="TailTruncation"/>
-                                                <Label
-                                                    Text="{Binding Book.Category}"
-                                                    FontFamily="OpenSansRegular"
-                                                    FontSize="10"
-                                                    TextColor="{StaticResource AppTextMuted}"/>
+                                                <BoxView HeightRequest="1" BackgroundColor="{StaticResource AppDivider}" IsVisible="{Binding IsExpanded}"/>
+
+                                                <!-- Document rows -->
+                                                <VerticalStackLayout
+                                                    Spacing="0"
+                                                    IsVisible="{Binding IsExpanded}"
+                                                    BindableLayout.ItemsSource="{Binding Docs}">
+
+                                                    <BindableLayout.ItemTemplate>
+                                                        <DataTemplate x:DataType="vm:PdfDocItem">
+
+                                                            <Grid
+                                                                ColumnDefinitions="Auto,*,Auto"
+                                                                Padding="14,11"
+                                                                BackgroundColor="Transparent">
+
+                                                                <Grid.GestureRecognizers>
+                                                                    <TapGestureRecognizer Command="{Binding OpenCommand}"/>
+                                                                </Grid.GestureRecognizers>
+
+                                                                <BoxView
+                                                                    Grid.Column="0"
+                                                                    WidthRequest="7" HeightRequest="7"
+                                                                    CornerRadius="4"
+                                                                    VerticalOptions="Center"
+                                                                    Margin="0,0,12,0">
+                                                                    <BoxView.Triggers>
+                                                                        <DataTrigger TargetType="BoxView" Binding="{Binding IsCurrent}" Value="True">
+                                                                            <Setter Property="BackgroundColor" Value="{StaticResource AppOrange}"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger TargetType="BoxView" Binding="{Binding IsCurrent}" Value="False">
+                                                                            <Setter Property="BackgroundColor" Value="{StaticResource AppDivider}"/>
+                                                                        </DataTrigger>
+                                                                    </BoxView.Triggers>
+                                                                </BoxView>
+
+                                                                <Label
+                                                                    Grid.Column="1"
+                                                                    Text="{Binding DisplayTitle}"
+                                                                    FontFamily="OpenSansRegular"
+                                                                    FontSize="13"
+                                                                    VerticalOptions="Center">
+                                                                    <Label.Triggers>
+                                                                        <DataTrigger TargetType="Label" Binding="{Binding IsCurrent}" Value="True">
+                                                                            <Setter Property="FontFamily" Value="OpenSansSemibold"/>
+                                                                            <Setter Property="TextColor" Value="{StaticResource AppOrange}"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger TargetType="Label" Binding="{Binding IsCurrent}" Value="False">
+                                                                            <Setter Property="TextColor" Value="{StaticResource AppTextPrimary}"/>
+                                                                        </DataTrigger>
+                                                                    </Label.Triggers>
+                                                                </Label>
+
+                                                                <Label
+                                                                    Grid.Column="2"
+                                                                    Text="Reading"
+                                                                    FontFamily="OpenSansSemibold"
+                                                                    FontSize="11"
+                                                                    TextColor="{StaticResource AppOrange}"
+                                                                    VerticalOptions="Center"
+                                                                    Margin="8,0,0,0"
+                                                                    IsVisible="{Binding IsCurrent}"/>
+
+                                                            </Grid>
+
+                                                        </DataTemplate>
+                                                    </BindableLayout.ItemTemplate>
+
+                                                </VerticalStackLayout>
+
                                             </VerticalStackLayout>
+                                        </Border>
 
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
 
-                            <CollectionView.Header>
-                                <BoxView WidthRequest="20" HeightRequest="1" Color="Transparent"/>
-                            </CollectionView.Header>
-
-                            <CollectionView.Footer>
-                                <BoxView WidthRequest="20" HeightRequest="1" Color="Transparent"/>
-                            </CollectionView.Footer>
-
-                        </CollectionView>
+                            </VerticalStackLayout>
+                        </ScrollView>
 
                     </Grid>
                 </Border>
+
             </Grid>
 
         </Grid>

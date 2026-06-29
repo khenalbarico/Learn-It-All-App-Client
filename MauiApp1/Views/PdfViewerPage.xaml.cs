@@ -22,25 +22,19 @@ public partial class PdfViewerPage : ContentPage
             await Task.CompletedTask;
         };
 
-        _vm.SelectDocument = async titles =>
-        {
-            const string cancel = "Cancel";
-            var choice = await DisplayActionSheetAsync("Select a document", cancel, null, titles);
-            return choice == cancel ? null : choice;
-        };
-
         _vm.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName == nameof(PdfViewerViewModel.IsLibraryPanelOpen))
-                _ = AnimatePanelAsync(_vm.IsLibraryPanelOpen);
+            if (e.PropertyName == nameof(PdfViewerViewModel.IsPanelOpen))
+                _ = AnimatePanelAsync(_vm.IsPanelOpen);
         };
 
         SwitcherPanel.TranslationY = 500;
     }
 
-    public void Initialize(BookMetadata currentBook, string pdfUrl, IReadOnlyList<BookMetadata> allBooks)
+    public void Initialize(BookMetadata currentBook, string currentDocUid, string pdfUrl,
+        IReadOnlyList<BookMetadata> allBooks)
     {
-        _vm.Initialize(currentBook, pdfUrl, allBooks);
+        _vm.Initialize(currentBook, currentDocUid, pdfUrl, allBooks);
         PdfWebView.Source = new UrlWebViewSource { Url = _vm.ViewerUrl };
     }
 
@@ -71,7 +65,7 @@ public partial class PdfViewerPage : ContentPage
     }
 
     private void OnOverlayTapped(object? sender, TappedEventArgs e)
-        => _vm.IsLibraryPanelOpen = false;
+        => _vm.IsPanelOpen = false;
 
     private void OnWebViewNavigating(object? sender, WebNavigatingEventArgs e)
     {

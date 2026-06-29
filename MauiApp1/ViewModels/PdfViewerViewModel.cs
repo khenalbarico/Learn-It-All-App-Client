@@ -1,23 +1,99 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 using LogicLib1.Models.App;
 using LogicLib1.Services.App;
 
 namespace MauiApp1.ViewModels;
 
-public record LibraryBookItem(BookMetadata Book, bool IsCurrentBook);
+public class PdfDocItem
+{
+    public string   Uid          { get; }
+    public string   DisplayTitle { get; }
+    public bool     IsCurrent    { get; }
+    public ICommand OpenCommand  { get; }
+
+    public PdfDocItem(BookDocs doc, bool isCurrent, Func<Task> open)
+    {
+        Uid          = doc.Uid;
+        DisplayTitle = doc.Title?.Trim() is { Length: > 0 } t ? t : doc.Uid;
+        IsCurrent    = isCurrent;
+        OpenCommand  = new Command(async () => await open());
+    }
+}
+
+public class PdfBookGroup : INotifyPropertyChanged
+{
+    private bool _isExpanded;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public BookMetadata     Book          { get; }
+    public bool             IsCurrentBook { get; }
+    public string           Label         { get; }
+    public List<PdfDocItem> Docs          { get; private set; } = [];
+
+    public bool IsExpanded
+    {
+        get => _isExpanded;
+        set
+        {
+            if (_isExpanded == value) return;
+            _isExpanded = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
+        }
+    }
+
+    public ICommand ToggleCommand { get; }
+
+    public PdfBookGroup(BookMetadata book, bool isCurrentBook, string currentDocUid,
+        Func<BookMetadata, BookDocs, Task> switchDoc)
+    {
+        Book          = book;
+        IsCurrentBook = isCurrentBook;
+        IsExpanded    = isCurrentBook;
+        Label         = book.Title?.Trim() is { Length: > 0 } t ? t : book.Category ?? book.Uid;
+        Docs          = BuildDocs(book, isCurrentBook, currentDocUid, switchDoc);
+        ToggleCommand = new Command(() => IsExpanded = !IsExpanded);
+    }
+
+    public void Refresh(bool isCurrentBook, string currentDocUid,
+        Func<BookMetadata, BookDocs, Task> switchDoc)
+    {
+        Docs = BuildDocs(Book, isCurrentBook, currentDocUid, switchDoc);
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Docs)));
+    }
+
+    private static List<PdfDocItem> BuildDocs(BookMetadata book, bool isCurrentBook,
+        string currentDocUid, Func<BookMetadata, BookDocs, Task> switchDoc)
+        => book.Documents
+            .Select(d => new PdfDocItem(d, isCurrentBook && d.Uid == currentDocUid,
+                () => switchDoc(book, d)))
+            .ToList();
+}
 
 public class PdfViewerViewModel(IAppService _appService) : BaseViewModel
 {
-    private string                              _bookTitle         = string.Empty;
-    private string                              _viewerUrl         = string.Empty;
-    private bool                                _isReady;
-    private bool                                _isLibraryPanelOpen;
-    private ObservableCollection<LibraryBookItem> _libraryItems    = [];
+    private string  _bookTitle  = string.Empty;
+    private string  _docTitle   = string.Empty;
+    private string  _viewerUrl  = string.Empty;
+    private bool    _isReady;
+    private bool    _isPanelOpen;
+    private ObservableCollection<PdfBookGroup> _bookGroups = [];
+
+    private BookMetadata? _currentBook;
+    private string        _currentDocUid = string.Empty;
 
     public string BookTitle
     {
         get => _bookTitle;
         set => SetProperty(ref _bookTitle, value);
+    }
+
+    public string DocTitle
+    {
+        get => _docTitle;
+        set => SetProperty(ref _docTitle, value);
     }
 
     public string ViewerUrl
@@ -32,49 +108,39 @@ public class PdfViewerViewModel(IAppService _appService) : BaseViewModel
         set => SetProperty(ref _isReady, value);
     }
 
-    public bool IsLibraryPanelOpen
+    public bool IsPanelOpen
     {
-        get => _isLibraryPanelOpen;
-        set => SetProperty(ref _isLibraryPanelOpen, value);
+        get => _isPanelOpen;
+        set => SetProperty(ref _isPanelOpen, value);
     }
 
-    public ObservableCollection<LibraryBookItem> LibraryItems
+    public ObservableCollection<PdfBookGroup> BookGroups
     {
-        get => _libraryItems;
-        set
-        {
-            SetProperty(ref _libraryItems, value);
-            OnPropertyChanged(nameof(HasMultipleBooks));
-        }
+        get => _bookGroups;
+        set => SetProperty(ref _bookGroups, value);
     }
 
-    public bool HasMultipleBooks => _libraryItems.Count > 1;
+    public Func<Task>?         GoBack      { get; set; }
+    public Func<string, Task>? LoadBookUrl { get; set; }
 
-    public Func<Task>?                    GoBack          { get; set; }
-    public Func<string[], Task<string?>>? SelectDocument  { get; set; }
-    public Func<string, Task>?            LoadBookUrl     { get; set; }
+    public Command GoBackCommand      => new(async () => await (GoBack?.Invoke() ?? Task.CompletedTask));
+    public Command TogglePanelCommand => new(() => IsPanelOpen = !IsPanelOpen);
+    public Command ClosePanelCommand  => new(() => IsPanelOpen = false);
 
-    public Command GoBackCommand => new(async () =>
-        await (GoBack?.Invoke() ?? Task.CompletedTask));
-
-    public Command ToggleLibraryPanelCommand => new(() =>
-        IsLibraryPanelOpen = !IsLibraryPanelOpen);
-
-    public Command CloseLibraryPanelCommand => new(() =>
-        IsLibraryPanelOpen = false);
-
-    public Command<LibraryBookItem> SwitchBookCommand => new(async (item) =>
-        await SwitchToBookAsync(item.Book));
-
-    public void Initialize(BookMetadata currentBook, string pdfUrl, IReadOnlyList<BookMetadata> allBooks)
+    public void Initialize(BookMetadata currentBook, string currentDocUid, string pdfUrl,
+        IReadOnlyList<BookMetadata> allBooks)
     {
-        BookTitle          = currentBook.Title ?? "Book";
-        ViewerUrl          = BuildViewerUrl(pdfUrl);
-        LibraryItems       = BuildLibraryItems(allBooks, currentBook.Uid);
-        IsBusy             = true;
-        IsReady            = false;
-        IsLibraryPanelOpen = false;
-        ErrorMessage       = string.Empty;
+        _currentBook   = currentBook;
+        _currentDocUid = currentDocUid;
+        BookTitle      = currentBook.Title ?? "Book";
+        DocTitle       = ResolveDocTitle(currentBook, currentDocUid);
+        ViewerUrl      = BuildViewerUrl(pdfUrl);
+        IsBusy         = true;
+        IsReady        = false;
+        IsPanelOpen    = false;
+        ErrorMessage   = string.Empty;
+        BookGroups     = new ObservableCollection<PdfBookGroup>(
+            allBooks.Select(b => new PdfBookGroup(b, b.Uid == currentBook.Uid, currentDocUid, SwitchToDocAsync)));
     }
 
     public void OnPageLoaded()
@@ -90,59 +156,46 @@ public class PdfViewerViewModel(IAppService _appService) : BaseViewModel
         ErrorMessage = "Failed to load the book. Please check your connection and try again.";
     }
 
-    private async Task SwitchToBookAsync(BookMetadata book)
+    private async Task SwitchToDocAsync(BookMetadata book, BookDocs doc)
     {
-        if (book.Documents.Count == 0)
+        if (book.Uid == _currentBook?.Uid && doc.Uid == _currentDocUid)
         {
-            ErrorMessage = "This book has no readable documents.";
+            IsPanelOpen = false;
             return;
         }
 
-        string? docUid;
-
-        if (book.Documents.Count == 1)
-        {
-            docUid = book.Documents[0].Uid;
-        }
-        else
-        {
-            var titles = book.Documents.Select(d => d.Title ?? d.Uid).ToArray();
-            var choice = SelectDocument is not null ? await SelectDocument(titles) : titles[0];
-            if (choice is null) return;
-            docUid = book.Documents.FirstOrDefault(d => (d.Title ?? d.Uid) == choice)?.Uid;
-        }
-
-        if (string.IsNullOrWhiteSpace(docUid))
-        {
-            ErrorMessage = "Could not determine which document to open.";
-            return;
-        }
-
-        IsLibraryPanelOpen = false;
-        IsBusy             = true;
-        IsReady            = false;
-        ErrorMessage       = string.Empty;
+        IsPanelOpen  = false;
+        IsBusy       = true;
+        IsReady      = false;
+        ErrorMessage = string.Empty;
 
         try
         {
-            var pdfUrl  = await _appService.GetBookUrl(book.Uid, docUid);
-            var viewUrl = BuildViewerUrl(pdfUrl);
-            BookTitle    = book.Title ?? "Book";
-            ViewerUrl    = viewUrl;
-            LibraryItems = BuildLibraryItems(LibraryItems.Select(i => i.Book).ToList(), book.Uid);
-            await (LoadBookUrl?.Invoke(viewUrl) ?? Task.CompletedTask);
+            var pdfUrl     = await _appService.GetBookUrl(book.Uid, doc.Uid);
+            _currentBook   = book;
+            _currentDocUid = doc.Uid;
+            BookTitle      = book.Title ?? "Book";
+            DocTitle       = ResolveDocTitle(book, doc.Uid);
+            ViewerUrl      = BuildViewerUrl(pdfUrl);
+
+            foreach (var group in BookGroups)
+                group.Refresh(group.Book.Uid == book.Uid, doc.Uid, SwitchToDocAsync);
+
+            await (LoadBookUrl?.Invoke(ViewerUrl) ?? Task.CompletedTask);
         }
         catch
         {
             IsBusy       = false;
-            ErrorMessage = "Failed to open this book. Please try again.";
+            ErrorMessage = "Failed to open this document. Please try again.";
         }
     }
 
     private static string BuildViewerUrl(string pdfUrl)
         => $"https://docs.google.com/viewer?url={Uri.EscapeDataString(pdfUrl)}&embedded=true";
 
-    private static ObservableCollection<LibraryBookItem> BuildLibraryItems(
-        IEnumerable<BookMetadata> books, string currentBookUid)
-        => new(books.Select(b => new LibraryBookItem(b, b.Uid == currentBookUid)));
+    private static string ResolveDocTitle(BookMetadata book, string docUid)
+    {
+        var doc = book.Documents.FirstOrDefault(d => d.Uid == docUid);
+        return doc?.Title?.Trim() is { Length: > 0 } t ? t : docUid;
+    }
 }

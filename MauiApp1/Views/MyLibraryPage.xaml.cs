@@ -17,7 +17,6 @@ public partial class MyLibraryPage : ContentPage
 
         _vm.NavigateToAuth      = NavigateToAuth;
         _vm.NavigateToPdfViewer = NavigateToPdfViewer;
-        _vm.SelectDocument      = SelectDocument;
     }
 
     protected override async void OnAppearing()
@@ -29,17 +28,10 @@ public partial class MyLibraryPage : ContentPage
     private Task NavigateToAuth()
         => Navigation.PushModalAsync(_sp.GetRequiredService<AuthPage>());
 
-    private async Task NavigateToPdfViewer(BookMetadata book, string pdfUrl)
+    private async Task NavigateToPdfViewer(BookMetadata book, string docUid, string pdfUrl)
     {
         var page = _sp.GetRequiredService<PdfViewerPage>();
-        page.Initialize(book, pdfUrl, _vm.PurchasedBooks);
+        page.Initialize(book, docUid, pdfUrl, _vm.AllBooks);
         await Navigation.PushModalAsync(page);
-    }
-
-    private async Task<string?> SelectDocument(string[] titles)
-    {
-        var cancel = "Cancel";
-        var choice = await DisplayActionSheetAsync("Select a document", cancel, null, titles);
-        return choice == cancel ? null : choice;
     }
 }
