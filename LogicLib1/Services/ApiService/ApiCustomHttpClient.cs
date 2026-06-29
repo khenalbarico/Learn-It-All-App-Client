@@ -13,7 +13,7 @@ public static class ApiCustomHttpClient
             var apiUrl       = apiUrlGetter.GetApiUrl(env);
 
             client.BaseAddress = new Uri(apiUrl);
-            client.Timeout     = TimeSpan.FromMinutes(3);
+            client.Timeout     = TimeSpan.FromSeconds(20);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
     }

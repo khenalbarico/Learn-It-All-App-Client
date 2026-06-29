@@ -45,4 +45,10 @@ public class AppService(IApiClient _api) : IAppService
             PurchaseToken    = purchaseToken,
             PriceAtPurchase  = priceAtPurchase
         });
+
+    public Task<string> GetBookUrl(string bookUid, string docUid)
+        => _api.GetAsync<string>(ApiFunctions.GetBookUrl, new { BookUid = bookUid, DocUid = docUid });
+
+    public Task<List<BookMetadata>> GetMyLibraryBooks()
+        => _api.GetAsync<List<BookMetadata>>(ApiFunctions.GetMyLibraryBooks);
 }

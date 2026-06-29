@@ -1,3 +1,4 @@
+using LogicLib1.Models.App;
 using MauiApp1.ViewModels;
 
 namespace MauiApp1.Views;
@@ -14,8 +15,9 @@ public partial class MyLibraryPage : ContentPage
         _sp = sp;
         BindingContext = vm;
 
-        _vm.NavigateToAuth = NavigateToAuth;
-        _vm.NavigateToRead = ShowReadPlaceholder;
+        _vm.NavigateToAuth      = NavigateToAuth;
+        _vm.NavigateToPdfViewer = NavigateToPdfViewer;
+        _vm.SelectDocument      = SelectDocument;
     }
 
     protected override async void OnAppearing()
@@ -27,6 +29,17 @@ public partial class MyLibraryPage : ContentPage
     private Task NavigateToAuth()
         => Navigation.PushModalAsync(_sp.GetRequiredService<AuthPage>());
 
-    private Task ShowReadPlaceholder(LogicLib1.Models.App.BookMetadata book)
-        => DisplayAlertAsync("Coming Soon", $"Reading \"{book.Title}\" will be available soon.", "OK");
+    private async Task NavigateToPdfViewer(BookMetadata book, string pdfUrl)
+    {
+        var page = _sp.GetRequiredService<PdfViewerPage>();
+        page.Initialize(book, pdfUrl, _vm.PurchasedBooks);
+        await Navigation.PushModalAsync(page);
+    }
+
+    private async Task<string?> SelectDocument(string[] titles)
+    {
+        var cancel = "Cancel";
+        var choice = await DisplayActionSheetAsync("Select a document", cancel, null, titles);
+        return choice == cancel ? null : choice;
+    }
 }

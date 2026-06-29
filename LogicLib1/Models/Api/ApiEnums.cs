@@ -7,4 +7,6 @@ public enum ApiFunctions
     GetBooksByCategory,
     CreateUser,
     RecordPurchase,
+    GetBookUrl,
+    GetMyLibraryBooks,
 }

@@ -19,13 +19,21 @@ public class LoadingViewModel(IAppAuthentication _auth, IAppService _appService,
         IsBusy = true;
 
         StatusMessage = "Restoring session...";
-        try { await _auth.TryRestoreSessionAsync(); }
+        try
+        {
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(8));
+            await _auth.TryRestoreSessionAsync().WaitAsync(cts.Token);
+        }
         catch { }
 
         if (_auth.IsAuthenticated)
         {
             StatusMessage = "Loading your profile...";
-            try { _userSession.UserInfo = await _appService.TryGetUserInfo(); }
+            try
+            {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                _userSession.UserInfo = await _appService.TryGetUserInfo().WaitAsync(cts.Token);
+            }
             catch { }
         }
 

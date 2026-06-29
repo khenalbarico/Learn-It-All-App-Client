@@ -131,7 +131,7 @@
 
                 <!-- Empty library state -->
                 <VerticalStackLayout
-                    IsVisible="{Binding HasBooks, Converter={x:StaticResource InverseBoolConverter}}"
+                    IsVisible="{Binding ShowEmptyState}"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Spacing="14"

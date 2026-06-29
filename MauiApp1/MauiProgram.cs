@@ -41,6 +41,7 @@ public static class MauiProgram
         builder.Services.AddTransient<AuthViewModel>();
         builder.Services.AddTransient<MyLibraryViewModel>();
         builder.Services.AddTransient<AccountViewModel>();
+        builder.Services.AddTransient<PdfViewerViewModel>();
         builder.Services.AddSingleton<HomeViewModel>();
 
         // Views (Transient except AppShell which is Singleton)
@@ -50,6 +51,7 @@ public static class MauiProgram
         builder.Services.AddTransient<MyLibraryPage>();
         builder.Services.AddTransient<AccountPage>();
         builder.Services.AddTransient<HomePage>();
+        builder.Services.AddTransient<PdfViewerPage>();
         builder.Services.AddSingleton<AppShell>();
 
         return builder.Build();
