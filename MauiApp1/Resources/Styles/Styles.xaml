@@ -8,12 +8,12 @@
     ═══════════════════════════════════════════════ -->
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
-        <Setter Property="Shell.BackgroundColor"      Value="{StaticResource AppNavy}"/>
-        <Setter Property="Shell.ForegroundColor"      Value="{StaticResource AppTextOnDark}"/>
-        <Setter Property="Shell.TitleColor"           Value="{StaticResource AppTextOnDark}"/>
-        <Setter Property="Shell.DisabledColor"        Value="{StaticResource AppTextMuted}"/>
-        <Setter Property="Shell.UnselectedColor"      Value="{StaticResource AppTextMuted}"/>
-        <Setter Property="Shell.NavBarHasShadow"      Value="False"/>
+        <Setter Property="Shell.BackgroundColor"       Value="{StaticResource AppNavy}"/>
+        <Setter Property="Shell.ForegroundColor"       Value="{StaticResource AppTextOnDark}"/>
+        <Setter Property="Shell.TitleColor"            Value="{StaticResource AppTextOnDark}"/>
+        <Setter Property="Shell.DisabledColor"         Value="{StaticResource AppTextMuted}"/>
+        <Setter Property="Shell.UnselectedColor"       Value="{StaticResource AppTextMuted}"/>
+        <Setter Property="Shell.NavBarHasShadow"       Value="False"/>
         <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource AppSurface}"/>
         <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource AppOrange}"/>
         <Setter Property="Shell.TabBarTitleColor"      Value="{StaticResource AppOrange}"/>
@@ -21,8 +21,8 @@
     </Style>
 
     <Style TargetType="Page" ApplyToDerivedTypes="True">
-        <Setter Property="Padding"          Value="0"/>
-        <Setter Property="BackgroundColor"  Value="{StaticResource AppBackground}"/>
+        <Setter Property="Padding"         Value="0"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource AppBackground}"/>
     </Style>
 
     <Style TargetType="NavigationPage">
@@ -35,12 +35,12 @@
     ═══════════════════════════════════════════════ -->
 
     <Style TargetType="Button">
-        <Setter Property="TextColor"          Value="{StaticResource AppTextOnDark}"/>
-        <Setter Property="BackgroundColor"    Value="{StaticResource AppNavy}"/>
-        <Setter Property="FontFamily"         Value="OpenSansSemibold"/>
-        <Setter Property="FontSize"           Value="15"/>
-        <Setter Property="CornerRadius"       Value="10"/>
-        <Setter Property="Padding"            Value="16,12"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextOnDark}"/>
+        <Setter Property="BackgroundColor"      Value="{StaticResource AppNavy}"/>
+        <Setter Property="FontFamily"           Value="OpenSansSemibold"/>
+        <Setter Property="FontSize"             Value="15"/>
+        <Setter Property="CornerRadius"         Value="12"/>
+        <Setter Property="Padding"              Value="16,12"/>
         <Setter Property="MinimumHeightRequest" Value="48"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -64,10 +64,15 @@
         <Setter Property="BackgroundColor"      Value="{StaticResource AppOrange}"/>
         <Setter Property="FontFamily"           Value="OpenSansSemibold"/>
         <Setter Property="FontSize"             Value="15"/>
-        <Setter Property="CornerRadius"         Value="10"/>
-        <Setter Property="Padding"              Value="16,14"/>
-        <Setter Property="MinimumHeightRequest" Value="52"/>
+        <Setter Property="CornerRadius"         Value="14"/>
+        <Setter Property="Padding"              Value="16,15"/>
+        <Setter Property="MinimumHeightRequest" Value="54"/>
         <Setter Property="HorizontalOptions"    Value="Fill"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="#80F97316" Offset="0,4" Radius="16" Opacity="0.45"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="SmallPrimaryButtonStyle" TargetType="Button">
@@ -75,7 +80,7 @@
         <Setter Property="BackgroundColor"      Value="{StaticResource AppOrange}"/>
         <Setter Property="FontFamily"           Value="OpenSansSemibold"/>
         <Setter Property="FontSize"             Value="12"/>
-        <Setter Property="CornerRadius"         Value="8"/>
+        <Setter Property="CornerRadius"         Value="9"/>
         <Setter Property="Padding"              Value="8,6"/>
         <Setter Property="MinimumHeightRequest" Value="36"/>
         <Setter Property="HorizontalOptions"    Value="Fill"/>
@@ -88,20 +93,20 @@
         <Setter Property="BorderWidth"          Value="1.5"/>
         <Setter Property="FontFamily"           Value="OpenSansSemibold"/>
         <Setter Property="FontSize"             Value="15"/>
-        <Setter Property="CornerRadius"         Value="10"/>
-        <Setter Property="Padding"              Value="16,14"/>
-        <Setter Property="MinimumHeightRequest" Value="52"/>
+        <Setter Property="CornerRadius"         Value="14"/>
+        <Setter Property="Padding"              Value="16,15"/>
+        <Setter Property="MinimumHeightRequest" Value="54"/>
         <Setter Property="HorizontalOptions"    Value="Fill"/>
     </Style>
 
     <Style x:Key="GhostButtonStyle" TargetType="Button">
-        <Setter Property="TextColor"         Value="{StaticResource AppNavy}"/>
-        <Setter Property="BackgroundColor"   Value="Transparent"/>
-        <Setter Property="BorderWidth"       Value="0"/>
-        <Setter Property="FontFamily"        Value="OpenSansRegular"/>
-        <Setter Property="FontSize"          Value="14"/>
-        <Setter Property="CornerRadius"      Value="0"/>
-        <Setter Property="Padding"           Value="8,4"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppNavy}"/>
+        <Setter Property="BackgroundColor"      Value="Transparent"/>
+        <Setter Property="BorderWidth"          Value="0"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="14"/>
+        <Setter Property="CornerRadius"         Value="0"/>
+        <Setter Property="Padding"              Value="8,4"/>
         <Setter Property="MinimumHeightRequest" Value="40"/>
     </Style>
 
@@ -110,31 +115,44 @@
     ═══════════════════════════════════════════════ -->
 
     <Style x:Key="CardStyle" TargetType="Border">
-        <Setter Property="BackgroundColor"  Value="{StaticResource AppSurface}"/>
-        <Setter Property="StrokeShape"      Value="RoundRectangle 12"/>
-        <Setter Property="Stroke"           Value="{StaticResource AppDivider}"/>
-        <Setter Property="StrokeThickness"  Value="1"/>
-        <Setter Property="Padding"          Value="0"/>
+        <Setter Property="BackgroundColor" Value="{StaticResource AppSurface}"/>
+        <Setter Property="StrokeShape"     Value="RoundRectangle 16"/>
+        <Setter Property="Stroke"          Value="{StaticResource AppDivider}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Padding"         Value="0"/>
         <Setter Property="Shadow">
             <Setter.Value>
-                <Shadow Brush="{StaticResource AppNavyBrush}" Offset="0,2" Radius="8" Opacity="0.07"/>
+                <Shadow Brush="{StaticResource AppNavyBrush}" Offset="0,3" Radius="14" Opacity="0.08"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ElevatedCardStyle" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource AppSurface}"/>
+        <Setter Property="StrokeShape"     Value="RoundRectangle 20"/>
+        <Setter Property="Stroke"          Value="{StaticResource AppDivider}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Padding"         Value="0"/>
+        <Setter Property="Shadow">
+            <Setter.Value>
+                <Shadow Brush="{StaticResource AppNavyBrush}" Offset="0,6" Radius="24" Opacity="0.12"/>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="EntryBorderStyle" TargetType="Border">
-        <Setter Property="BackgroundColor"  Value="{StaticResource AppSurface}"/>
-        <Setter Property="StrokeShape"      Value="RoundRectangle 10"/>
-        <Setter Property="Stroke"           Value="{StaticResource AppDivider}"/>
-        <Setter Property="StrokeThickness"  Value="1.5"/>
-        <Setter Property="Padding"          Value="14,4"/>
+        <Setter Property="BackgroundColor"      Value="{StaticResource AppSurface}"/>
+        <Setter Property="StrokeShape"          Value="RoundRectangle 12"/>
+        <Setter Property="Stroke"               Value="{StaticResource AppDivider}"/>
+        <Setter Property="StrokeThickness"      Value="1.5"/>
+        <Setter Property="Padding"              Value="14,4"/>
         <Setter Property="MinimumHeightRequest" Value="54"/>
     </Style>
 
     <Style x:Key="GlassEntryBorderStyle" TargetType="Border">
         <Setter Property="BackgroundColor"      Value="#FFFFFF"/>
         <Setter Property="StrokeShape"          Value="RoundRectangle 14"/>
-        <Setter Property="Stroke"               Value="#DDE4F0"/>
+        <Setter Property="Stroke"               Value="#FDDDB8"/>
         <Setter Property="StrokeThickness"      Value="1.5"/>
         <Setter Property="Padding"              Value="18,4"/>
         <Setter Property="MinimumHeightRequest" Value="58"/>
@@ -156,10 +174,10 @@
     ═══════════════════════════════════════════════ -->
 
     <Style TargetType="Label">
-        <Setter Property="TextColor"      Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="TextColor"       Value="{StaticResource AppTextPrimary}"/>
         <Setter Property="BackgroundColor" Value="Transparent"/>
-        <Setter Property="FontFamily"     Value="OpenSansRegular"/>
-        <Setter Property="FontSize"       Value="14"/>
+        <Setter Property="FontFamily"      Value="OpenSansRegular"/>
+        <Setter Property="FontSize"        Value="14"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -175,17 +193,17 @@
     </Style>
 
     <Style x:Key="PageTitleStyle" TargetType="Label">
-        <Setter Property="TextColor"             Value="{StaticResource AppNavy}"/>
-        <Setter Property="FontFamily"            Value="OpenSansSemibold"/>
-        <Setter Property="FontSize"              Value="26"/>
-        <Setter Property="HorizontalOptions"     Value="Start"/>
+        <Setter Property="TextColor"               Value="{StaticResource AppNavy}"/>
+        <Setter Property="FontFamily"              Value="OpenSansSemibold"/>
+        <Setter Property="FontSize"                Value="26"/>
+        <Setter Property="HorizontalOptions"       Value="Start"/>
         <Setter Property="HorizontalTextAlignment" Value="Start"/>
     </Style>
 
     <Style x:Key="SectionTitleStyle" TargetType="Label">
-        <Setter Property="TextColor"   Value="{StaticResource AppNavy}"/>
-        <Setter Property="FontFamily"  Value="OpenSansSemibold"/>
-        <Setter Property="FontSize"    Value="16"/>
+        <Setter Property="TextColor"  Value="{StaticResource AppNavy}"/>
+        <Setter Property="FontFamily" Value="OpenSansSemibold"/>
+        <Setter Property="FontSize"   Value="16"/>
     </Style>
 
     <Style x:Key="BodyTextStyle" TargetType="Label">
@@ -201,9 +219,9 @@
     </Style>
 
     <Style x:Key="ErrorTextStyle" TargetType="Label">
-        <Setter Property="TextColor"             Value="{StaticResource AppError}"/>
-        <Setter Property="FontFamily"            Value="OpenSansRegular"/>
-        <Setter Property="FontSize"              Value="13"/>
+        <Setter Property="TextColor"               Value="{StaticResource AppError}"/>
+        <Setter Property="FontFamily"              Value="OpenSansRegular"/>
+        <Setter Property="FontSize"                Value="13"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
     </Style>
 
@@ -214,26 +232,25 @@
     </Style>
 
     <Style x:Key="OnDarkTitleStyle" TargetType="Label">
-        <Setter Property="TextColor"  Value="{StaticResource AppTextOnDark}"/>
-        <Setter Property="FontFamily" Value="OpenSansSemibold"/>
-        <Setter Property="FontSize"   Value="24"/>
+        <Setter Property="TextColor"               Value="{StaticResource AppTextOnDark}"/>
+        <Setter Property="FontFamily"              Value="OpenSansSemibold"/>
+        <Setter Property="FontSize"                Value="24"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
     </Style>
 
-    <!-- Legacy named styles -->
     <Style x:Key="Headline" TargetType="Label">
-        <Setter Property="TextColor"             Value="{StaticResource AppNavy}"/>
-        <Setter Property="FontFamily"            Value="OpenSansSemibold"/>
-        <Setter Property="FontSize"              Value="28"/>
-        <Setter Property="HorizontalOptions"     Value="Center"/>
+        <Setter Property="TextColor"               Value="{StaticResource AppNavy}"/>
+        <Setter Property="FontFamily"              Value="OpenSansSemibold"/>
+        <Setter Property="FontSize"                Value="28"/>
+        <Setter Property="HorizontalOptions"       Value="Center"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
     </Style>
 
     <Style x:Key="SubHeadline" TargetType="Label">
-        <Setter Property="TextColor"             Value="{StaticResource AppTextSecondary}"/>
-        <Setter Property="FontFamily"            Value="OpenSansRegular"/>
-        <Setter Property="FontSize"              Value="16"/>
-        <Setter Property="HorizontalOptions"     Value="Center"/>
+        <Setter Property="TextColor"               Value="{StaticResource AppTextSecondary}"/>
+        <Setter Property="FontFamily"              Value="OpenSansRegular"/>
+        <Setter Property="FontSize"                Value="16"/>
+        <Setter Property="HorizontalOptions"       Value="Center"/>
         <Setter Property="HorizontalTextAlignment" Value="Center"/>
     </Style>
 
@@ -242,11 +259,11 @@
     ═══════════════════════════════════════════════ -->
 
     <Style TargetType="Entry">
-        <Setter Property="TextColor"          Value="{StaticResource AppTextPrimary}"/>
-        <Setter Property="BackgroundColor"    Value="Transparent"/>
-        <Setter Property="FontFamily"         Value="OpenSansRegular"/>
-        <Setter Property="FontSize"           Value="15"/>
-        <Setter Property="PlaceholderColor"   Value="{StaticResource AppTextMuted}"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="BackgroundColor"      Value="Transparent"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="15"/>
+        <Setter Property="PlaceholderColor"     Value="{StaticResource AppTextMuted}"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
@@ -264,12 +281,12 @@
     </Style>
 
     <Style TargetType="SearchBar">
-        <Setter Property="TextColor"        Value="{StaticResource AppTextPrimary}"/>
-        <Setter Property="PlaceholderColor" Value="{StaticResource AppTextMuted}"/>
-        <Setter Property="CancelButtonColor" Value="{StaticResource AppTextSecondary}"/>
-        <Setter Property="BackgroundColor"  Value="{StaticResource AppSurface}"/>
-        <Setter Property="FontFamily"       Value="OpenSansRegular"/>
-        <Setter Property="FontSize"         Value="14"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="PlaceholderColor"     Value="{StaticResource AppTextMuted}"/>
+        <Setter Property="CancelButtonColor"    Value="{StaticResource AppTextSecondary}"/>
+        <Setter Property="BackgroundColor"      Value="{StaticResource AppSurface}"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
     </Style>
@@ -308,55 +325,55 @@
     </Style>
 
     <Style TargetType="ImageButton">
-        <Setter Property="Opacity"          Value="1"/>
-        <Setter Property="BorderColor"      Value="Transparent"/>
-        <Setter Property="BorderWidth"      Value="0"/>
-        <Setter Property="CornerRadius"     Value="0"/>
+        <Setter Property="Opacity"              Value="1"/>
+        <Setter Property="BorderColor"          Value="Transparent"/>
+        <Setter Property="BorderWidth"          Value="0"/>
+        <Setter Property="CornerRadius"         Value="0"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
     </Style>
 
     <Style TargetType="Shadow">
-        <Setter Property="Radius"  Value="12"/>
-        <Setter Property="Opacity" Value="0.08"/>
+        <Setter Property="Radius"  Value="14"/>
+        <Setter Property="Opacity" Value="0.09"/>
         <Setter Property="Brush"   Value="{StaticResource AppNavyBrush}"/>
-        <Setter Property="Offset"  Value="0,2"/>
+        <Setter Property="Offset"  Value="0,3"/>
     </Style>
 
     <Style TargetType="DatePicker">
-        <Setter Property="TextColor"          Value="{StaticResource AppTextPrimary}"/>
-        <Setter Property="BackgroundColor"    Value="Transparent"/>
-        <Setter Property="FontFamily"         Value="OpenSansRegular"/>
-        <Setter Property="FontSize"           Value="14"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="BackgroundColor"      Value="Transparent"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
     </Style>
 
     <Style TargetType="Editor">
-        <Setter Property="TextColor"          Value="{StaticResource AppTextPrimary}"/>
-        <Setter Property="BackgroundColor"    Value="Transparent"/>
-        <Setter Property="FontFamily"         Value="OpenSansRegular"/>
-        <Setter Property="FontSize"           Value="14"/>
-        <Setter Property="PlaceholderColor"   Value="{StaticResource AppTextMuted}"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="BackgroundColor"      Value="Transparent"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="14"/>
+        <Setter Property="PlaceholderColor"     Value="{StaticResource AppTextMuted}"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
     </Style>
 
     <Style TargetType="Picker">
-        <Setter Property="TextColor"          Value="{StaticResource AppTextPrimary}"/>
-        <Setter Property="TitleColor"         Value="{StaticResource AppTextMuted}"/>
-        <Setter Property="BackgroundColor"    Value="Transparent"/>
-        <Setter Property="FontFamily"         Value="OpenSansRegular"/>
-        <Setter Property="FontSize"           Value="14"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="TitleColor"           Value="{StaticResource AppTextMuted}"/>
+        <Setter Property="BackgroundColor"      Value="Transparent"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
     </Style>
 
     <Style TargetType="RadioButton">
-        <Setter Property="BackgroundColor"    Value="Transparent"/>
-        <Setter Property="TextColor"          Value="{StaticResource AppTextPrimary}"/>
-        <Setter Property="FontFamily"         Value="OpenSansRegular"/>
-        <Setter Property="FontSize"           Value="14"/>
+        <Setter Property="BackgroundColor"      Value="Transparent"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
     </Style>
@@ -374,19 +391,19 @@
     </Style>
 
     <Style TargetType="TimePicker">
-        <Setter Property="TextColor"       Value="{StaticResource AppTextPrimary}"/>
-        <Setter Property="BackgroundColor" Value="Transparent"/>
-        <Setter Property="FontFamily"      Value="OpenSansRegular"/>
-        <Setter Property="FontSize"        Value="14"/>
+        <Setter Property="TextColor"            Value="{StaticResource AppTextPrimary}"/>
+        <Setter Property="BackgroundColor"      Value="Transparent"/>
+        <Setter Property="FontFamily"           Value="OpenSansRegular"/>
+        <Setter Property="FontSize"             Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest"  Value="44"/>
     </Style>
 
     <Style TargetType="TabbedPage">
-        <Setter Property="BarBackgroundColor" Value="{StaticResource AppSurface}"/>
-        <Setter Property="BarTextColor"       Value="{StaticResource AppOrange}"/>
-        <Setter Property="UnselectedTabColor" Value="{StaticResource AppTextMuted}"/>
-        <Setter Property="SelectedTabColor"   Value="{StaticResource AppOrange}"/>
+        <Setter Property="BarBackgroundColor"  Value="{StaticResource AppSurface}"/>
+        <Setter Property="BarTextColor"        Value="{StaticResource AppOrange}"/>
+        <Setter Property="UnselectedTabColor"  Value="{StaticResource AppTextMuted}"/>
+        <Setter Property="SelectedTabColor"    Value="{StaticResource AppOrange}"/>
     </Style>
 
 </ResourceDictionary>

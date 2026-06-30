@@ -11,17 +11,17 @@
 
     <Grid RowDefinitions="Auto,Auto,*">
 
-        <!-- ── Gradient header with category selectors ────────────── -->
+        <!-- ── Gradient header with category selectors ───────────── -->
         <Grid Grid.Row="0">
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
-                    <GradientStop Color="#0D1830" Offset="0.0"/>
-                    <GradientStop Color="#1A3660" Offset="0.5"/>
-                    <GradientStop Color="#2A5298" Offset="1.0"/>
+                    <GradientStop Color="#7C2D12" Offset="0.0"/>
+                    <GradientStop Color="#C2410C" Offset="0.5"/>
+                    <GradientStop Color="#EA580C" Offset="1.0"/>
                 </LinearGradientBrush>
             </Grid.Background>
 
-            <!-- Decorative orb — top right -->
+            <!-- Decorative orb — top right (amber) -->
             <Border
                 HeightRequest="240" WidthRequest="240"
                 StrokeShape="Ellipse"
@@ -31,8 +31,8 @@
                 InputTransparent="True">
                 <Border.Background>
                     <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                        <GradientStop Color="#503A78D0" Offset="0.0"/>
-                        <GradientStop Color="#002A5298" Offset="1.0"/>
+                        <GradientStop Color="#50FBBF24" Offset="0.0"/>
+                        <GradientStop Color="#00FBBF24" Offset="1.0"/>
                     </RadialGradientBrush>
                 </Border.Background>
             </Border>
@@ -44,13 +44,13 @@
                     Text="Browse Books"
                     TextColor="White"
                     FontFamily="OpenSansSemibold"
-                    FontSize="26"
+                    FontSize="28"
                     HorizontalTextAlignment="Start"/>
 
                 <Label
                     Text="Select a category to explore"
                     TextColor="White"
-                    Opacity="0.65"
+                    Opacity="0.7"
                     FontFamily="OpenSansRegular"
                     FontSize="13"
                     Margin="0,4,0,0"/>
@@ -61,32 +61,41 @@
                     <!-- College Course -->
                     <Border
                         Grid.Column="0"
-                        StrokeShape="RoundRectangle 14"
+                        StrokeShape="RoundRectangle 16"
                         Stroke="#40FFFFFF"
                         StrokeThickness="1.5"
-                        BackgroundColor="Transparent"
-                        Padding="12,16">
+                        BackgroundColor="#18FFFFFF"
+                        Padding="12,14">
                         <Border.Triggers>
                             <DataTrigger TargetType="Border" Binding="{Binding IsCollegeCourseSelected}" Value="True">
                                 <Setter Property="BackgroundColor" Value="{StaticResource AppOrange}"/>
                                 <Setter Property="Stroke" Value="Transparent"/>
                             </DataTrigger>
                         </Border.Triggers>
-                        <VerticalStackLayout HorizontalOptions="Center" Spacing="3">
-                            <Label
-                                Text="College Course"
-                                TextColor="White"
-                                FontFamily="OpenSansSemibold"
-                                FontSize="13"
-                                HorizontalTextAlignment="Center"/>
-                            <Label
-                                Text="Undergraduate"
-                                TextColor="White"
-                                Opacity="0.7"
-                                FontFamily="OpenSansRegular"
-                                FontSize="11"
-                                HorizontalTextAlignment="Center"/>
-                        </VerticalStackLayout>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="0">
+                            <HorizontalStackLayout
+                                Grid.Column="0"
+                                Spacing="2"
+                                VerticalOptions="Center"
+                                Margin="0,0,10,0">
+                                <BoxView WidthRequest="4" HeightRequest="20" CornerRadius="2" BackgroundColor="White" Opacity="0.7"/>
+                                <BoxView WidthRequest="4" HeightRequest="26" CornerRadius="2" BackgroundColor="White" Opacity="0.9"/>
+                                <BoxView WidthRequest="4" HeightRequest="18" CornerRadius="2" BackgroundColor="White" Opacity="0.6"/>
+                            </HorizontalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="Start" Spacing="2">
+                                <Label
+                                    Text="College"
+                                    TextColor="White"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="13"/>
+                                <Label
+                                    Text="Undergraduate"
+                                    TextColor="White"
+                                    Opacity="0.65"
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="10"/>
+                            </VerticalStackLayout>
+                        </Grid>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" CommandParameter="CollegeCourse"/>
                         </Border.GestureRecognizers>
@@ -95,32 +104,41 @@
                     <!-- Board Exam Reviewer -->
                     <Border
                         Grid.Column="2"
-                        StrokeShape="RoundRectangle 14"
+                        StrokeShape="RoundRectangle 16"
                         Stroke="#40FFFFFF"
                         StrokeThickness="1.5"
-                        BackgroundColor="Transparent"
-                        Padding="12,16">
+                        BackgroundColor="#18FFFFFF"
+                        Padding="12,14">
                         <Border.Triggers>
                             <DataTrigger TargetType="Border" Binding="{Binding IsReviewerSelected}" Value="True">
                                 <Setter Property="BackgroundColor" Value="{StaticResource AppOrange}"/>
                                 <Setter Property="Stroke" Value="Transparent"/>
                             </DataTrigger>
                         </Border.Triggers>
-                        <VerticalStackLayout HorizontalOptions="Center" Spacing="3">
-                            <Label
-                                Text="Board Exam"
-                                TextColor="White"
-                                FontFamily="OpenSansSemibold"
-                                FontSize="13"
-                                HorizontalTextAlignment="Center"/>
-                            <Label
-                                Text="Reviewer"
-                                TextColor="White"
-                                Opacity="0.7"
-                                FontFamily="OpenSansRegular"
-                                FontSize="11"
-                                HorizontalTextAlignment="Center"/>
-                        </VerticalStackLayout>
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="0">
+                            <VerticalStackLayout
+                                Grid.Column="0"
+                                Spacing="4"
+                                VerticalOptions="Center"
+                                Margin="0,0,10,0">
+                                <BoxView WidthRequest="20" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.9"/>
+                                <BoxView WidthRequest="14" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.65"/>
+                                <BoxView WidthRequest="17" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.75"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="Start" Spacing="2">
+                                <Label
+                                    Text="Board Exam"
+                                    TextColor="White"
+                                    FontFamily="OpenSansSemibold"
+                                    FontSize="13"/>
+                                <Label
+                                    Text="Reviewer"
+                                    TextColor="White"
+                                    Opacity="0.65"
+                                    FontFamily="OpenSansRegular"
+                                    FontSize="10"/>
+                            </VerticalStackLayout>
+                        </Grid>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding SelectCategoryCommand}" CommandParameter="Reviewer"/>
                         </Border.GestureRecognizers>
@@ -128,7 +146,7 @@
 
                 </Grid>
 
-                <!-- Search bar — visible after category is selected -->
+                <!-- Search bar -->
                 <Border
                     IsVisible="{Binding HasSelectedCategory}"
                     BackgroundColor="#20FFFFFF"
@@ -159,8 +177,8 @@
             IsVisible="{Binding IsGuest}">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                    <GradientStop Color="#D4890F" Offset="0.0"/>
-                    <GradientStop Color="#F5A623" Offset="1.0"/>
+                    <GradientStop Color="#C2410C" Offset="0.0"/>
+                    <GradientStop Color="#F97316" Offset="1.0"/>
                 </LinearGradientBrush>
             </Border.Background>
             <Grid ColumnDefinitions="*,Auto">
@@ -191,45 +209,57 @@
                 Spacing="18"
                 Padding="44,0">
 
-                <!-- Book spine graphic -->
+                <!-- Colorful book spines -->
                 <StackLayout
                     Orientation="Horizontal"
                     HorizontalOptions="Center"
-                    Spacing="5"
+                    Spacing="6"
                     Margin="0,0,0,4">
                     <Border
                         StrokeShape="RoundRectangle 4"
                         Stroke="Transparent"
-                        WidthRequest="10"
-                        HeightRequest="48">
+                        WidthRequest="12"
+                        HeightRequest="52">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <GradientStop Color="#2E7BC4" Offset="0"/>
-                                <GradientStop Color="#1B3A6B" Offset="1"/>
+                                <GradientStop Color="#F97316" Offset="0"/>
+                                <GradientStop Color="#C2410C" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
                     <Border
                         StrokeShape="RoundRectangle 4"
                         Stroke="Transparent"
-                        WidthRequest="10"
-                        HeightRequest="56">
+                        WidthRequest="12"
+                        HeightRequest="64">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <GradientStop Color="#2A5298" Offset="0"/>
-                                <GradientStop Color="#1A3660" Offset="1"/>
+                                <GradientStop Color="#1E40AF" Offset="0"/>
+                                <GradientStop Color="#1D4ED8" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
                     <Border
                         StrokeShape="RoundRectangle 4"
                         Stroke="Transparent"
-                        WidthRequest="10"
-                        HeightRequest="48">
+                        WidthRequest="12"
+                        HeightRequest="52">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <GradientStop Color="#3A8AD4" Offset="0"/>
-                                <GradientStop Color="#2462A4" Offset="1"/>
+                                <GradientStop Color="#EA580C" Offset="0"/>
+                                <GradientStop Color="#9A3412" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border
+                        StrokeShape="RoundRectangle 4"
+                        Stroke="Transparent"
+                        WidthRequest="12"
+                        HeightRequest="58">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#FBBF24" Offset="0"/>
+                                <GradientStop Color="#F59E0B" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
                     </Border>
@@ -238,7 +268,7 @@
                 <Label
                     Text="Choose a Category"
                     FontFamily="OpenSansSemibold"
-                    FontSize="20"
+                    FontSize="22"
                     TextColor="{StaticResource AppNavy}"
                     HorizontalTextAlignment="Center"/>
 
@@ -251,7 +281,7 @@
 
             </VerticalStackLayout>
 
-            <!-- Books grid — visible after category is selected -->
+            <!-- Books grid -->
             <RefreshView
                 IsVisible="{Binding HasSelectedCategory}"
                 Command="{Binding RefreshCommand}"
@@ -277,7 +307,7 @@
                             Padding="40"
                             Margin="0,60,0,0">
 
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="4">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="5">
                                 <BoxView WidthRequest="8" HeightRequest="32" CornerRadius="3" BackgroundColor="{StaticResource AppTextMuted}"/>
                                 <BoxView WidthRequest="8" HeightRequest="32" CornerRadius="3" BackgroundColor="{StaticResource AppTextMuted}" Opacity="0.5"/>
                                 <BoxView WidthRequest="8" HeightRequest="32" CornerRadius="3" BackgroundColor="{StaticResource AppTextMuted}" Opacity="0.3"/>
@@ -300,50 +330,93 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:BookMetadata">
                             <Border Style="{StaticResource CardStyle}" Margin="0">
-                                <Grid RowDefinitions="160,Auto">
+                                <Grid RowDefinitions="165,Auto">
 
-                                    <!-- Cover image / gradient placeholder -->
-                                    <Grid Grid.Row="0">
-                                        <!-- Gradient placeholder (always shown as base) -->
-                                        <Border
-                                            StrokeShape="RoundRectangle 12,12,0,0"
-                                            Stroke="Transparent"
-                                            StrokeThickness="0">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                                    <GradientStop Color="#1A3660" Offset="0.0"/>
-                                                    <GradientStop Color="#2E7BC4" Offset="1.0"/>
-                                                </LinearGradientBrush>
-                                            </Border.Background>
-                                        </Border>
+                                    <!-- Cover image area — clipped Border prevents AspectFill overflow -->
+                                    <Border
+                                        Grid.Row="0"
+                                        StrokeShape="RoundRectangle 16,16,0,0"
+                                        Stroke="Transparent"
+                                        StrokeThickness="0">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Color="#7C2D12" Offset="0.0"/>
+                                                <GradientStop Color="#C2410C" Offset="1.0"/>
+                                            </LinearGradientBrush>
+                                        </Border.Background>
 
-                                        <!-- Cover image overlaid when available -->
-                                        <Image
-                                            Source="{Binding ImageCoverUrl}"
-                                            Aspect="AspectFill"
-                                            IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
+                                        <Grid>
+                                            <!-- Decorative page lines shown when no cover image -->
+                                            <VerticalStackLayout
+                                                Spacing="6"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NullConverter}}">
+                                                <BoxView WidthRequest="48" HeightRequest="3" CornerRadius="1.5" BackgroundColor="White" Opacity="0.2"/>
+                                                <BoxView WidthRequest="36" HeightRequest="3" CornerRadius="1.5" BackgroundColor="White" Opacity="0.15"/>
+                                                <BoxView WidthRequest="44" HeightRequest="3" CornerRadius="1.5" BackgroundColor="White" Opacity="0.2"/>
+                                                <BoxView WidthRequest="28" HeightRequest="3" CornerRadius="1.5" BackgroundColor="White" Opacity="0.1"/>
+                                            </VerticalStackLayout>
 
-                                        <!-- Category badge -->
-                                        <Border
-                                            BackgroundColor="#CC0D1830"
-                                            StrokeShape="RoundRectangle 6"
-                                            Stroke="Transparent"
-                                            Padding="8,4"
-                                            HorizontalOptions="Start"
-                                            VerticalOptions="End"
-                                            Margin="8,0,0,8">
-                                            <Label
-                                                Text="{Binding Category}"
-                                                TextColor="White"
-                                                FontFamily="OpenSansSemibold"
-                                                FontSize="10"/>
-                                        </Border>
-                                    </Grid>
+                                            <!-- Cover image — clips to parent Border's RoundRectangle -->
+                                            <Image
+                                                Source="{Binding ImageCoverUrl, Converter={x:StaticResource ImageCoverConverter}}"
+                                                Aspect="AspectFill"
+                                                IsVisible="{Binding ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
+
+                                            <!-- Bottom scrim -->
+                                            <Border
+                                                StrokeShape="Rectangle"
+                                                Stroke="Transparent"
+                                                VerticalOptions="End"
+                                                HeightRequest="48">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                        <GradientStop Color="#007C2D12" Offset="0"/>
+                                                        <GradientStop Color="#887C2D12" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+
+                                            <!-- Category badge -->
+                                            <Border
+                                                BackgroundColor="#CC1C1917"
+                                                StrokeShape="RoundRectangle 7"
+                                                Stroke="Transparent"
+                                                Padding="8,4"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="End"
+                                                Margin="10,0,0,10">
+                                                <Label
+                                                    Text="{Binding Category}"
+                                                    TextColor="White"
+                                                    FontFamily="OpenSansSemibold"
+                                                    FontSize="9"
+                                                    CharacterSpacing="0.5"/>
+                                            </Border>
+
+                                            <!-- Price badge -->
+                                            <Border
+                                                BackgroundColor="{StaticResource AppOrange}"
+                                                StrokeShape="RoundRectangle 0,10,0,10"
+                                                Stroke="Transparent"
+                                                Padding="8,4"
+                                                HorizontalOptions="End"
+                                                VerticalOptions="Start"
+                                                Margin="0,12,0,0">
+                                                <Label
+                                                    Text="{Binding Price, StringFormat='₱{0:F0}'}"
+                                                    TextColor="White"
+                                                    FontFamily="OpenSansSemibold"
+                                                    FontSize="11"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
 
                                     <!-- Book details -->
                                     <VerticalStackLayout
                                         Grid.Row="1"
-                                        Padding="12,10,12,12"
+                                        Padding="12,10,12,13"
                                         Spacing="4">
 
                                         <Label
@@ -354,28 +427,22 @@
                                             MaxLines="2"
                                             LineBreakMode="TailTruncation"/>
 
-                                        <Label
-                                            Text="{Binding Price, StringFormat='₱{0:F2}'}"
-                                            TextColor="{StaticResource AppNavy}"
-                                            FontFamily="OpenSansSemibold"
-                                            FontSize="15"
-                                            Margin="0,2,0,6"/>
-
                                         <Button
                                             Text="Buy Now"
                                             TextColor="White"
                                             FontFamily="OpenSansSemibold"
                                             FontSize="12"
-                                            CornerRadius="8"
-                                            Padding="8,6"
-                                            MinimumHeightRequest="36"
+                                            CornerRadius="10"
+                                            Padding="8,7"
+                                            MinimumHeightRequest="38"
                                             HorizontalOptions="Fill"
+                                            Margin="0,4,0,0"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.BuyCommand}"
                                             CommandParameter="{Binding .}">
                                             <Button.Background>
                                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                                    <GradientStop Color="#F5A623" Offset="0.0"/>
-                                                    <GradientStop Color="#D4890F" Offset="1.0"/>
+                                                    <GradientStop Color="#F97316" Offset="0.0"/>
+                                                    <GradientStop Color="#C2410C" Offset="1.0"/>
                                                 </LinearGradientBrush>
                                             </Button.Background>
                                         </Button>

@@ -7,18 +7,17 @@
     x:DataType="vm:AuthViewModel"
     Shell.NavBarIsVisible="False">
 
-    <!-- Deep gradient background -->
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
-            <GradientStop Color="#0D1830" Offset="0.0"/>
-            <GradientStop Color="#1A3660" Offset="0.5"/>
-            <GradientStop Color="#2A5298" Offset="1.0"/>
+            <GradientStop Color="#7C2D12" Offset="0.0"/>
+            <GradientStop Color="#C2410C" Offset="0.5"/>
+            <GradientStop Color="#EA580C" Offset="1.0"/>
         </LinearGradientBrush>
     </ContentPage.Background>
 
     <Grid>
 
-        <!-- Decorative orb — top right (blue-indigo glow) -->
+        <!-- Decorative orb — top right (amber glow) -->
         <Border
             HeightRequest="320" WidthRequest="320"
             StrokeShape="Ellipse"
@@ -28,13 +27,13 @@
             InputTransparent="True">
             <Border.Background>
                 <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                    <GradientStop Color="#603A78D0" Offset="0.0"/>
-                    <GradientStop Color="#002A5298" Offset="1.0"/>
+                    <GradientStop Color="#60FBBF24" Offset="0.0"/>
+                    <GradientStop Color="#00FBBF24" Offset="1.0"/>
                 </RadialGradientBrush>
             </Border.Background>
         </Border>
 
-        <!-- Decorative orb — bottom left (amber glow) -->
+        <!-- Decorative orb — bottom left (orange glow) -->
         <Border
             HeightRequest="240" WidthRequest="240"
             StrokeShape="Ellipse"
@@ -44,13 +43,13 @@
             InputTransparent="True">
             <Border.Background>
                 <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                    <GradientStop Color="#50F5A623" Offset="0.0"/>
-                    <GradientStop Color="#00F5A623" Offset="1.0"/>
+                    <GradientStop Color="#40F97316" Offset="0.0"/>
+                    <GradientStop Color="#00F97316" Offset="1.0"/>
                 </RadialGradientBrush>
             </Border.Background>
         </Border>
 
-        <!-- Decorative orb — top left (subtle navy accent) -->
+        <!-- Decorative orb — top left (warm accent) -->
         <Border
             HeightRequest="140" WidthRequest="140"
             StrokeShape="Ellipse"
@@ -60,8 +59,8 @@
             InputTransparent="True">
             <Border.Background>
                 <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                    <GradientStop Color="#405B8DD6" Offset="0.0"/>
-                    <GradientStop Color="#005B8DD6" Offset="1.0"/>
+                    <GradientStop Color="#40FBBF24" Offset="0.0"/>
+                    <GradientStop Color="#00FBBF24" Offset="1.0"/>
                 </RadialGradientBrush>
             </Border.Background>
         </Border>
@@ -70,7 +69,7 @@
         <ScrollView>
             <VerticalStackLayout Spacing="0">
 
-                <!-- ── Hero section (on gradient) ─────────────── -->
+                <!-- ── Hero section (on gradient) ─────────────────── -->
                 <VerticalStackLayout
                     HorizontalOptions="Center"
                     Spacing="10"
@@ -94,7 +93,7 @@
                     <Label
                         Text="{Binding FormSubtitle}"
                         TextColor="White"
-                        Opacity="0.72"
+                        Opacity="0.75"
                         FontFamily="OpenSansRegular"
                         FontSize="14"
                         HorizontalTextAlignment="Center"
@@ -102,8 +101,9 @@
 
                 </VerticalStackLayout>
 
-                <!-- ── Glass form card ────────────────────────── -->
+                <!-- ── Glass form card ────────────────────────────── -->
                 <Border
+                    x:Name="FormCard"
                     StrokeShape="RoundRectangle 32,32,0,0"
                     Stroke="#28FFFFFF"
                     StrokeThickness="1.5"
@@ -111,8 +111,8 @@
                     MinimumHeightRequest="620">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="#F2F6FF" Offset="0.0"/>
-                            <GradientStop Color="#F9FAFF" Offset="1.0"/>
+                            <GradientStop Color="#FFF9F5" Offset="0.0"/>
+                            <GradientStop Color="#FFFBF8" Offset="1.0"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <Border.Shadow>
@@ -121,7 +121,7 @@
 
                     <VerticalStackLayout Spacing="0">
 
-                        <!-- ── Verify Email ──────────────────────── -->
+                        <!-- ── Verify Email ──────────────────────────── -->
                         <VerticalStackLayout
                             IsVisible="{Binding IsVerifyEmailMode}"
                             Spacing="16"
@@ -129,9 +129,9 @@
                             Margin="0,0,0,28">
 
                             <Border
-                                BackgroundColor="#E8F0FF"
+                                BackgroundColor="#FFF4ED"
                                 StrokeShape="Ellipse"
-                                Stroke="#B8CFFF"
+                                Stroke="#FDDDB8"
                                 StrokeThickness="1.5"
                                 HeightRequest="92"
                                 WidthRequest="92"
@@ -140,7 +140,7 @@
                                     Text="@"
                                     FontSize="38"
                                     FontFamily="OpenSansSemibold"
-                                    TextColor="{StaticResource AppBlue}"
+                                    TextColor="{StaticResource AppNavy}"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center"/>
                             </Border>
@@ -152,9 +152,9 @@
                                 HorizontalTextAlignment="Center"/>
 
                             <Border
-                                BackgroundColor="#E8F0FF"
+                                BackgroundColor="#FFF4ED"
                                 StrokeShape="RoundRectangle 10"
-                                Stroke="#B8CFFF"
+                                Stroke="#FDDDB8"
                                 StrokeThickness="1"
                                 Padding="20,10"
                                 HorizontalOptions="Center">
@@ -175,7 +175,7 @@
 
                         </VerticalStackLayout>
 
-                        <!-- ── Profile Setup ─────────────────────── -->
+                        <!-- ── Profile Setup ─────────────────────────── -->
                         <VerticalStackLayout
                             IsVisible="{Binding IsProfileSetupMode}"
                             Spacing="0"
@@ -183,15 +183,15 @@
 
                             <!-- Required notice -->
                             <Border
-                                BackgroundColor="#E8F0FF"
+                                BackgroundColor="#FFF4ED"
                                 StrokeShape="RoundRectangle 12"
-                                Stroke="#B8CFFF"
+                                Stroke="#FDDDB8"
                                 StrokeThickness="1"
                                 Padding="16,13"
                                 Margin="0,0,0,26">
                                 <Label
                                     Text="Please complete your profile to continue — this step is required."
-                                    TextColor="{StaticResource AppNavyLight}"
+                                    TextColor="{StaticResource AppNavy}"
                                     FontSize="13"
                                     LineBreakMode="WordWrap"
                                     HorizontalTextAlignment="Center"/>
@@ -245,7 +245,7 @@
 
                         </VerticalStackLayout>
 
-                        <!-- ── Email / Password ──────────────────── -->
+                        <!-- ── Email / Password ──────────────────────── -->
                         <VerticalStackLayout
                             IsVisible="{Binding ShowEmailPasswordFields}"
                             Spacing="0"
@@ -296,7 +296,7 @@
                                     <Label
                                         Grid.Column="1"
                                         Text="{Binding IsPasswordVisible, Converter={StaticResource BoolToEyeIconConverter}}"
-                                        TextColor="{StaticResource AppBlue}"
+                                        TextColor="{StaticResource AppOrange}"
                                         FontFamily="OpenSansSemibold"
                                         FontSize="12"
                                         VerticalOptions="Center"
@@ -366,7 +366,7 @@
                                 HorizontalTextAlignment="Center"/>
                         </Border>
 
-                        <!-- Submit button (gradient) -->
+                        <!-- Submit button (orange gradient) -->
                         <Button
                             Text="{Binding SubmitButtonText}"
                             TextColor="White"
@@ -380,12 +380,12 @@
                             Margin="0,30,0,0">
                             <Button.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                    <GradientStop Color="#F5A623" Offset="0.0"/>
-                                    <GradientStop Color="#D4890F" Offset="1.0"/>
+                                    <GradientStop Color="#F97316" Offset="0.0"/>
+                                    <GradientStop Color="#C2410C" Offset="1.0"/>
                                 </LinearGradientBrush>
                             </Button.Background>
                             <Button.Shadow>
-                                <Shadow Brush="#80F5A623" Offset="0,6" Radius="20" Opacity="0.5"/>
+                                <Shadow Brush="#80F97316" Offset="0,6" Radius="20" Opacity="0.5"/>
                             </Button.Shadow>
                         </Button>
 
@@ -431,7 +431,7 @@
                                 VerticalOptions="Center"/>
                             <Label
                                 Text="{Binding ToggleLinkText}"
-                                TextColor="{StaticResource AppOrange}"
+                                TextColor="{StaticResource AppNavy}"
                                 FontFamily="OpenSansSemibold"
                                 FontSize="14"
                                 VerticalOptions="Center">
@@ -447,7 +447,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Close button — hidden when ProfileSetup is required -->
+        <!-- Close button -->
         <Button
             Text="✕"
             CornerRadius="20"

@@ -14,12 +14,13 @@
         <Grid Grid.Row="0">
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
-                    <GradientStop Color="#0D1830" Offset="0.0"/>
-                    <GradientStop Color="#1A3660" Offset="0.5"/>
-                    <GradientStop Color="#2A5298" Offset="1.0"/>
+                    <GradientStop Color="#7C2D12" Offset="0.0"/>
+                    <GradientStop Color="#C2410C" Offset="0.5"/>
+                    <GradientStop Color="#EA580C" Offset="1.0"/>
                 </LinearGradientBrush>
             </Grid.Background>
 
+            <!-- Amber orb — top right -->
             <Border
                 HeightRequest="120" WidthRequest="120"
                 StrokeShape="Ellipse"
@@ -29,8 +30,8 @@
                 InputTransparent="True">
                 <Border.Background>
                     <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                        <GradientStop Color="#30F5A623" Offset="0.0"/>
-                        <GradientStop Color="#00F5A623" Offset="1.0"/>
+                        <GradientStop Color="#30FBBF24" Offset="0.0"/>
+                        <GradientStop Color="#00FBBF24" Offset="1.0"/>
                     </RadialGradientBrush>
                 </Border.Background>
             </Border>
@@ -63,7 +64,7 @@
                     <Label
                         Text="{Binding DocTitle}"
                         TextColor="White"
-                        Opacity="0.6"
+                        Opacity="0.65"
                         FontFamily="OpenSansRegular"
                         FontSize="11"
                         MaxLines="1"
@@ -121,7 +122,7 @@
 
                 <ActivityIndicator
                     IsRunning="{Binding IsBusy}"
-                    Color="{StaticResource AppOrange}"
+                    Color="{StaticResource AppNavy}"
                     WidthRequest="52"
                     HeightRequest="52"
                     HorizontalOptions="Center"/>
@@ -254,8 +255,8 @@
 
                                             <Border.Triggers>
                                                 <DataTrigger TargetType="Border" Binding="{Binding IsCurrentBook}" Value="True">
-                                                    <Setter Property="Stroke" Value="{StaticResource AppOrange}"/>
-                                                    <Setter Property="BackgroundColor" Value="#FFF8F0"/>
+                                                    <Setter Property="Stroke" Value="{StaticResource AppNavy}"/>
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource AppSurfaceVariant}"/>
                                                 </DataTrigger>
                                                 <DataTrigger TargetType="Border" Binding="{Binding IsCurrentBook}" Value="False">
                                                     <Setter Property="Stroke" Value="{StaticResource AppDivider}"/>
@@ -274,7 +275,7 @@
                                                     <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Center">
                                                         <Border
                                                             IsVisible="{Binding IsCurrentBook}"
-                                                            BackgroundColor="{StaticResource AppOrange}"
+                                                            BackgroundColor="{StaticResource AppBlue}"
                                                             StrokeShape="RoundRectangle 4"
                                                             Stroke="Transparent"
                                                             Padding="6,2"
@@ -303,7 +304,7 @@
                                                         <Label.Triggers>
                                                             <DataTrigger TargetType="Label" Binding="{Binding IsExpanded}" Value="True">
                                                                 <Setter Property="Text" Value="▼"/>
-                                                                <Setter Property="TextColor" Value="{StaticResource AppOrange}"/>
+                                                                <Setter Property="TextColor" Value="{StaticResource AppNavy}"/>
                                                             </DataTrigger>
                                                         </Label.Triggers>
                                                     </Label>
@@ -337,7 +338,7 @@
                                                                     Margin="0,0,12,0">
                                                                     <BoxView.Triggers>
                                                                         <DataTrigger TargetType="BoxView" Binding="{Binding IsCurrent}" Value="True">
-                                                                            <Setter Property="BackgroundColor" Value="{StaticResource AppOrange}"/>
+                                                                            <Setter Property="BackgroundColor" Value="{StaticResource AppNavy}"/>
                                                                         </DataTrigger>
                                                                         <DataTrigger TargetType="BoxView" Binding="{Binding IsCurrent}" Value="False">
                                                                             <Setter Property="BackgroundColor" Value="{StaticResource AppDivider}"/>
@@ -354,7 +355,7 @@
                                                                     <Label.Triggers>
                                                                         <DataTrigger TargetType="Label" Binding="{Binding IsCurrent}" Value="True">
                                                                             <Setter Property="FontFamily" Value="OpenSansSemibold"/>
-                                                                            <Setter Property="TextColor" Value="{StaticResource AppOrange}"/>
+                                                                            <Setter Property="TextColor" Value="{StaticResource AppNavy}"/>
                                                                         </DataTrigger>
                                                                         <DataTrigger TargetType="Label" Binding="{Binding IsCurrent}" Value="False">
                                                                             <Setter Property="TextColor" Value="{StaticResource AppTextPrimary}"/>
@@ -367,7 +368,7 @@
                                                                     Text="Reading"
                                                                     FontFamily="OpenSansSemibold"
                                                                     FontSize="11"
-                                                                    TextColor="{StaticResource AppOrange}"
+                                                                    TextColor="{StaticResource AppBlue}"
                                                                     VerticalOptions="Center"
                                                                     Margin="8,0,0,0"
                                                                     IsVisible="{Binding IsCurrent}"/>

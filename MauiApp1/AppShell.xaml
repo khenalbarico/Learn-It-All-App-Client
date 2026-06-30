@@ -6,10 +6,10 @@
     Title="Learn It All">
 
     <TabBar>
-        <ShellContent x:Name="HomeTab"      Title="Home"       Route="home"/>
-        <ShellContent x:Name="LibraryTab"   Title="Library"    Route="library"/>
-        <ShellContent x:Name="MyLibraryTab" Title="My Library" Route="mylibrary"/>
-        <ShellContent x:Name="AccountTab"   Title="Account"    Route="account"/>
+        <ShellContent x:Name="HomeTab"      Icon="tab_home"      Title="" Route="home"/>
+        <ShellContent x:Name="LibraryTab"   Icon="tab_library"   Title="" Route="library"/>
+        <ShellContent x:Name="MyLibraryTab" Icon="tab_mybooks"   Title="" Route="mylibrary"/>
+        <ShellContent x:Name="AccountTab"   Icon="tab_account"   Title="" Route="account"/>
     </TabBar>
 
 </Shell>

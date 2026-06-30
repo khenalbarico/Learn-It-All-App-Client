@@ -40,10 +40,25 @@ public class BoolToEyeIconConverter : IValueConverter
         => throw new NotImplementedException();
 }
 
+public class StringToImageSourceConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is not string url || string.IsNullOrEmpty(url))
+            return null;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var uri))
+            return null;
+        return new UriImageSource { Uri = uri, CachingEnabled = true, CacheValidity = TimeSpan.FromDays(7) };
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotImplementedException();
+}
+
 public class BoolToErrorBorderBrushConverter : IValueConverter
 {
-    private static readonly Brush ErrorBrush  = new SolidColorBrush(Color.FromArgb("#E53E3E"));
-    private static readonly Brush NormalBrush = new SolidColorBrush(Color.FromArgb("#E5EAF2"));
+    private static readonly Brush ErrorBrush  = new SolidColorBrush(Color.FromArgb("#EF4444"));
+    private static readonly Brush NormalBrush = new SolidColorBrush(Color.FromArgb("#FDDDB8"));
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         => value is true ? ErrorBrush : NormalBrush;

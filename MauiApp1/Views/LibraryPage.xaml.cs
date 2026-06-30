@@ -7,13 +7,14 @@ namespace MauiApp1.Views;
 
 public partial class LibraryPage : ContentPage
 {
-    private readonly LibraryViewModel _vm;
-    private readonly IServiceProvider _sp;
-    private readonly IBillingService  _billing;
-    private readonly IAppService      _appService;
-    private readonly UserSession      _userSession;
+    private readonly LibraryViewModel    _vm;
+    private readonly IServiceProvider    _sp;
+    private readonly IBillingService     _billing;
+    private readonly IAppService         _appService;
+    private readonly UserSession         _userSession;
+    private readonly MyLibraryViewModel  _myLibraryVm;
 
-    public LibraryPage(LibraryViewModel vm, IServiceProvider sp, IBillingService billing, IAppService appService, UserSession userSession)
+    public LibraryPage(LibraryViewModel vm, IServiceProvider sp, IBillingService billing, IAppService appService, UserSession userSession, MyLibraryViewModel myLibraryVm)
     {
         InitializeComponent();
         _vm          = vm;
@@ -21,6 +22,7 @@ public partial class LibraryPage : ContentPage
         _billing     = billing;
         _appService  = appService;
         _userSession = userSession;
+        _myLibraryVm = myLibraryVm;
         BindingContext = vm;
 
         _vm.NavigateToAuth   = NavigateToAuth;
@@ -64,6 +66,8 @@ public partial class LibraryPage : ContentPage
                 PriceAtPurchased = book.Price,
                 PurchasedAt      = DateTime.UtcNow
             });
+
+            _myLibraryVm.InvalidateCache();
 
             await DisplayAlertAsync("Purchase Successful", $"\"{book.Title}\" has been added to your library.", "OK");
         }

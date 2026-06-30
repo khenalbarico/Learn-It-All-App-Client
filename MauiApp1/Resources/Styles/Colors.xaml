@@ -1,51 +1,51 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Brand Colors (derived from app logo) -->
-    <Color x:Key="AppNavy">#1B3A6B</Color>
-    <Color x:Key="AppNavyLight">#2A5298</Color>
-    <Color x:Key="AppBlue">#2E7BC4</Color>
-    <Color x:Key="AppOrange">#F5A623</Color>
-    <Color x:Key="AppOrangeDark">#D4891A</Color>
+    <!-- ── Primary Brand Colors (Orange-Dominant Student Theme) ── -->
+    <Color x:Key="AppNavy">#C2410C</Color>        <!-- Deep orange (primary) -->
+    <Color x:Key="AppNavyLight">#EA580C</Color>   <!-- Vibrant orange -->
+    <Color x:Key="AppBlue">#1E40AF</Color>         <!-- Rich blue (minor accent) -->
+    <Color x:Key="AppOrange">#F97316</Color>       <!-- Bright CTA orange -->
+    <Color x:Key="AppOrangeDark">#C2410C</Color>  <!-- Dark orange -->
 
     <!-- Backgrounds -->
-    <Color x:Key="AppBackground">#F4F7FB</Color>
+    <Color x:Key="AppBackground">#FFFBF8</Color>       <!-- Warm cream -->
     <Color x:Key="AppSurface">#FFFFFF</Color>
-    <Color x:Key="AppSurfaceVariant">#EEF2F8</Color>
+    <Color x:Key="AppSurfaceVariant">#FFF4ED</Color>   <!-- Orange-50 tint -->
 
     <!-- Text -->
-    <Color x:Key="AppTextPrimary">#1B2B45</Color>
-    <Color x:Key="AppTextSecondary">#6B7A8D</Color>
-    <Color x:Key="AppTextMuted">#A8B4C5</Color>
+    <Color x:Key="AppTextPrimary">#1C0A00</Color>      <!-- Very dark warm -->
+    <Color x:Key="AppTextSecondary">#6B4F3A</Color>    <!-- Warm brown-gray -->
+    <Color x:Key="AppTextMuted">#A88B7A</Color>        <!-- Warm muted -->
     <Color x:Key="AppTextOnDark">#FFFFFF</Color>
 
     <!-- UI Elements -->
-    <Color x:Key="AppDivider">#E5EAF2</Color>
-    <Color x:Key="AppError">#E53E3E</Color>
-    <Color x:Key="AppSuccess">#38A169</Color>
+    <Color x:Key="AppDivider">#FDDDB8</Color>          <!-- Warm orange divider -->
+    <Color x:Key="AppError">#EF4444</Color>
+    <Color x:Key="AppSuccess">#10B981</Color>
 
     <!-- Legacy keys kept for MAUI framework defaults -->
-    <Color x:Key="Primary">#1B3A6B</Color>
-    <Color x:Key="PrimaryDark">#2A5298</Color>
+    <Color x:Key="Primary">#C2410C</Color>
+    <Color x:Key="PrimaryDark">#EA580C</Color>
     <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
-    <Color x:Key="Secondary">#F5A623</Color>
-    <Color x:Key="SecondaryDarkText">#1B3A6B</Color>
-    <Color x:Key="Tertiary">#2E7BC4</Color>
+    <Color x:Key="Secondary">#F97316</Color>
+    <Color x:Key="SecondaryDarkText">#1C0A00</Color>
+    <Color x:Key="Tertiary">#1E40AF</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
-    <Color x:Key="Magenta">#F5A623</Color>
-    <Color x:Key="MidnightBlue">#1B3A6B</Color>
-    <Color x:Key="OffBlack">#0D1B2A</Color>
-    <Color x:Key="Gray100">#F4F7FB</Color>
-    <Color x:Key="Gray200">#E5EAF2</Color>
-    <Color x:Key="Gray300">#C8D0DC</Color>
-    <Color x:Key="Gray400">#A8B4C5</Color>
-    <Color x:Key="Gray500">#6B7A8D</Color>
-    <Color x:Key="Gray600">#3D4E63</Color>
-    <Color x:Key="Gray900">#1B2B45</Color>
-    <Color x:Key="Gray950">#0D1622</Color>
+    <Color x:Key="Magenta">#F97316</Color>
+    <Color x:Key="MidnightBlue">#1C0A00</Color>
+    <Color x:Key="OffBlack">#0A0400</Color>
+    <Color x:Key="Gray100">#FFFBF8</Color>
+    <Color x:Key="Gray200">#FDDDB8</Color>
+    <Color x:Key="Gray300">#FBB879</Color>
+    <Color x:Key="Gray400">#A88B7A</Color>
+    <Color x:Key="Gray500">#6B4F3A</Color>
+    <Color x:Key="Gray600">#4A3020</Color>
+    <Color x:Key="Gray900">#1C0A00</Color>
+    <Color x:Key="Gray950">#0A0400</Color>
 
     <!-- Brushes -->
     <SolidColorBrush x:Key="AppNavyBrush"      Color="{StaticResource AppNavy}"/>

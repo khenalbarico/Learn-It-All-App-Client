@@ -9,42 +9,58 @@
 
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
-            <GradientStop Color="#0D1830" Offset="0.0"/>
-            <GradientStop Color="#1A3660" Offset="0.5"/>
-            <GradientStop Color="#2A5298" Offset="1.0"/>
+            <GradientStop Color="#7C2D12" Offset="0.0"/>
+            <GradientStop Color="#C2410C" Offset="0.5"/>
+            <GradientStop Color="#EA580C" Offset="1.0"/>
         </LinearGradientBrush>
     </ContentPage.Background>
 
     <Grid>
 
-        <!-- Decorative orb — top right (blue glow) -->
+        <!-- Decorative orb — top right (amber glow) -->
         <Border
-            HeightRequest="300" WidthRequest="300"
+            HeightRequest="320" WidthRequest="320"
             StrokeShape="Ellipse"
             Stroke="Transparent" StrokeThickness="0"
             HorizontalOptions="End" VerticalOptions="Start"
-            Margin="0,-120,-120,0"
+            Margin="0,-130,-130,0"
             InputTransparent="True">
             <Border.Background>
                 <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                    <GradientStop Color="#503A78D0" Offset="0.0"/>
-                    <GradientStop Color="#002A5298" Offset="1.0"/>
+                    <GradientStop Color="#50FBBF24" Offset="0.0"/>
+                    <GradientStop Color="#00FBBF24" Offset="1.0"/>
                 </RadialGradientBrush>
             </Border.Background>
         </Border>
 
-        <!-- Decorative orb — bottom left (amber glow) -->
+        <!-- Decorative orb — bottom left (orange glow) -->
         <Border
-            HeightRequest="220" WidthRequest="220"
+            HeightRequest="240" WidthRequest="240"
             StrokeShape="Ellipse"
             Stroke="Transparent" StrokeThickness="0"
             HorizontalOptions="Start" VerticalOptions="End"
-            Margin="-80,0,0,-80"
+            Margin="-90,0,0,-90"
             InputTransparent="True">
             <Border.Background>
                 <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                    <GradientStop Color="#48F5A623" Offset="0.0"/>
-                    <GradientStop Color="#00F5A623" Offset="1.0"/>
+                    <GradientStop Color="#40F97316" Offset="0.0"/>
+                    <GradientStop Color="#00F97316" Offset="1.0"/>
+                </RadialGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Small orb — middle right (warm accent) -->
+        <Border
+            HeightRequest="80" WidthRequest="80"
+            StrokeShape="Ellipse"
+            Stroke="Transparent" StrokeThickness="0"
+            HorizontalOptions="End" VerticalOptions="Center"
+            Margin="0,80,-20,0"
+            InputTransparent="True">
+            <Border.Background>
+                <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                    <GradientStop Color="#28F97316" Offset="0.0"/>
+                    <GradientStop Color="#00F97316" Offset="1.0"/>
                 </RadialGradientBrush>
             </Border.Background>
         </Border>
@@ -56,18 +72,145 @@
             Spacing="0"
             Padding="32">
 
+            <!-- Vector open-book illustration -->
+            <Grid
+                HorizontalOptions="Center"
+                WidthRequest="160"
+                HeightRequest="120"
+                Margin="0,0,0,32">
+
+                <!-- Shadow base -->
+                <Border
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent"
+                    WidthRequest="130"
+                    HeightRequest="18"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Margin="0,0,0,-4">
+                    <Border.Background>
+                        <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                            <GradientStop Color="#50000000" Offset="0"/>
+                            <GradientStop Color="#00000000" Offset="1"/>
+                        </RadialGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Left page (dark warm stone) -->
+                <Border
+                    StrokeShape="RoundRectangle 8,2,2,8"
+                    Stroke="#20FFFFFF"
+                    StrokeThickness="1"
+                    WidthRequest="68"
+                    HeightRequest="92"
+                    HorizontalOptions="Start"
+                    VerticalOptions="End"
+                    Margin="4,0,0,4">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#292524" Offset="0"/>
+                            <GradientStop Color="#1C1917" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <VerticalStackLayout Spacing="7" Padding="10,14,8,10" VerticalOptions="Start">
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.5"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.35"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.5" WidthRequest="40" HorizontalOptions="Start"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.3"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.45" WidthRequest="44" HorizontalOptions="Start"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Spine (vibrant orange) -->
+                <Grid
+                    WidthRequest="8"
+                    HeightRequest="98"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    Margin="0,0,0,4">
+                    <Border StrokeShape="RoundRectangle 4" Stroke="Transparent">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#F97316" Offset="0"/>
+                                <GradientStop Color="#C2410C" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                    <Border
+                        StrokeShape="Ellipse"
+                        Stroke="Transparent"
+                        BackgroundColor="White"
+                        WidthRequest="4"
+                        HeightRequest="4"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Right page (lighter warm stone) -->
+                <Border
+                    StrokeShape="RoundRectangle 2,8,8,2"
+                    Stroke="#20FFFFFF"
+                    StrokeThickness="1"
+                    WidthRequest="68"
+                    HeightRequest="92"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Margin="0,0,4,4">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#3D3833" Offset="0"/>
+                            <GradientStop Color="#292524" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <VerticalStackLayout Spacing="7" Padding="8,14,10,10" VerticalOptions="Start">
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.5"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.35"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.5" WidthRequest="40" HorizontalOptions="Start"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.3"/>
+                        <BoxView HeightRequest="2.5" CornerRadius="1.5" BackgroundColor="White" Opacity="0.45" WidthRequest="44" HorizontalOptions="Start"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Orange glow beneath illustration -->
+                <Border
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Margin="0,20,0,0"
+                    InputTransparent="True">
+                    <Border.Background>
+                        <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                            <GradientStop Color="#30F97316" Offset="0"/>
+                            <GradientStop Color="#00F97316" Offset="1"/>
+                        </RadialGradientBrush>
+                    </Border.Background>
+                </Border>
+
+            </Grid>
+
+            <!-- App logo (named for animation) -->
             <Image
+                x:Name="AppLogoImage"
                 Source="app_logo.png"
-                HeightRequest="110"
-                WidthRequest="110"
+                HeightRequest="72"
+                WidthRequest="72"
                 Aspect="AspectFit"
-                Margin="0,0,0,24"/>
+                HorizontalOptions="Center"
+                Margin="0,0,0,20">
+                <Image.Shadow>
+                    <Shadow Brush="#80F97316" Offset="0,4" Radius="16" Opacity="0.4"/>
+                </Image.Shadow>
+            </Image>
 
             <Label
                 Text="LEARN IT ALL"
                 Style="{StaticResource OnDarkTitleStyle}"
                 FontFamily="OpenSansSemibold"
-                FontSize="28"
+                FontSize="30"
+                CharacterSpacing="3"
                 Margin="0,0,0,6"/>
 
             <Label
@@ -76,23 +219,53 @@
                 FontSize="15"
                 Opacity="0.7"
                 HorizontalTextAlignment="Center"
-                Margin="0,0,0,52"/>
+                Margin="0,0,0,48"/>
 
-            <!-- Orange accent line above spinner -->
-            <Border
-                StrokeShape="RoundRectangle 2"
-                Stroke="Transparent"
-                HeightRequest="3"
-                WidthRequest="48"
+            <!-- Animated triple-dot loader (named for animation) -->
+            <HorizontalStackLayout
                 HorizontalOptions="Center"
+                Spacing="10"
                 Margin="0,0,0,24">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="#F5A623" Offset="0"/>
-                        <GradientStop Color="#D4890F" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
-            </Border>
+                <Border
+                    x:Name="Dot1"
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent"
+                    WidthRequest="10"
+                    HeightRequest="10">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#F97316" Offset="0"/>
+                            <GradientStop Color="#C2410C" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <Border
+                    x:Name="Dot2"
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent"
+                    WidthRequest="10"
+                    HeightRequest="10">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#FBBF24" Offset="0"/>
+                            <GradientStop Color="#F59E0B" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <Border
+                    x:Name="Dot3"
+                    StrokeShape="Ellipse"
+                    Stroke="Transparent"
+                    WidthRequest="10"
+                    HeightRequest="10">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#EA580C" Offset="0"/>
+                            <GradientStop Color="#9A3412" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+            </HorizontalStackLayout>
 
             <ActivityIndicator
                 IsRunning="{Binding IsBusy}"

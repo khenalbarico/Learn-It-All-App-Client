@@ -14,12 +14,13 @@
         <Grid Grid.Row="0">
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,1">
-                    <GradientStop Color="#0D1830" Offset="0.0"/>
-                    <GradientStop Color="#1A3660" Offset="0.5"/>
-                    <GradientStop Color="#2A5298" Offset="1.0"/>
+                    <GradientStop Color="#7C2D12" Offset="0.0"/>
+                    <GradientStop Color="#C2410C" Offset="0.5"/>
+                    <GradientStop Color="#EA580C" Offset="1.0"/>
                 </LinearGradientBrush>
             </Grid.Background>
 
+            <!-- Amber orb — top right -->
             <Border
                 HeightRequest="160" WidthRequest="160"
                 StrokeShape="Ellipse"
@@ -29,8 +30,8 @@
                 InputTransparent="True">
                 <Border.Background>
                     <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
-                        <GradientStop Color="#40F5A623" Offset="0.0"/>
-                        <GradientStop Color="#00F5A623" Offset="1.0"/>
+                        <GradientStop Color="#40FBBF24" Offset="0.0"/>
+                        <GradientStop Color="#00FBBF24" Offset="1.0"/>
                     </RadialGradientBrush>
                 </Border.Background>
             </Border>
@@ -40,11 +41,11 @@
                     Text="My Library"
                     TextColor="White"
                     FontFamily="OpenSansSemibold"
-                    FontSize="26"/>
+                    FontSize="28"/>
                 <Label
                     Text="Books you've purchased"
                     TextColor="White"
-                    Opacity="0.65"
+                    Opacity="0.7"
                     FontFamily="OpenSansRegular"
                     FontSize="13"/>
             </VerticalStackLayout>
@@ -63,35 +64,35 @@
 
                 <Border
                     StrokeShape="RoundRectangle 20"
-                    Stroke="#DDE4F0"
+                    Stroke="{StaticResource AppDivider}"
                     StrokeThickness="1.5"
                     HeightRequest="80"
                     WidthRequest="80"
                     HorizontalOptions="Center">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#EEF2F8" Offset="0"/>
-                            <GradientStop Color="#D8E4F4" Offset="1"/>
+                            <GradientStop Color="#FFF4ED" Offset="0"/>
+                            <GradientStop Color="#FFEDD5" Offset="1"/>
                         </LinearGradientBrush>
                     </Border.Background>
                     <StackLayout
                         Orientation="Horizontal"
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
-                        Spacing="4">
+                        Spacing="5">
                         <Border StrokeShape="RoundRectangle 3" Stroke="Transparent" WidthRequest="16" HeightRequest="24">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Color="#2E7BC4" Offset="0"/>
-                                    <GradientStop Color="#1B3A6B" Offset="1"/>
+                                    <GradientStop Color="#C2410C" Offset="0"/>
+                                    <GradientStop Color="#EA580C" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                         </Border>
                         <Border StrokeShape="RoundRectangle 3" Stroke="Transparent" WidthRequest="16" HeightRequest="24">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Color="#1A3660" Offset="0"/>
-                                    <GradientStop Color="#0D1830" Offset="1"/>
+                                    <GradientStop Color="#FBBF24" Offset="0"/>
+                                    <GradientStop Color="#F59E0B" Offset="1"/>
                                 </LinearGradientBrush>
                             </Border.Background>
                         </Border>
@@ -140,22 +141,22 @@
 
                     <Border
                         StrokeShape="RoundRectangle 20"
-                        Stroke="#DDE4F0"
+                        Stroke="{StaticResource AppDivider}"
                         StrokeThickness="1.5"
                         HeightRequest="80"
                         WidthRequest="80"
                         HorizontalOptions="Center">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Color="#EEF2F8" Offset="0"/>
-                                <GradientStop Color="#D8E4F4" Offset="1"/>
+                                <GradientStop Color="#FFF4ED" Offset="0"/>
+                                <GradientStop Color="#FFEDD5" Offset="1"/>
                             </LinearGradientBrush>
                         </Border.Background>
                         <BoxView
                             WidthRequest="28" HeightRequest="28"
                             CornerRadius="6"
-                            BackgroundColor="{StaticResource AppTextMuted}"
-                            Opacity="0.4"
+                            BackgroundColor="{StaticResource AppNavy}"
+                            Opacity="0.25"
                             HorizontalOptions="Center"
                             VerticalOptions="Center"/>
                     </Border>
@@ -188,139 +189,199 @@
                             <DataTemplate x:DataType="vm:LibraryBookGroup">
 
                                 <Border
-                                    StrokeShape="RoundRectangle 16"
+                                    StrokeShape="RoundRectangle 18"
                                     Stroke="{StaticResource AppDivider}"
                                     StrokeThickness="1"
                                     BackgroundColor="{StaticResource AppSurface}">
+                                    <Border.Shadow>
+                                        <Shadow Brush="{StaticResource AppNavyBrush}" Offset="0,3" Radius="12" Opacity="0.07"/>
+                                    </Border.Shadow>
 
-                                    <VerticalStackLayout Spacing="0">
+                                    <Grid ColumnDefinitions="4,*" ColumnSpacing="0">
 
-                                        <!-- Book header row — tap to expand/collapse -->
-                                        <Grid
-                                            ColumnDefinitions="Auto,*,Auto"
-                                            Padding="14,14">
+                                        <!-- Left accent bar (orange when expanded) -->
+                                        <Border Grid.Column="0" StrokeShape="RoundRectangle 18,0,0,18" Stroke="Transparent">
+                                            <Border.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsExpanded}" Value="True">
+                                                    <Setter Property="BackgroundColor" Value="{StaticResource AppNavy}"/>
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsExpanded}" Value="False">
+                                                    <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                </DataTrigger>
+                                            </Border.Triggers>
+                                        </Border>
 
-                                            <Grid.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding ToggleCommand}"/>
-                                            </Grid.GestureRecognizers>
+                                        <VerticalStackLayout Grid.Column="1" Spacing="0">
 
-                                            <!-- Cover thumbnail -->
-                                            <Border
-                                                Grid.Column="0"
-                                                StrokeShape="RoundRectangle 10"
-                                                Stroke="Transparent"
-                                                WidthRequest="54"
-                                                HeightRequest="70"
-                                                Margin="0,0,14,0">
-                                                <Grid>
-                                                    <Image
-                                                        Source="my_library_book_ico.png"
-                                                        Aspect="AspectFit"
-                                                        Margin="6"/>
-                                                    <Image
-                                                        Source="{Binding Book.ImageCoverUrl}"
-                                                        Aspect="AspectFill"
-                                                        IsVisible="{Binding Book.ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
-                                                </Grid>
-                                            </Border>
+                                            <!-- Book header row -->
+                                            <Grid ColumnDefinitions="Auto,*,Auto" Padding="14,14">
 
-                                            <!-- Title + doc count -->
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding ToggleCommand}"/>
+                                                </Grid.GestureRecognizers>
+
+                                                <!-- Cover thumbnail — Border clips the cover image -->
+                                                <Border
+                                                    Grid.Column="0"
+                                                    StrokeShape="RoundRectangle 10"
+                                                    Stroke="Transparent"
+                                                    WidthRequest="54"
+                                                    HeightRequest="70"
+                                                    Margin="0,0,14,0">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                            <GradientStop Color="#7C2D12" Offset="0"/>
+                                                            <GradientStop Color="#C2410C" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <Grid>
+                                                        <!-- Vector placeholder — page lines, shown when no cover -->
+                                                        <VerticalStackLayout
+                                                            Spacing="3.5"
+                                                            HorizontalOptions="Center"
+                                                            VerticalOptions="Center"
+                                                            IsVisible="{Binding Book.ImageCoverUrl, Converter={x:StaticResource NullConverter}}">
+                                                            <BoxView WidthRequest="28" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.55"/>
+                                                            <BoxView WidthRequest="22" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.38"/>
+                                                            <BoxView WidthRequest="26" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.50"/>
+                                                            <BoxView WidthRequest="18" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.28"/>
+                                                            <BoxView WidthRequest="24" HeightRequest="2" CornerRadius="1" BackgroundColor="White" Opacity="0.45"/>
+                                                        </VerticalStackLayout>
+                                                        <!-- Cover image — clipped by parent Border -->
+                                                        <Image
+                                                            Source="{Binding Book.ImageCoverUrl, Converter={x:StaticResource ImageCoverConverter}}"
+                                                            Aspect="AspectFill"
+                                                            IsVisible="{Binding Book.ImageCoverUrl, Converter={x:StaticResource NotNullConverter}}"/>
+                                                    </Grid>
+                                                </Border>
+
+                                                <!-- Title + doc count -->
+                                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="5">
+                                                    <Label
+                                                        Text="{Binding Label}"
+                                                        FontFamily="OpenSansSemibold"
+                                                        FontSize="15"
+                                                        TextColor="{StaticResource AppNavy}"
+                                                        LineBreakMode="WordWrap"/>
+                                                    <HorizontalStackLayout Spacing="6">
+                                                        <Border
+                                                            StrokeShape="RoundRectangle 4"
+                                                            Stroke="Transparent"
+                                                            BackgroundColor="{StaticResource AppSurfaceVariant}"
+                                                            Padding="7,3">
+                                                            <Label
+                                                                Text="{Binding DocCount, StringFormat='{0} docs'}"
+                                                                FontFamily="OpenSansSemibold"
+                                                                FontSize="10"
+                                                                TextColor="{StaticResource AppNavy}"/>
+                                                        </Border>
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+
+                                                <!-- Chevron -->
+                                                <Border
+                                                    Grid.Column="2"
+                                                    StrokeShape="Ellipse"
+                                                    Stroke="{StaticResource AppDivider}"
+                                                    WidthRequest="28"
+                                                    HeightRequest="28"
+                                                    VerticalOptions="Center"
+                                                    Margin="8,0,0,0">
+                                                    <Border.Triggers>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding IsExpanded}" Value="True">
+                                                            <Setter Property="BackgroundColor" Value="{StaticResource AppNavy}"/>
+                                                            <Setter Property="Stroke" Value="Transparent"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger TargetType="Border" Binding="{Binding IsExpanded}" Value="False">
+                                                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                                                        </DataTrigger>
+                                                    </Border.Triggers>
+                                                    <Label VerticalOptions="Center" HorizontalOptions="Center" FontSize="12" Margin="1,0,0,0">
+                                                        <Label.Triggers>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding IsExpanded}" Value="True">
+                                                                <Setter Property="Text" Value="▼"/>
+                                                                <Setter Property="TextColor" Value="White"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger TargetType="Label" Binding="{Binding IsExpanded}" Value="False">
+                                                                <Setter Property="Text" Value="▶"/>
+                                                                <Setter Property="TextColor" Value="{StaticResource AppTextMuted}"/>
+                                                            </DataTrigger>
+                                                        </Label.Triggers>
+                                                    </Label>
+                                                </Border>
+
+                                            </Grid>
+
+                                            <!-- Divider -->
+                                            <BoxView
+                                                HeightRequest="1"
+                                                BackgroundColor="{StaticResource AppDivider}"
+                                                IsVisible="{Binding IsExpanded}"/>
+
+                                            <!-- Documents list -->
                                             <VerticalStackLayout
-                                                Grid.Column="1"
-                                                VerticalOptions="Center"
-                                                Spacing="4">
-                                                <Label
-                                                    Text="{Binding Label}"
-                                                    FontFamily="OpenSansSemibold"
-                                                    FontSize="15"
-                                                    TextColor="{StaticResource AppNavy}"
-                                                    LineBreakMode="WordWrap"/>
-                                                <Label
-                                                    Text="{Binding DocCount, StringFormat='{0} document(s)'}"
-                                                    FontFamily="OpenSansRegular"
-                                                    FontSize="12"
-                                                    TextColor="{StaticResource AppTextMuted}"/>
+                                                Spacing="0"
+                                                IsVisible="{Binding IsExpanded}"
+                                                BindableLayout.ItemsSource="{Binding DocItems}">
+
+                                                <BindableLayout.ItemTemplate>
+                                                    <DataTemplate x:DataType="vm:DocItem">
+
+                                                        <Grid
+                                                            ColumnDefinitions="Auto,*,Auto"
+                                                            Padding="14,12"
+                                                            BackgroundColor="Transparent">
+
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer Command="{Binding OpenCommand}"/>
+                                                            </Grid.GestureRecognizers>
+
+                                                            <!-- Doc icon -->
+                                                            <VerticalStackLayout
+                                                                Grid.Column="0"
+                                                                VerticalOptions="Center"
+                                                                Spacing="2.5"
+                                                                WidthRequest="16"
+                                                                Margin="10,0,12,0">
+                                                                <BoxView HeightRequest="2" CornerRadius="1" BackgroundColor="{StaticResource AppNavy}"/>
+                                                                <BoxView HeightRequest="2" CornerRadius="1" BackgroundColor="{StaticResource AppNavy}" Opacity="0.6"/>
+                                                                <BoxView HeightRequest="2" CornerRadius="1" BackgroundColor="{StaticResource AppNavy}" Opacity="0.35"/>
+                                                            </VerticalStackLayout>
+
+                                                            <!-- Doc title -->
+                                                            <Label
+                                                                Grid.Column="1"
+                                                                Text="{Binding DisplayTitle}"
+                                                                FontFamily="OpenSansRegular"
+                                                                FontSize="13"
+                                                                TextColor="{StaticResource AppTextPrimary}"
+                                                                VerticalOptions="Center"/>
+
+                                                            <!-- Read CTA -->
+                                                            <Border
+                                                                Grid.Column="2"
+                                                                StrokeShape="RoundRectangle 8"
+                                                                Stroke="Transparent"
+                                                                BackgroundColor="{StaticResource AppSurfaceVariant}"
+                                                                Padding="10,5"
+                                                                VerticalOptions="Center"
+                                                                Margin="8,0,4,0">
+                                                                <Label
+                                                                    Text="Read →"
+                                                                    FontFamily="OpenSansSemibold"
+                                                                    FontSize="11"
+                                                                    TextColor="{StaticResource AppNavy}"/>
+                                                            </Border>
+
+                                                        </Grid>
+
+                                                    </DataTemplate>
+                                                </BindableLayout.ItemTemplate>
+
                                             </VerticalStackLayout>
 
-                                            <!-- Arrow indicator -->
-                                            <Label
-                                                Grid.Column="2"
-                                                Text="▶"
-                                                FontSize="16"
-                                                TextColor="{StaticResource AppTextMuted}"
-                                                VerticalOptions="Center"
-                                                Margin="10,0,0,0">
-                                                <Label.Triggers>
-                                                    <DataTrigger TargetType="Label" Binding="{Binding IsExpanded}" Value="True">
-                                                        <Setter Property="Text" Value="▼"/>
-                                                        <Setter Property="TextColor" Value="{StaticResource AppOrange}"/>
-                                                    </DataTrigger>
-                                                </Label.Triggers>
-                                            </Label>
-
-                                        </Grid>
-
-                                        <!-- Divider (shown only when expanded) -->
-                                        <BoxView
-                                            HeightRequest="1"
-                                            BackgroundColor="{StaticResource AppDivider}"
-                                            IsVisible="{Binding IsExpanded}"/>
-
-                                        <!-- Documents list -->
-                                        <VerticalStackLayout
-                                            Spacing="0"
-                                            IsVisible="{Binding IsExpanded}"
-                                            BindableLayout.ItemsSource="{Binding DocItems}">
-
-                                            <BindableLayout.ItemTemplate>
-                                                <DataTemplate x:DataType="vm:DocItem">
-
-                                                    <Grid
-                                                        ColumnDefinitions="Auto,*,Auto"
-                                                        Padding="16,13"
-                                                        BackgroundColor="Transparent">
-
-                                                        <Grid.GestureRecognizers>
-                                                            <TapGestureRecognizer Command="{Binding OpenCommand}"/>
-                                                        </Grid.GestureRecognizers>
-
-                                                        <!-- Doc icon dot -->
-                                                        <BoxView
-                                                            Grid.Column="0"
-                                                            WidthRequest="7"
-                                                            HeightRequest="7"
-                                                            CornerRadius="4"
-                                                            BackgroundColor="{StaticResource AppOrange}"
-                                                            VerticalOptions="Center"
-                                                            Margin="14,0,14,0"/>
-
-                                                        <!-- Doc title -->
-                                                        <Label
-                                                            Grid.Column="1"
-                                                            Text="{Binding DisplayTitle}"
-                                                            FontFamily="OpenSansRegular"
-                                                            FontSize="14"
-                                                            TextColor="{StaticResource AppTextPrimary}"
-                                                            VerticalOptions="Center"/>
-
-                                                        <!-- Read arrow -->
-                                                        <Label
-                                                            Grid.Column="2"
-                                                            Text="Read  →"
-                                                            FontFamily="OpenSansSemibold"
-                                                            FontSize="12"
-                                                            TextColor="{StaticResource AppOrange}"
-                                                            VerticalOptions="Center"
-                                                            Margin="8,0,4,0"/>
-
-                                                    </Grid>
-
-                                                </DataTemplate>
-                                            </BindableLayout.ItemTemplate>
-
                                         </VerticalStackLayout>
-
-                                    </VerticalStackLayout>
+                                    </Grid>
                                 </Border>
 
                             </DataTemplate>

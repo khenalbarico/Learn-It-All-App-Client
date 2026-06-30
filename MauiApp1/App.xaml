@@ -14,6 +14,7 @@
             <conv:InverseBoolConverter            x:Key="InverseBoolConverter"/>
             <conv:NullToBoolConverter             x:Key="NullConverter"/>
             <conv:NotNullToBoolConverter          x:Key="NotNullConverter"/>
+            <conv:StringToImageSourceConverter    x:Key="ImageCoverConverter"/>
             <conv:BoolToEyeIconConverter          x:Key="BoolToEyeIconConverter"/>
             <conv:BoolToErrorBorderBrushConverter x:Key="ErrorBorderBrushConverter"/>
         </ResourceDictionary>

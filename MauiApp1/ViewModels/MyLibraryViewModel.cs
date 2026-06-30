@@ -60,6 +60,7 @@ public class LibraryBookGroup : INotifyPropertyChanged
 public class MyLibraryViewModel(IAppAuthentication _auth, UserSession _userSession, IAppService _appService) : BaseViewModel
 {
     private ObservableCollection<LibraryBookGroup> _libraryGroups = [];
+    private bool _isCacheValid;
 
     public bool IsAuthenticated => _auth.IsAuthenticated;
     public bool IsGuest         => !_auth.IsAuthenticated;
@@ -81,17 +82,24 @@ public class MyLibraryViewModel(IAppAuthentication _auth, UserSession _userSessi
     public IReadOnlyList<BookMetadata> AllBooks
         => LibraryGroups.Select(g => g.Book).ToList();
 
-    public Func<Task>?                              NavigateToAuth      { get; set; }
+    public Func<Task>?                               NavigateToAuth      { get; set; }
     public Func<BookMetadata, string, string, Task>? NavigateToPdfViewer { get; set; }
 
     public Command NavigateToAuthCommand => new(async () =>
         await (NavigateToAuth?.Invoke() ?? Task.CompletedTask));
+
+    public void InvalidateCache()
+    {
+        _isCacheValid = false;
+    }
 
     public async Task LoadAsync()
     {
         OnPropertyChanged(nameof(IsAuthenticated));
         OnPropertyChanged(nameof(IsGuest));
         if (!_auth.IsAuthenticated) return;
+
+        if (_isCacheValid) return;
 
         IsBusy        = true;
         ErrorMessage  = string.Empty;
@@ -108,6 +116,8 @@ public class MyLibraryViewModel(IAppAuthentication _auth, UserSession _userSessi
                 LibraryGroups = new ObservableCollection<LibraryBookGroup>(
                     books.Select(b => new LibraryBookGroup(b, ReadDocAsync)));
             }
+
+            _isCacheValid = true;
         }
         catch
         {
